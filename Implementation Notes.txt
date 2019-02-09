@@ -1,0 +1,68 @@
+CS 198 Notes
+
+Staircase width, DCS = 2.5m
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        FILTERLESS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                 
+Minimum threshold values for velocity for translating user marker
+* suited when simdWorldFront * 0.0004998
+* test for several actors to drive the point home
+0.03 -> too high
+0.027 -> saktong high
+0.012 -> saks
+
+simdPosition factor
+0.0004998
+0.00048
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                          FILTERED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Low-pass Filter
+(Adaptive = true)
+10.0 - not good, defeats need for filter
+5.0 - not good
+2.0 - better than above
+3.0 - better than above
+
+(Adaptive = false)
+3.0 - better than when adaptive = true
+
+!!! Incorporate speed values to how fast marker moves
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                SPEED VALUES TO MARKER SPEED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+18-12-11: 	Since velocity plays a huge role in this part, I normalized velocity values then multiplied it to simdPosition factor.
+			Decimal yung normalized vector kaya kung diretso multiply lang sya sa simdPosition factor, liliit lang yung simdPosition
+			factor kahit gaano kalaki yung normalized vector(mahirap paabutin ng 1 to). So, minultiply ko sya by some number pero di 
+			ko makuha yung saktong number. Medyo naglalag/sumosobra rin kasi kahit nakatigil na, gumagalaw pa rin marker.
+
+			Posibleng gawin ay alisin simdPosition factor tapos yung normalized na lang talaga gamitin or baka pwedeng hanapin pa rin yung 'number' haha
+
+18-12-11:	Sinubukang alisin yung simdPosition factor tapos normalized velocity yung nilagay pero may 'inertia' kasi tumigil na sa paglakad pero may movement pa rin.
+			
+			Baka kelangan talagang hanapin yung 'number'.
+
+			Napansin din na kapag derived number, madalas may 'inertia'.			
+
+
+
+
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    ToDo's / Nice-to-Have's
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+* QR Scanner (CHECK!)
+    - solves relocalization problem by going back to scanner view
+    - alternative to image recognition which could have large
+        margin of error since environmental lighting may change
+        and affect image recog methods
+* SQLite database (<CoreData>)
+* Plane texture alteration code (for changing the floor plan)
+* Altimeter
+* GPS (CS 199)

@@ -1,2 +1,2 @@
-# cs199
-An indoor inertial navigation system for CS 199
+# CS198
+iOS ARKit application for indoor navigation

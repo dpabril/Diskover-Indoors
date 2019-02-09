@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--QR Code Scanner-->
+        <scene sceneID="hNz-n2-bh7">
+            <objects>
+                <viewController id="9pv-A4-QxB" userLabel="QR Code Scanner" customClass="QRCodeScannerController" customModule="CS_198_Final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CamFrame" translatesAutoresizingMaskIntoConstraints="NO" id="LZs-2K-3VW">
+                                <rect key="frame" x="112.5" y="258.5" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="3fS-xk-d6m"/>
+                                    <constraint firstAttribute="width" constant="150" id="lLu-oG-zPb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No QR code detected" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9E-59-OBD">
+                                <rect key="frame" x="0.0" y="578" width="375" height="40"/>
+                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2yh-Ao-3Mb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="C9E-59-OBD" firstAttribute="bottom" secondItem="PQr-Ze-W5v" secondAttribute="bottom" id="2CD-Rr-yFG"/>
+                            <constraint firstItem="LZs-2K-3VW" firstAttribute="centerX" secondItem="C9E-59-OBD" secondAttribute="centerX" id="5AT-P2-2k3"/>
+                            <constraint firstItem="C9E-59-OBD" firstAttribute="trailing" secondItem="PQr-Ze-W5v" secondAttribute="trailing" id="EKf-yQ-yXp"/>
+                            <constraint firstItem="C9E-59-OBD" firstAttribute="leading" secondItem="PQr-Ze-W5v" secondAttribute="leading" id="Iuw-0c-wm8"/>
+                            <constraint firstItem="LZs-2K-3VW" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="UYQ-Ru-Ecc"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PQr-Ze-W5v"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="QR" image="QR" id="acW-dT-cKf"/>
+                    <connections>
+                        <outlet property="captureFrame" destination="LZs-2K-3VW" id="Olf-z2-YjI"/>
+                        <outlet property="messageLabel" destination="C9E-59-OBD" id="BfN-p2-rfE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-935.20000000000005" y="809.14542728635683"/>
+        </scene>
+        <!--Navigation-->
+        <scene sceneID="wg7-f3-ORb">
+            <objects>
+                <viewController id="8rJ-Kc-sve" userLabel="Navigation" customClass="NavigationController" customModule="CS_198_Final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YKH-TD-nhv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zmk-b7-6bY">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </sceneKitView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
+                            <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" id="dDl-49-FXf"/>
+                            <constraint firstItem="Kxl-op-w2y" firstAttribute="bottom" secondItem="Zmk-b7-6bY" secondAttribute="bottom" id="gwJ-RJ-YFQ"/>
+                            <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Kxl-op-w2y"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Navigation" image="second" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2" y="1209"/>
+        </scene>
+        <!--Indoor Location List-->
+        <scene sceneID="E0m-dQ-GUd">
+            <objects>
+                <tableViewController id="SVx-te-jkg" userLabel="Indoor Location List" customClass="IndoorLocationsListController" customModule="CS_198_Final" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="MAf-ho-mSm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="blue" indentationWidth="0.0" reuseIdentifier="ListRow" focusStyle="custom" id="SIr-Ta-6vY">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SIr-Ta-6vY" id="Sa4-Vy-GMT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="SVx-te-jkg" id="reT-iS-BMv"/>
+                            <outlet property="delegate" destination="SVx-te-jkg" id="meq-Pc-W8Q"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Locations" image="first" id="hkB-uA-HUf"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2LT-CJ-wGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="913" y="809"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="yl2-sM-qoP">
+            <objects>
+                <tabBarController id="49e-Tb-3d3" customClass="TabBarController" customModule="CS_198_Final" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="SVx-te-jkg" kind="relationship" relationship="viewControllers" id="jtY-l6-DBz"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2" y="39"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="CamFrame" width="121.19999694824219" height="121"/>
+        <image name="QR" width="12" height="12"/>
+        <image name="first" width="30" height="30"/>
+        <image name="second" width="30" height="30"/>
+    </resources>
+</document>
