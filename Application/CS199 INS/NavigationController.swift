@@ -41,7 +41,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     var zAccelZeroCount : Int = 0
     
     // Scene variables
-    // var texture = Bundle.main.path(forResource: "1", ofType: "png", inDirectory: "Textures.scnassets/UP AECH")
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
     
     // Magnetometer functions
@@ -80,6 +79,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                     //                    self.stopAltimeter()
                 } else {
                     self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
+//                    let currentBuildingDelta = AppState.getBuilding().delta
+//                    if (altitude >= currentBuildingDelta) {
+//                        
+//                    }
                 }
                 level = Int(altitude / 2.0)
                 self.levelLabel.text = String(format: "Level: %d", level)
@@ -205,10 +208,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         super.viewWillAppear(animated)
         
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
-        sceneFloor.geometry?.firstMaterial?.diffuse.contents = (self.tabBarController!.viewControllers![0] as! QRCodeScannerController).floorPlanTexture
-        
-        let xCoord = (self.tabBarController!.viewControllers![2] as! IndoorLocationsListController).xCoord
-        let yCoord = (self.tabBarController!.viewControllers![2] as! IndoorLocationsListController).yCoord
+        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingSelectedFloorPlan().floorImage
+        let xCoord = AppState.getNavSceneXCoord()
+        let yCoord = AppState.getNavSceneYCoord()
         
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         pinMarker.position = SCNVector3(xCoord, yCoord, -1.6817374)

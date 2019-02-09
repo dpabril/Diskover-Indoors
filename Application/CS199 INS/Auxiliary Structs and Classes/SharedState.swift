@@ -12,17 +12,19 @@ class SharedState {
     
     private var hasScanned : Bool
     
-    private var currentBuilding : Building?
-    private var currentBuildingLocs : [[IndoorLocation]]
-    private var currentFloorPlanImage : UIImage?
+    private var building : Building?
+    private var buildingLocs : [[IndoorLocation]]
+    private var buildingFloorPlans : [FloorPlan]
+    private var buildingSelectedFloorPlan : FloorPlan?
     private var navSceneXCoord : Double
     private var navSceneYCoord : Double
 
     init() {
         self.hasScanned = false
-        self.currentBuilding = nil
-        self.currentBuildingLocs = []
-        self.currentFloorPlanImage = nil
+        self.building = nil
+        self.buildingLocs = []
+        self.buildingFloorPlans = []
+        self.buildingSelectedFloorPlan = nil
         self.navSceneXCoord = 0
         self.navSceneYCoord = 0
     }
@@ -31,14 +33,17 @@ class SharedState {
     func userHasScanned() -> Bool {
         return self.hasScanned
     }
-    func getCurrentBuilding() -> Building {
-        return self.currentBuilding!
+    func getBuilding() -> Building {
+        return self.building!
     }
-    func getCurrentBuildingLocs() -> [[IndoorLocation]] {
-        return self.currentBuildingLocs
+    func getBuildingLocs() -> [[IndoorLocation]] {
+        return self.buildingLocs
     }
-    func getCurrentFloorPlanImage() -> UIImage {
-        return self.currentFloorPlanImage!
+    func getBuildingFloorPlans() -> [FloorPlan] {
+        return self.buildingFloorPlans
+    }
+    func getBuildingSelectedFloorPlan() -> FloorPlan {
+        return self.buildingSelectedFloorPlan!
     }
     func getNavSceneXCoord() -> Double {
         return self.navSceneXCoord
@@ -55,14 +60,17 @@ class SharedState {
             self.hasScanned = true
         }
     }
-    func setCurrentBuilding(_ currentBuilding : Building) {
-        self.currentBuilding = currentBuilding
+    func setBuilding(_ building : Building) {
+        self.building = building
     }
-    func setCurrentBuildingLocs(_ currentBuildingLocs : [[IndoorLocation]]) {
-        self.currentBuildingLocs = currentBuildingLocs
+    func setBuildingLocs(_ buildingLocs : [[IndoorLocation]]) {
+        self.buildingLocs = buildingLocs
     }
-    func setCurrentFloorPlanImage(_ currentFloorPlanImage : UIImage) {
-        self.currentFloorPlanImage = currentFloorPlanImage
+    func setBuildingFloorPlans(_ buildingFloorPlans : [FloorPlan]) {
+        self.buildingFloorPlans = buildingFloorPlans
+    }
+    func setBuildingSelectedFloorPlan(_ buildingSelectedFloorPlan : FloorPlan) {
+        self.buildingSelectedFloorPlan = buildingSelectedFloorPlan
     }
     func setNavSceneXCoord(_ navSceneXCoord : Double) {
         self.navSceneXCoord = navSceneXCoord

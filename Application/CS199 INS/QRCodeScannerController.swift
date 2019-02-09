@@ -161,7 +161,6 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
         let qrCodeFragments = rawURL.components(separatedBy: "::")
         let qrCodeBuilding = qrCodeFragments[0]
         let qrCodeFloorLevel = Int(qrCodeFragments[1])!
-        // let qrCodeFloorPoint = qrCodeFragments[2]
         
         // Variables to store building and floor information
         var building : Building?
@@ -180,13 +179,16 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             print(error)
         }
         // Set the prompt message
-        promptMessage = "You are in the \(Utilities.ordinalize(floor!.level)) Floor of \(building!.name). Press Navigate! to start navigating the building."
+        promptMessage = "You are in the \(Utilities.ordinalize(floor!.level)) Floor of \(building!.name). Press Navigate! to start navigating."
         
         let alertPrompt = UIAlertController(title: "Localization successful.", message: promptMessage, preferredStyle: .actionSheet)
         let confirmAction = UIAlertAction(title: "Navigate!", style: UIAlertAction.Style.default, handler: { (action) -> Void in
             
             // Retrieve locations on building's floor
             var buildingLocs : [[IndoorLocation]] = []
+            var buildingFloorPlans : [FloorPlan] = []
+            var buildingSelectedFloorPlan : FloorPlan!
+            //
             for floorLevel in 1...building!.floors {
                 var floorLocs : [IndoorLocation] = []
                 do {
@@ -197,19 +199,28 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                 } catch {
                     print(error)
                 }
+                
+                let floorImage = UIImage(named: Bundle.main.path(forResource: String(floorLevel), ofType: "png", inDirectory: "Textures.scnassets/\(qrCodeBuilding)")!)!
+                let floorPlan = FloorPlan(floorLevel, floorImage)
+                
                 buildingLocs.append(floorLocs)
+                buildingFloorPlans.append(floorPlan)
+                
+                if (floorLevel == qrCodeFloorLevel) {
+                    buildingSelectedFloorPlan = floorPlan
+                }
             }
             
             // Set shared variables for storing information about current building
-            AppState.setCurrentBuilding(building!)
-            AppState.setCurrentBuildingLocs(buildingLocs)
+            AppState.setBuilding(building!)
+            AppState.setBuildingLocs(buildingLocs)
+            AppState.setBuildingFloorPlans(buildingFloorPlans)
+            AppState.setBuildingSelectedFloorPlan(buildingSelectedFloorPlan)
             
-            let imagePath = Bundle.main.path(forResource: String(qrCodeFloorLevel), ofType: "png", inDirectory: "Textures.scnassets/UP AECH")!
-            self.floorPlanTexture = UIImage(named: imagePath)!
+            // Set shared variable for determining if user has performed initial scan for a single navigation procedure
+            AppState.switchHasScanned()
             
-            // Set shared variable for storing current building
-            self.currentBuilding = building
-            
+            // Enable other controllers and shift to location list
             self.tabBarController!.tabBar.items![1].isEnabled = true
             self.tabBarController!.tabBar.items![2].isEnabled = true
             self.tabBarController!.selectedIndex = 2

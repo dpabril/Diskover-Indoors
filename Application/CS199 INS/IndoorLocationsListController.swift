@@ -11,14 +11,6 @@ import GRDB
 
 class IndoorLocationsListController: UITableViewController {
     
-    var roomList : [[IndoorLocation]] = []
-    // <NEW>
-    var currentBuilding : Building!
-    // </NEW>
-    
-    var xCoord : Double = 0
-    var yCoord : Double = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -29,8 +21,6 @@ class IndoorLocationsListController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.currentBuilding = (self.tabBarController!.viewControllers![0] as! QRCodeScannerController).currentBuilding
-        self.roomList = (self.tabBarController!.viewControllers![0] as! QRCodeScannerController).rooms
         self.tableView.reloadData()
         
     }
@@ -41,14 +31,11 @@ class IndoorLocationsListController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // <NEW>
-        return (self.tabBarController!.viewControllers![0] as! QRCodeScannerController).currentBuilding.floors
-        // </NEW>
+        return AppState.getBuilding().floors
     }
     
-    // <NEW>
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (self.currentBuilding.hasLGF == true) {
+        if (AppState.getBuilding().hasLGF) {
             switch section {
             case 0:
                 return "Lower Ground Floor"
@@ -84,13 +71,12 @@ class IndoorLocationsListController: UITableViewController {
             }
         }
     }
-    // </NEW>
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection floor: Int) -> Int {
         var locsCountInFloor : Int = 0
         do {
             try DB.write { db in
-                locsCountInFloor = try IndoorLocation.filter(Column("bldg") == self.currentBuilding.alias && Column("level") == floor + 1).fetchCount(db)
+                locsCountInFloor = try IndoorLocation.filter(Column("bldg") == AppState.getBuilding().alias && Column("level") == floor + 1).fetchCount(db)
             }
         } catch {
             print(error)
@@ -100,14 +86,14 @@ class IndoorLocationsListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListRow", for: indexPath)
-        cell.textLabel?.text = roomList[indexPath.section][indexPath.row].title
-        cell.detailTextLabel?.text = roomList[indexPath.section][indexPath.row].subtitle
+        cell.textLabel?.text = AppState.getBuildingLocs()[indexPath.section][indexPath.row].title
+        cell.detailTextLabel?.text = AppState.getBuildingLocs()[indexPath.section][indexPath.row].subtitle
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.xCoord = roomList[indexPath.section][indexPath.row].xcoord
-        self.yCoord = roomList[indexPath.section][indexPath.row].ycoord
+        AppState.setNavSceneXCoord(AppState.getBuildingLocs()[indexPath.section][indexPath.row].xcoord)
+        AppState.setNavSceneYCoord(AppState.getBuildingLocs()[indexPath.section][indexPath.row].ycoord)
         // <NEW>
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>
