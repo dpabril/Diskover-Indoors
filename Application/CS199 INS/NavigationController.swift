@@ -76,13 +76,31 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 var level = 0
                 
                 if (error != nil) {
-                    //                    self.stopAltimeter()
+                    self.stopAltimeter()
                 } else {
+                    
                     self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
-//                    let currentBuildingDelta = AppState.getBuilding().delta
-//                    if (altitude >= currentBuildingDelta) {
-//                        
-//                    }
+                    
+                    // Set information on current floor upon significant change in altitude
+                    if (Double(altitude) >= AppState.getBuilding().delta) {
+                        if (AppState.getBuildingCurrentFloor().floorLevel < AppState.getBuilding().floors) {
+                            AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel + 1)
+                            
+                            let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
+                            sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
+                            
+                            self.resetAltimeter()
+                        }
+                    } else if (Double(altitude) <= -AppState.getBuilding().delta) {
+                        if (AppState.getBuildingCurrentFloor().floorLevel > 0) {
+                            AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel - 1)
+                            
+                            let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
+                            sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
+                            
+                            self.resetAltimeter()
+                        }
+                    }
                 }
                 level = Int(altitude / 2.0)
                 self.levelLabel.text = String(format: "Level: %d", level)
@@ -93,6 +111,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         if (CMAltimeter.isRelativeAltitudeAvailable()) {
             self.altimeter.stopRelativeAltitudeUpdates()
         }
+    }
+    func resetAltimeter() {
+        self.stopAltimeter()
+        self.startAltimeter()
     }
     
     // Device Motion Manager functions
@@ -208,14 +230,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         super.viewWillAppear(animated)
         
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
-        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingSelectedFloorPlan().floorImage
-        let xCoord = AppState.getNavSceneXCoord()
-        let yCoord = AppState.getNavSceneYCoord()
+        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
         
+        // Configuring user position
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        let userCoords = AppState.getNavSceneUserCoords()
+        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        
+        // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
-        pinMarker.position = SCNVector3(xCoord, yCoord, -1.6817374)
-        pinX = pinMarker.position.x
-        pinY = pinMarker.position.y
+        let destCoords = AppState.getNavSceneDestCoords()
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        self.pinX = pinMarker.position.x
+        self.pinY = pinMarker.position.y
         
         self.startSensors()
     }

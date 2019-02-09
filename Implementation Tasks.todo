@@ -9,7 +9,7 @@ Application:
       ☐ QR Code Scanner
         ✔ Basic QR scanning functionality @done (18-12-06 16:36)
         ✔ Set minimum distance to QR code (arm's length) @done (18-12-07 14:29)
-        ☐ Detect codes that do not exist in the database, and display informative message @high
+        ✔ Detect codes that do not exist in the database, and display informative message @high @done (19-02-09 17:25)
           * Prevents application from crashing when fed irrelevant QR codes
           * ? Use RegEx for determining if code data matches expected those of expected input
         ☐ Keep QR code in center of screen @low
@@ -18,7 +18,8 @@ Application:
       ☐ Print QR codes for testing
       ☐ Add Boolean variable for determining whether this is the first scan or not @low
         * To prevent switching views to location list upon relocalization
-      ☐ Move list setting and texture changing logic to launchNavigator() @low
+        * This has been added but is not in use yet
+      ✔ Move list setting and texture changing logic to launchNavigator() @low @done (19-02-09 17:26)
 
     ✔ SQLite Database @done (18-12-14 18:07)
      _Stores:_
@@ -33,7 +34,7 @@ Application:
             * Scene coordinates of location pin marker
       ✔ Design the schema @done (18-12-07 14:28)
       ✔ Create a Swift class for static query functions to the DB @done (18-12-13 19:11)
-      ☐ Readjust floor levels; 1 is the starting level for all
+      ✔ Readjust floor levels; 1 is the starting level for all @done (19-02-09 17:26)
 
     ☐ Navigation View
       * Change plane size and material depending on most recently scanned location + relative altitude reading
@@ -41,14 +42,15 @@ Application:
         ☐ Translation of location and user markers
           ✔ Location pin marker @done (18-12-14 18:07)
           ☐ User marker
-        ☐ Change texture of plane based on relative altitude (Building.delta)
+            * Translation on initial scan works. Do relocalization next.
+        ✔ Change texture of plane based on relative altitude (Building.delta) @done (19-02-09 17:26)
           * Maybe use UIImage array; [UIImage]
           * Consider keeping altimeter running in the background, checking if delta has been passed in this controller's viewWillAppear()
         ☐ Resize plan for different maps @low , leave to CS 199?
           * Store ratio in DB?
         ☐ Current floor and target floor labels/messages
           * e.g. "You are currently on the nth floor" "[Room selected] is on the mth floor"
-        ☐ Success message when user marker is within radius of loc. pin marker
+        ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
         ☐ Scan QR codes under the hood for relocalization
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
@@ -58,18 +60,19 @@ Application:
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)
       ✔ Bind table cells to rows in the database @done (18-12-13 19:12)
-      ☐ Don't restrict location list to current floor
+      ✔ Don't restrict location list to current floor @done (19-02-09 17:31)
         * Show all. Still display marker but use messages in nav view to inform the user of current floor and target's floor
-      ☐ Subheader for each floor @low
+      ✔ Subheader for each floor @low @done (19-02-09 17:31)
         * numberOfSections
       ☐ Navigation bar + title @low
         * Embed table view controller in navigation view controller
-      ☐ Table cell subtitles @low
+      ✔ Table cell subtitles @low @done (19-02-09 17:31)
         * set cell type to 'subtitle' in Interface Builder
-      ☐ use indexPath.section along with indexPath.row to fix some issues
+      ✔ use indexPath.section along with indexPath.row to fix some issues @done (19-02-09 17:31)
 
     ☐ Application structure
-      ☐ Create a struct / class for variables / objects shared between controllers
+      ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
+      ☐ Other tasks (enumerate when fleshed out)
 
     Issues:
       ✔ Fix "Error: Failed to load <image>" @high @done (18-12-14 12:42) -- tanga lang si Xcode di makita yung folder

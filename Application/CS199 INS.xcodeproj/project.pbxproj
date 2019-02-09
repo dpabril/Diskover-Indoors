@@ -12,6 +12,7 @@
 		E509E89821C0F51A003A5FE3 /* LowPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */; };
 		E509E89A21C0F523003A5FE3 /* HighPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89921C0F523003A5FE3 /* HighPassFilter.swift */; };
 		E5577F15220E90C200252A5F /* FloorPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5577F14220E90C200252A5F /* FloorPlan.swift */; };
+		E5577F1D220ECDAA00252A5F /* FloorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5577F1C220ECDAA00252A5F /* FloorPoint.swift */; };
 		E56FC7A1220D8D970094AB0C /* SharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56FC7A0220D8D970094AB0C /* SharedState.swift */; };
 		E5AE720521C267150010A5BA /* SceneObjects.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E5AE720421C267150010A5BA /* SceneObjects.scnassets */; };
 		E5D11D2121BF831200123FEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2021BF831200123FEE /* AppDelegate.swift */; };
@@ -125,6 +126,7 @@
 		E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowPassFilter.swift; sourceTree = "<group>"; };
 		E509E89921C0F523003A5FE3 /* HighPassFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighPassFilter.swift; sourceTree = "<group>"; };
 		E5577F14220E90C200252A5F /* FloorPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlan.swift; sourceTree = "<group>"; };
+		E5577F1C220ECDAA00252A5F /* FloorPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPoint.swift; sourceTree = "<group>"; };
 		E56FC7A0220D8D970094AB0C /* SharedState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedState.swift; sourceTree = "<group>"; };
 		E5AE720421C267150010A5BA /* SceneObjects.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SceneObjects.scnassets; sourceTree = "<group>"; };
 		E5D11D1D21BF831200123FEE /* CS199 INS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS199 INS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +240,7 @@
 			children = (
 				E56FC7A0220D8D970094AB0C /* SharedState.swift */,
 				E5577F14220E90C200252A5F /* FloorPlan.swift */,
+				E5577F1C220ECDAA00252A5F /* FloorPoint.swift */,
 				E509E86C21C0DED6003A5FE3 /* Utilities.swift */,
 			);
 			path = "Auxiliary Structs and Classes";
@@ -392,6 +395,7 @@
 				E5577F15220E90C200252A5F /* FloorPlan.swift in Sources */,
 				E5D11D8C21BF980800123FEE /* QRTag.swift in Sources */,
 				E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */,
+				E5577F1D220ECDAA00252A5F /* FloorPoint.swift in Sources */,
 				E509E89621C0F511003A5FE3 /* MirrorFilter.swift in Sources */,
 				E5D11D9221BF983F00123FEE /* IndoorLocation.swift in Sources */,
 				E509E89A21C0F523003A5FE3 /* HighPassFilter.swift in Sources */,

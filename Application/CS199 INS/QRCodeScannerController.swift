@@ -162,7 +162,8 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
         let qrCodeBuilding = qrCodeFragments[0]
         let qrCodeFloorLevel = Int(qrCodeFragments[1])!
         
-        // Variables to store building and floor information
+        // Variables to store QR code, building and floor information
+        var qrTag : QRTag?
         var building : Building?
         var floor : Floor?
         
@@ -172,6 +173,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
         // Retrieve building and floor from QR code metadata
         do {
             try DB.write { db in
+                qrTag = try QRTag.fetchOne(db, "SELECT * FROM QRTag WHERE url = ?", arguments: [rawURL])
                 building = try Building.fetchOne(db, "SELECT * FROM Building WHERE alias = ?", arguments: [qrCodeBuilding])
                 floor = try Floor.fetchOne(db, "SELECT * FROM Floor WHERE bldg = ? AND level = ?", arguments: [qrCodeBuilding, qrCodeFloorLevel])
             }
@@ -187,7 +189,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             // Retrieve locations on building's floor
             var buildingLocs : [[IndoorLocation]] = []
             var buildingFloorPlans : [FloorPlan] = []
-            var buildingSelectedFloorPlan : FloorPlan!
+            var buildingCurrentFloor : Int = 0
             //
             for floorLevel in 1...building!.floors {
                 var floorLocs : [IndoorLocation] = []
@@ -207,15 +209,16 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                 buildingFloorPlans.append(floorPlan)
                 
                 if (floorLevel == qrCodeFloorLevel) {
-                    buildingSelectedFloorPlan = floorPlan
+                    buildingCurrentFloor = floorLevel
                 }
             }
             
-            // Set shared variables for storing information about current building
+            // Set shared variables for storing information about user position and current building
+            AppState.setNavSceneUserCoords(qrTag!.xcoord, qrTag!.ycoord)
             AppState.setBuilding(building!)
             AppState.setBuildingLocs(buildingLocs)
             AppState.setBuildingFloorPlans(buildingFloorPlans)
-            AppState.setBuildingSelectedFloorPlan(buildingSelectedFloorPlan)
+            AppState.setBuildingCurrentFloor(buildingCurrentFloor)
             
             // Set shared variable for determining if user has performed initial scan for a single navigation procedure
             AppState.switchHasScanned()

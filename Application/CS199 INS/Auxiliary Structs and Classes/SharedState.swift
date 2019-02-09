@@ -15,18 +15,18 @@ class SharedState {
     private var building : Building?
     private var buildingLocs : [[IndoorLocation]]
     private var buildingFloorPlans : [FloorPlan]
-    private var buildingSelectedFloorPlan : FloorPlan?
-    private var navSceneXCoord : Double
-    private var navSceneYCoord : Double
+    private var buildingCurrentFloor : FloorPlan?
+    private var navSceneUserCoords : FloorPoint
+    private var navSceneDestCoords : FloorPoint
 
     init() {
         self.hasScanned = false
         self.building = nil
         self.buildingLocs = []
         self.buildingFloorPlans = []
-        self.buildingSelectedFloorPlan = nil
-        self.navSceneXCoord = 0
-        self.navSceneYCoord = 0
+        self.buildingCurrentFloor = nil
+        self.navSceneUserCoords = FloorPoint(0, 0)
+        self.navSceneDestCoords = FloorPoint(0, 0)
     }
 
     // Getters
@@ -42,14 +42,14 @@ class SharedState {
     func getBuildingFloorPlans() -> [FloorPlan] {
         return self.buildingFloorPlans
     }
-    func getBuildingSelectedFloorPlan() -> FloorPlan {
-        return self.buildingSelectedFloorPlan!
+    func getBuildingCurrentFloor() -> FloorPlan {
+        return self.buildingCurrentFloor!
     }
-    func getNavSceneXCoord() -> Double {
-        return self.navSceneXCoord
+    func getNavSceneUserCoords() -> FloorPoint {
+        return self.navSceneUserCoords
     }
-    func getNavSceneYCoord() -> Double {
-        return self.navSceneYCoord
+    func getNavSceneDestCoords() -> FloorPoint {
+        return self.navSceneDestCoords
     }
 
     // Setters
@@ -69,13 +69,13 @@ class SharedState {
     func setBuildingFloorPlans(_ buildingFloorPlans : [FloorPlan]) {
         self.buildingFloorPlans = buildingFloorPlans
     }
-    func setBuildingSelectedFloorPlan(_ buildingSelectedFloorPlan : FloorPlan) {
-        self.buildingSelectedFloorPlan = buildingSelectedFloorPlan
+    func setBuildingCurrentFloor(_ buildingCurrentFloorLevel : Int) {
+        self.buildingCurrentFloor = self.buildingFloorPlans[buildingCurrentFloorLevel - 1]
     }
-    func setNavSceneXCoord(_ navSceneXCoord : Double) {
-        self.navSceneXCoord = navSceneXCoord
+    func setNavSceneUserCoords(_ navSceneUserXCoord : Double, _ navSceneUserYCoord : Double) {
+        self.navSceneUserCoords = FloorPoint(navSceneUserXCoord, navSceneUserYCoord)
     }
-    func setNavSceneYCoord(_ navSceneYCoord : Double) {
-        self.navSceneYCoord = navSceneYCoord
+    func setNavSceneDestCoords(_ navSceneDestXCoord : Double, _ navSceneDestYCoord : Double) {
+        self.navSceneDestCoords = FloorPoint(navSceneDestXCoord, navSceneDestYCoord)
     }
 }
