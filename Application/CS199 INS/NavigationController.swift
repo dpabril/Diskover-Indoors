@@ -151,7 +151,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                     user.simdPosition += user.simdWorldFront * 0.0004998
                     // try motion incorporating current velocity
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
-                        self.reachedDestLabel.text = "Reached Destination: TRUE"
+                        //self.reachedDestLabel.text = "Reached Destination: TRUE"
+                        let alertPrompt = UIAlertController(title: "You have arrived.", message: " ", preferredStyle: .alert)
+                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+                        
+                        alertPrompt.addAction(cancelAction)
+                        
+                        self.present(alertPrompt, animated: true, completion: nil)
                     }
                     else {
                         self.reachedDestLabel.text = "Reached Destination: FALSE"
