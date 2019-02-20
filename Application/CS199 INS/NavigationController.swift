@@ -227,7 +227,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         navigationView.scene = self.scene
         navigationView.pointOfView = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
     }

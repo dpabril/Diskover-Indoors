@@ -23,7 +23,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
     var qrCodeFrameView : UIView?
     var qrCodeFrameThreshold : CGSize?
     
-    var floorPlanTexture : UIImage!
+    var floorPlanTexture :  UIImage!
     var currentBuilding : Building!
     var locs : [IndoorLocation] = []
     var rooms : [[IndoorLocation]] = []
@@ -126,7 +126,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
             
-            if metadataObj.stringValue != nil && sizePassesThreshold((qrCodeFrameView?.frame.size)!){
+            if metadataObj.stringValue != nil && sizeFitsGuide((qrCodeFrameView?.frame)!){
                 let qrCodeURL = metadataObj.stringValue!
                 var qrCodeMatches : Int = 0
                 
@@ -140,12 +140,13 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                 
                 if (qrCodeMatches == 1) {
                     launchNavigator(rawURL: qrCodeURL)
+                    messageLabel.text = "QR code recognized"
                 } else {
                     messageLabel.text = "QR code cannot be recognized"
                 }
                 
             } else if metadataObj.stringValue != nil {
-                messageLabel.text = "Step closer to scan the QR code"
+                messageLabel.text = "Align the QR code to the guide"
             }
         }
     }
@@ -236,8 +237,10 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
         present(alertPrompt, animated: true, completion: nil)
     }
     
-    func sizePassesThreshold(_ qrCodeFrameSize: CGSize) -> Bool {
-        return (qrCodeFrameSize.width >= (qrCodeFrameThreshold?.width)! && qrCodeFrameSize.height >= qrCodeFrameThreshold!.height)
+    func sizeFitsGuide(_ qrCodeFrame: CGRect) -> Bool {
+        let guideContainsCode = self.captureFrame.frame.contains(qrCodeFrame)
+        let codeAboveThreshold = qrCodeFrame.size.width >= (qrCodeFrameThreshold?.width)! && qrCodeFrame.size.height >= (qrCodeFrameThreshold?.height)!
+        return (guideContainsCode && codeAboveThreshold)
     }
     
 }

@@ -55,6 +55,7 @@ Application:
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
+      ☐ Use SpriteKit instead of SceneKit @low
       ☐ Allow map panning
 
     ☐ Indoor Location List View
