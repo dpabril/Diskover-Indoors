@@ -222,7 +222,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             AppState.setBuildingCurrentFloor(buildingCurrentFloor)
             
             // Set shared variable for determining if user has performed initial scan for a single navigation procedure
-            AppState.switchHasScanned()
+            AppState.switchScanner()
             
             // Enable other controllers and shift to location list
             self.tabBarController!.tabBar.items![1].isEnabled = true

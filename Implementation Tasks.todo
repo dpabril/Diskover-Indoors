@@ -12,9 +12,10 @@ Application:
         ✔ Detect codes that do not exist in the database, and display informative message @high @done (19-02-09 17:25)
           * Prevents application from crashing when fed irrelevant QR codes
           * ? Use RegEx for determining if code data matches expected those of expected input
-        ☐ Keep QR code in center of screen @low
+        ✔ Keep QR code in center of screen @low @done (19-02-22 16:14)
           * This is to keep the user at the desired distance from the QR code image
           * UIKit -> CGRect -> contains(_ rect2 : CGRect)
+        ☐ Write an under-the-hood scanner for when in the navigation view
       ☐ Print QR codes for testing
       ☐ Add Boolean variable for determining whether this is the first scan or not @low
         * To prevent switching views to location list upon relocalization
@@ -41,7 +42,7 @@ Application:
       ☐ Program scene adjustments
         ☐ Translation of location and user markers
           ✔ Location pin marker @done (18-12-14 18:07)
-          ☐ User marker
+          ✔ User marker @done (19-02-22 19:06)
             * Translation on initial scan works. Do relocalization next.
         ✔ Change texture of plane based on relative altitude (Building.delta) @done (19-02-09 17:26)
           * Maybe use UIImage array; [UIImage]
@@ -65,14 +66,15 @@ Application:
         * Show all. Still display marker but use messages in nav view to inform the user of current floor and target's floor
       ✔ Subheader for each floor @low @done (19-02-09 17:31)
         * numberOfSections
-      ☐ Navigation bar + title @low
+      ✔ Navigation bar + title @low @done (19-02-22 19:06)
         * Embed table view controller in navigation view controller
       ✔ Table cell subtitles @low @done (19-02-09 17:31)
         * set cell type to 'subtitle' in Interface Builder
       ✔ use indexPath.section along with indexPath.row to fix some issues @done (19-02-09 17:31)
 
-    ☐ Application structure
+    ☐ Miscellaneous
       ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
+      ☐ Create icon assets for tab bar @low
       ☐ Other tasks (enumerate when fleshed out)
 
     Issues:

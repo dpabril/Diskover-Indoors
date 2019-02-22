@@ -21,6 +21,9 @@ class IndoorLocationsListController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationItem.title = AppState.getBuilding().name
+        //self.tabBarController?.tabBar.items![2].title = AppState.getBuilding().alias
+        //self.tabBarItem.title = AppState.getBuilding().alias
         self.tableView.reloadData()
         
     }

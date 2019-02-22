@@ -53,7 +53,7 @@ class SharedState {
     }
 
     // Setters
-    func switchHasScanned() {
+    func switchScanner() {
         if (self.hasScanned) {
             self.hasScanned = false
         } else {
