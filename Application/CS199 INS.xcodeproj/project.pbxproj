@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3E936CF222A4B76004AD718 /* FloorLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E936CE222A4B76004AD718 /* FloorLevel.swift */; };
 		E509E86D21C0DED6003A5FE3 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E86C21C0DED6003A5FE3 /* Utilities.swift */; };
 		E509E89621C0F511003A5FE3 /* MirrorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89521C0F511003A5FE3 /* MirrorFilter.swift */; };
 		E509E89821C0F51A003A5FE3 /* LowPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */; };
@@ -121,6 +122,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B3E936CE222A4B76004AD718 /* FloorLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorLevel.swift; sourceTree = "<group>"; };
 		E509E86C21C0DED6003A5FE3 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E509E89521C0F511003A5FE3 /* MirrorFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorFilter.swift; sourceTree = "<group>"; };
 		E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowPassFilter.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				E56FC7A0220D8D970094AB0C /* SharedState.swift */,
 				E5577F14220E90C200252A5F /* FloorPlan.swift */,
+				B3E936CE222A4B76004AD718 /* FloorLevel.swift */,
 				E5577F1C220ECDAA00252A5F /* FloorPoint.swift */,
 				E509E86C21C0DED6003A5FE3 /* Utilities.swift */,
 			);
@@ -400,6 +403,7 @@
 				E5D11D9221BF983F00123FEE /* IndoorLocation.swift in Sources */,
 				E509E89A21C0F523003A5FE3 /* HighPassFilter.swift in Sources */,
 				E509E89821C0F51A003A5FE3 /* LowPassFilter.swift in Sources */,
+				B3E936CF222A4B76004AD718 /* FloorLevel.swift in Sources */,
 				E5D11D9021BF982900123FEE /* Floor.swift in Sources */,
 				E5D11D2121BF831200123FEE /* AppDelegate.swift in Sources */,
 				E5D11D3521BF86A800123FEE /* IndoorLocationsListController.swift in Sources */,

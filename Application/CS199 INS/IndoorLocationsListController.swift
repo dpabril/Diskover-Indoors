@@ -96,6 +96,7 @@ class IndoorLocationsListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         AppState.setNavSceneDestCoords(AppState.getBuildingLocs()[indexPath.section][indexPath.row].xcoord, AppState.getBuildingLocs()[indexPath.section][indexPath.row].ycoord)
+        AppState.setDestinationLevel(AppState.getBuildingLocs()[indexPath.section][indexPath.row].level - 1)
         // <NEW>
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>

@@ -18,6 +18,7 @@ class SharedState {
     private var buildingCurrentFloor : FloorPlan?
     private var navSceneUserCoords : FloorPoint
     private var navSceneDestCoords : FloorPoint
+    private var destinationLevel : FloorLevel?
 
     init() {
         self.hasScanned = false
@@ -27,6 +28,7 @@ class SharedState {
         self.buildingCurrentFloor = nil
         self.navSceneUserCoords = FloorPoint(0, 0)
         self.navSceneDestCoords = FloorPoint(0, 0)
+        self.destinationLevel = nil
     }
 
     // Getters
@@ -50,6 +52,9 @@ class SharedState {
     }
     func getNavSceneDestCoords() -> FloorPoint {
         return self.navSceneDestCoords
+    }
+    func getDestinationLevel() -> FloorLevel {
+        return self.destinationLevel!
     }
 
     // Setters
@@ -77,5 +82,8 @@ class SharedState {
     }
     func setNavSceneDestCoords(_ navSceneDestXCoord : Double, _ navSceneDestYCoord : Double) {
         self.navSceneDestCoords = FloorPoint(navSceneDestXCoord, navSceneDestYCoord)
+    }
+    func setDestinationLevel(_ destinationLevel : Int){
+        self.destinationLevel = FloorLevel(destinationLevel)
     }
 }

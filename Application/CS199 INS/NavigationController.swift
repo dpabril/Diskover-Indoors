@@ -171,6 +171,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
                     user.simdPosition += user.simdWorldFront * 0.0004998
+                    print(AppState.getDestinationLevel().level)
                     // try motion incorporating current velocity
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
                         //self.reachedDestLabel.text = "Reached Destination: TRUE"
@@ -216,7 +217,17 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        if (d <= 0.05) {
+        if (d <= 0.05 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    // Checks if 'selected' destination is in the same floor as the user
+    func sameLevel() -> Bool {
+        if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
@@ -245,9 +256,17 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
-        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
-        self.pinX = pinMarker.position.x
-        self.pinY = pinMarker.position.y
+        
+        if (sameLevel()) {
+            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            self.pinX = pinMarker.position.x
+            self.pinY = pinMarker.position.y
+        }
+        else {
+            pinMarker.position = SCNVector3(0.246, -0.135, -1.6817374)
+            self.pinX = pinMarker.position.x
+            self.pinY = pinMarker.position.y
+        }
         
         self.startSensors()
     }
