@@ -187,7 +187,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
         let alertPrompt = UIAlertController(title: "Localization successful.", message: promptMessage, preferredStyle: .actionSheet)
         let confirmAction = UIAlertAction(title: "Navigate!", style: UIAlertAction.Style.default, handler: { (action) -> Void in
             
-            // Retrieve locations on building's floor
+            // Retrieve locations and floor plans of current building
             var buildingLocs : [[IndoorLocation]] = []
             var buildingFloorPlans : [FloorPlan] = []
             var buildingCurrentFloor : Int = 0
@@ -214,11 +214,25 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                 }
             }
             
+            // Retrieving building's staircases, in case they would be needed, and set staircase nearest to destination
+            var buildingStaircases : [Staircase] = []
+            var nearestStaircase : Staircase?
+            //
+            do {
+                try DB.write { db in
+                    let request = Staircase.filter(Column("bldg") == qrCodeBuilding)
+                    buildingStaircases = try request.fetchAll(db)
+                }
+            } catch {
+                print(error)
+            }
+            
             // Set shared variables for storing information about user position and current building
             AppState.setNavSceneUserCoords(qrTag!.xcoord, qrTag!.ycoord)
             AppState.setBuilding(building!)
             AppState.setBuildingLocs(buildingLocs)
             AppState.setBuildingFloorPlans(buildingFloorPlans)
+            AppState.setBuildingStaircases(buildingStaircases)
             AppState.setBuildingCurrentFloor(buildingCurrentFloor)
             
             // Set shared variable for determining if user has performed initial scan for a single navigation procedure

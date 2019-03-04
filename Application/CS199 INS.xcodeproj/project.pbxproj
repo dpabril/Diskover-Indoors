@@ -30,6 +30,7 @@
 		E5D11D9021BF982900123FEE /* Floor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D8F21BF982900123FEE /* Floor.swift */; };
 		E5D11D9221BF983F00123FEE /* IndoorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D9121BF983F00123FEE /* IndoorLocation.swift */; };
 		E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */; };
+		E5D508B1222CE76900FEAE88 /* Staircase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D508B0222CE76900FEAE88 /* Staircase.swift */; };
 		E5D53B3021C369A10033A0A4 /* Textures.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D53B2F21C369A10033A0A4 /* Textures.scnassets */; };
 		E5EF549C21FEC6E60082DAEF /* navdb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E5EF549B21FEC6E60082DAEF /* navdb.sqlite */; };
 /* End PBXBuildFile section */
@@ -146,6 +147,7 @@
 		E5D11D8F21BF982900123FEE /* Floor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floor.swift; sourceTree = "<group>"; };
 		E5D11D9121BF983F00123FEE /* IndoorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndoorLocation.swift; sourceTree = "<group>"; };
 		E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		E5D508B0222CE76900FEAE88 /* Staircase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staircase.swift; sourceTree = "<group>"; };
 		E5D53B2F21C369A10033A0A4 /* Textures.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Textures.scnassets; sourceTree = "<group>"; };
 		E5EF549B21FEC6E60082DAEF /* navdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = navdb.sqlite; path = ../../navdb.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -232,6 +234,7 @@
 				E5D11D8B21BF980800123FEE /* QRTag.swift */,
 				E5D11D8D21BF981800123FEE /* Building.swift */,
 				E5D11D8F21BF982900123FEE /* Floor.swift */,
+				E5D508B0222CE76900FEAE88 /* Staircase.swift */,
 				E5D11D9121BF983F00123FEE /* IndoorLocation.swift */,
 			);
 			path = Models;
@@ -400,6 +403,7 @@
 				E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */,
 				E5577F1D220ECDAA00252A5F /* FloorPoint.swift in Sources */,
 				E509E89621C0F511003A5FE3 /* MirrorFilter.swift in Sources */,
+				E5D508B1222CE76900FEAE88 /* Staircase.swift in Sources */,
 				E5D11D9221BF983F00123FEE /* IndoorLocation.swift in Sources */,
 				E509E89A21C0F523003A5FE3 /* HighPassFilter.swift in Sources */,
 				E509E89821C0F51A003A5FE3 /* LowPassFilter.swift in Sources */,

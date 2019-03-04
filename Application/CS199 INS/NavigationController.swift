@@ -115,6 +115,22 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     func resetAltimeter() {
         self.stopAltimeter()
         self.startAltimeter()
+        
+        if (AppState.isUserOnDestinationLevel()) {
+            let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+            let destCoords = AppState.getNavSceneDestCoords()
+            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            self.pinX = pinMarker.position.x
+            self.pinY = pinMarker.position.y
+            self.hideStaircaseMarker()
+            self.showPinMarker()
+        } else {
+            let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+            let staircaseMarkerPoint = AppState.getNearestStaircase()
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            self.hidePinMarker()
+            self.showStaircaseMarker()
+        }
     }
     
     // Device Motion Manager functions
@@ -171,8 +187,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
                     user.simdPosition += user.simdWorldFront * 0.0004998
-                    print(AppState.getDestinationLevel().level)
-                    // try motion incorporating current velocity
+                    AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
+                    // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
                         //self.reachedDestLabel.text = "Reached Destination: TRUE"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: " ", preferredStyle: .alert)
@@ -209,6 +225,27 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         self.stopDeviceMotionManager()
     }
     
+    // Show the destination pin marker
+    func showPinMarker () {
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        pinMarker.isHidden = false
+    }
+    // Hide the desintation pin marker
+    func hidePinMarker () {
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        pinMarker.isHidden = true
+    }
+    // Show the staircase marker
+    func showStaircaseMarker () {
+        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        staircaseMarker.isHidden = false
+    }
+    // Hide the staircase marker
+    func hideStaircaseMarker () {
+        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        staircaseMarker.isHidden = true
+    }
+    
     // Checks if user have arrived to its destination
     func haveArrived(userX: Float, userY: Float) -> Bool {
         var left : Float = 0
@@ -218,16 +255,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
         if (d <= 0.05 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    // Checks if 'selected' destination is in the same floor as the user
-    func sameLevel() -> Bool {
-        if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
@@ -257,15 +284,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
         
-        if (sameLevel()) {
+        // Configuring user's / stairs marker's position
+        if (AppState.isUserOnDestinationLevel()) {
+            self.showPinMarker()
+            self.hideStaircaseMarker()
             pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
             self.pinX = pinMarker.position.x
             self.pinY = pinMarker.position.y
-        }
-        else {
-            pinMarker.position = SCNVector3(0.246, -0.135, -1.6817374)
-            self.pinX = pinMarker.position.x
-            self.pinY = pinMarker.position.y
+        } else {
+            let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+            let staircaseMarkerPoint = AppState.getNearestStaircase()
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            self.hidePinMarker()
+            self.showStaircaseMarker()
         }
         
         self.startSensors()

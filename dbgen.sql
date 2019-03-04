@@ -30,6 +30,16 @@ CREATE TABLE Floor (
         ON DELETE CASCADE
     );
 
+CREATE TABLE Staircase (
+    bldg VARCHAR,
+    xcoord REAL NOT NULL,
+    ycoord REAL NOT NULL,
+    PRIMARY KEY (bldg, xcoord, ycoord),
+    FOREIGN KEY (bldg) REFERENCES Building --(alias)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+    );
+
 CREATE TABLE IndoorLocation (
     bldg VARCHAR,
     level INTEGER,
@@ -65,6 +75,9 @@ INSERT INTO Floor VALUES
     ("UP ITDC", 1),
     ("UP ITDC", 2),
     ("UP ITDC", 3);
+INSERT INTO Staircase VALUES
+    ("UP AECH", 0.281, -0.124),
+    ("UP AECH", -0.27, -0.124);
 INSERT INTO IndoorLocation VALUES
     ("UP AECH", 1, "Engineering Library 2", "", 0.0, 0.0),
     ("UP AECH", 2, "Serials Section", "", -0.117, 0.137),

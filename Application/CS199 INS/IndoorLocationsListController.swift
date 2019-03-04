@@ -6,8 +6,8 @@
 //  Copyright © 2018 Abril & Aquino. All rights reserved.
 //
 
-import UIKit
 import GRDB
+import UIKit
 
 class IndoorLocationsListController: UITableViewController {
     
@@ -96,10 +96,29 @@ class IndoorLocationsListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         AppState.setNavSceneDestCoords(AppState.getBuildingLocs()[indexPath.section][indexPath.row].xcoord, AppState.getBuildingLocs()[indexPath.section][indexPath.row].ycoord)
-        AppState.setDestinationLevel(AppState.getBuildingLocs()[indexPath.section][indexPath.row].level - 1)
+        AppState.setDestinationLevel(AppState.getBuildingLocs()[indexPath.section][indexPath.row].level)
         // <NEW>
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>
+        
+        // Determine staircase/stairwell in building closest to destination
+        if (!AppState.isUserOnDestinationLevel()) {
+            var buildingStaircases = AppState.getBuildingStaircases()
+            var navSceneDestCoords = AppState.getNavSceneDestCoords()
+            var nearestStaircase : Staircase = buildingStaircases[0]
+            var nearestStaircaseDistance : Double = sqrt(pow(navSceneDestCoords.x - nearestStaircase.xcoord, 2) + pow(navSceneDestCoords.y - nearestStaircase.ycoord, 2))
+            //
+            for staircase in buildingStaircases {
+                var staircaseToDestDistance = sqrt(pow(navSceneDestCoords.x - staircase.xcoord, 2) + pow(navSceneDestCoords.y - staircase.ycoord, 2))
+                if (staircaseToDestDistance <= nearestStaircaseDistance) {
+                    nearestStaircase = staircase
+                    nearestStaircaseDistance = staircaseToDestDistance
+                }
+            }
+            //
+            AppState.setNearestStaircase(nearestStaircase)
+        }
+        
         self.tabBarController!.selectedIndex = 1
     }
 

@@ -15,9 +15,11 @@ class SharedState {
     private var building : Building?
     private var buildingLocs : [[IndoorLocation]]
     private var buildingFloorPlans : [FloorPlan]
+    private var buildingStaircases : [Staircase]
     private var buildingCurrentFloor : FloorPlan?
     private var navSceneUserCoords : FloorPoint
     private var navSceneDestCoords : FloorPoint
+    private var nearestStaircase : Staircase?
     private var destinationLevel : FloorLevel?
 
     init() {
@@ -25,9 +27,11 @@ class SharedState {
         self.building = nil
         self.buildingLocs = []
         self.buildingFloorPlans = []
+        self.buildingStaircases = []
         self.buildingCurrentFloor = nil
         self.navSceneUserCoords = FloorPoint(0, 0)
         self.navSceneDestCoords = FloorPoint(0, 0)
+        self.nearestStaircase = nil
         self.destinationLevel = nil
     }
 
@@ -44,6 +48,9 @@ class SharedState {
     func getBuildingFloorPlans() -> [FloorPlan] {
         return self.buildingFloorPlans
     }
+    func getBuildingStaircases() -> [Staircase] {
+        return self.buildingStaircases
+    }
     func getBuildingCurrentFloor() -> FloorPlan {
         return self.buildingCurrentFloor!
     }
@@ -52,6 +59,9 @@ class SharedState {
     }
     func getNavSceneDestCoords() -> FloorPoint {
         return self.navSceneDestCoords
+    }
+    func getNearestStaircase() -> Staircase {
+        return self.nearestStaircase!
     }
     func getDestinationLevel() -> FloorLevel {
         return self.destinationLevel!
@@ -74,6 +84,9 @@ class SharedState {
     func setBuildingFloorPlans(_ buildingFloorPlans : [FloorPlan]) {
         self.buildingFloorPlans = buildingFloorPlans
     }
+    func setBuildingStaircases(_ buildingStaircases : [Staircase]) {
+        self.buildingStaircases = buildingStaircases
+    }
     func setBuildingCurrentFloor(_ buildingCurrentFloorLevel : Int) {
         self.buildingCurrentFloor = self.buildingFloorPlans[buildingCurrentFloorLevel - 1]
     }
@@ -83,7 +96,15 @@ class SharedState {
     func setNavSceneDestCoords(_ navSceneDestXCoord : Double, _ navSceneDestYCoord : Double) {
         self.navSceneDestCoords = FloorPoint(navSceneDestXCoord, navSceneDestYCoord)
     }
+    func setNearestStaircase(_ nearestStaircase : Staircase) {
+        self.nearestStaircase = nearestStaircase
+    }
     func setDestinationLevel(_ destinationLevel : Int){
         self.destinationLevel = FloorLevel(destinationLevel)
+    }
+    
+    // Conditions
+    func isUserOnDestinationLevel () -> Bool {
+        return self.buildingCurrentFloor!.floorLevel == self.destinationLevel!.level
     }
 }
