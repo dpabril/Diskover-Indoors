@@ -87,6 +87,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ave V.: -----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JSo-rf-TYo" userLabel="Average V Label">
+                                <rect key="frame" x="16" y="29" width="343" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Max Ave.: -----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnP-OR-Pk9" userLabel="Max Ave Label">
+                                <rect key="frame" x="16" y="58" width="343" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -100,7 +114,9 @@
                     <tabBarItem key="tabBarItem" title="Navigation" image="second" id="cPa-gy-q4n"/>
                     <connections>
                         <outlet property="altLabel" destination="ZWt-M8-kTm" id="qeX-dJ-awe"/>
+                        <outlet property="averageVLabel" destination="JSo-rf-TYo" id="dQX-uq-STB"/>
                         <outlet property="levelLabel" destination="reb-Zl-aQU" id="o6S-XB-ltv"/>
+                        <outlet property="maxAveLabel" destination="UnP-OR-Pk9" id="Lmx-vY-GZM"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
                         <outlet property="reachedDestLabel" destination="wmM-OJ-iHU" id="VIv-S6-dhm"/>
                     </connections>

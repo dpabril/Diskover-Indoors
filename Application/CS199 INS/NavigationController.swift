@@ -17,6 +17,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var altLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var reachedDestLabel: UILabel!
+    @IBOutlet weak var averageVLabel: UILabel!
+    @IBOutlet weak var maxAveLabel: UILabel!
     
     // Sensor object variables + Accelerometer noise|spike filter
     lazy var compassManager = CLLocationManager()
@@ -39,6 +41,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     var xAccelZeroCount : Int = 0
     var yAccelZeroCount : Int = 0
     var zAccelZeroCount : Int = 0
+    
+    // Variables needed to calculate average velocity
+    var averageV : Double = 0
+    var count : Int = 1
+    var maxAve : Double = 0
     
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
@@ -168,8 +175,22 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 // Calculates velocity
                 var vx = self.prevVx, vy = self.prevVy, vz = self.prevVz;
                 var lastV = sqrt(vx * vx + vy * vy + vz * vz);
-                print(lastV)
+                self.averageV = ( self.averageV + lastV ) / Double(self.count)
+                if (self.averageV > self.maxAve) {
+                    self.maxAve = self.averageV
+                }
+                self.count += 1
                 
+                print("AVERAGE SPEED:")
+                print(self.averageV)
+                print("Count:")
+                print(self.count)
+                print("MAX AVERAGE SPEED:")
+                print(self.maxAve)
+                print("")
+                
+                self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
+                self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                 // Synthetic forces to remove velocity once relatively stationary
                 if (correctedAcc.x == 0) {
                     self.xAccelZeroCount += 1
