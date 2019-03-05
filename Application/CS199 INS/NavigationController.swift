@@ -165,6 +165,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                     self.prevVz += (4.0 / 8.0) * (1.0 / 60.0) * (self.accelZs[0] + 3 * self.accelZs[1] + 3 * self.accelZs[2] + self.accelZs[3])
                 }
                 
+                // Calculates velocity
+                var vx = self.prevVx, vy = self.prevVy, vz = self.prevVz;
+                var lastV = sqrt(vx * vx + vy * vy + vz * vz);
+                print(lastV)
+                
                 // Synthetic forces to remove velocity once relatively stationary
                 if (correctedAcc.x == 0) {
                     self.xAccelZeroCount += 1
