@@ -172,25 +172,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                     self.prevVz += (4.0 / 8.0) * (1.0 / 60.0) * (self.accelZs[0] + 3 * self.accelZs[1] + 3 * self.accelZs[2] + self.accelZs[3])
                 }
                 
-                // Calculates velocity
-                var vx = self.prevVx, vy = self.prevVy, vz = self.prevVz;
-                var lastV = sqrt(vx * vx + vy * vy + vz * vz);
-                self.averageV = ( self.averageV + lastV ) / Double(self.count)
-                if (self.averageV > self.maxAve) {
-                    self.maxAve = self.averageV
-                }
-                self.count += 1
                 
-                print("AVERAGE SPEED:")
-                print(self.averageV)
-                print("Count:")
-                print(self.count)
-                print("MAX AVERAGE SPEED:")
-                print(self.maxAve)
-                print("")
-                
-                self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
-                self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                 // Synthetic forces to remove velocity once relatively stationary
                 if (correctedAcc.x == 0) {
                     self.xAccelZeroCount += 1
@@ -211,15 +193,48 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 }
                 
                 if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
+                    // Calculates velocity
+                    let vx = self.prevVx * 9.8, vy = self.prevVy * 9.8, vz = self.prevVz * 9.8;
+                    let lastV = sqrt(vx * vx + vy * vy + vz * vz);
+                    self.averageV = ( self.averageV + lastV ) / Double(self.count)
+                    if (self.averageV > self.maxAve) {
+                        self.maxAve = self.averageV
+                    }
+                    self.count += 1
+                    
+                    print("AVERAGE SPEED:")
+                    print(self.averageV)
+                    print("Count:")
+                    print(self.count)
+                    print("MAX AVERAGE SPEED:")
+                    print(self.maxAve)
+                    print("")
+                    
+                    self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
+                    self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
+                    
+                    
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-                    user.simdPosition += user.simdWorldFront * 0.0004998
+                    //user.simdPosition += user.simdWorldFront * 0.0004998
+                    user.simdPosition += user.simdWorldFront * (Float(self.averageV)/10)
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
-                        //self.reachedDestLabel.text = "Reached Destination: TRUE"
-                        let alertPrompt = UIAlertController(title: "You have arrived.", message: " ", preferredStyle: .alert)
-                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+                        self.reachedDestLabel.text = "Reached Destination: TRUE"
                         
+                        let alertPrompt = UIAlertController(title: "You have arrived.", message: " ", preferredStyle: .alert)
+                        
+                        let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
+                        imageView.image = UIImage(named: "image")
+                        alertPrompt.view.addSubview(imageView)
+                        
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 330)
+                        alertPrompt.view.addConstraint(height)
+                        
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
+                        alertPrompt.view.addConstraint(width)
+                        
+                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
                         
                         self.present(alertPrompt, animated: true, completion: nil)
