@@ -239,7 +239,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             AppState.switchScanner()
             
             // Enable other controllers and shift to location list
-            self.tabBarController!.tabBar.items![1].isEnabled = true
+            // self.tabBarController!.tabBar.items![1].isEnabled = true
             self.tabBarController!.tabBar.items![2].isEnabled = true
             self.tabBarController!.selectedIndex = 2
         })

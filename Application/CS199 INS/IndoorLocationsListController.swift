@@ -119,6 +119,7 @@ class IndoorLocationsListController: UITableViewController {
             AppState.setNearestStaircase(nearestStaircase)
         }
         
+        self.tabBarController!.tabBar.items![1].isEnabled = true
         self.tabBarController!.selectedIndex = 1
     }
 
