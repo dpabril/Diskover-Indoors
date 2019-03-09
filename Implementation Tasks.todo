@@ -15,14 +15,15 @@ Application:
         ✔ Keep QR code in center of screen @low @done (19-02-22 16:14)
           * This is to keep the user at the desired distance from the QR code image
           * UIKit -> CGRect -> contains(_ rect2 : CGRect)
-        ☐ Write an under-the-hood scanner for when in the navigation view
+        ☐ Write an under-the-hood scanner for when in the navigation view (tied with a Navigation View task)
       ☐ Print QR codes for testing
-      ☐ Add Boolean variable for determining whether this is the first scan or not @low
+      ☐ Add Boolean variable for determining whether this is the first scan or not and @low
         * To prevent switching views to location list upon relocalization
         * This has been added but is not in use yet
+        > Adding an under-the-hood scanner for Nav view is more convenient and checks this off
       ✔ Move list setting and texture changing logic to launchNavigator() @low @done (19-02-09 17:26)
 
-    ✔ SQLite Database @done (18-12-14 18:07)
+    ✔ SQLite Database @done (19-03-05 14:55)
      _Stores:_
       * QR code information
       * Location information
@@ -33,7 +34,7 @@ Application:
           * <?> User rotation offset
           * Rooms
             * Scene coordinates of location pin marker
-      ✔ Design the schema @done (18-12-07 14:28)
+      ✔ Design the schema @done (19-03-05 14:55)
       ✔ Create a Swift class for static query functions to the DB @done (18-12-13 19:11)
       ✔ Readjust floor levels; 1 is the starting level for all @done (19-02-09 17:26)
 
@@ -47,17 +48,19 @@ Application:
         ✔ Change texture of plane based on relative altitude (Building.delta) @done (19-02-09 17:26)
           * Maybe use UIImage array; [UIImage]
           * Consider keeping altimeter running in the background, checking if delta has been passed in this controller's viewWillAppear()
-        ☐ Resize plan for different maps @low , leave to CS 199?
-          * Store ratio in DB?
+        ☐ Resize plan for different maps @high
+          * Store ratio in DB or calculate resolution
         ☐ Current floor and target floor labels/messages
           * e.g. "You are currently on the nth floor" "[Room selected] is on the mth floor"
         ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
         ☐ Scan QR codes under the hood for relocalization
+          > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
+      ☐ Add a Pause functionality
       ☐ Use SpriteKit instead of SceneKit @low
-      ☐ Allow map panning
+      ☐ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer)
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)
@@ -74,6 +77,7 @@ Application:
 
     ☐ Miscellaneous
       ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
+      ☐ Consider variable fixed-length movement; n velocity bins depending on current velocity
       ☐ Create icon assets for tab bar @low
       ☐ Other tasks (enumerate when fleshed out)
 
