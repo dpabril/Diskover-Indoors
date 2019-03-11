@@ -19,6 +19,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var reachedDestLabel: UILabel!
     @IBOutlet weak var averageVLabel: UILabel!
     @IBOutlet weak var maxAveLabel: UILabel!
+    @IBOutlet weak var destTitleLabel: UILabel!
     
     // Sensor object variables + Accelerometer noise|spike filter
     lazy var compassManager = CLLocationManager()
@@ -111,6 +112,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                 }
                 level = Int(altitude / 2.0)
                 self.levelLabel.text = String(format: "Level: %d", level)
+                self.destTitleLabel.text = "You are currently on the \(Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel)) floor. \(AppState.getDestinationTitle().title)  (\(AppState.getDestinationSubtitle().subtitle)) is on the \(Utilities.ordinalize(AppState.getDestinationLevel().level)) floor."
             })
         }
     }

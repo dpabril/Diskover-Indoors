@@ -21,6 +21,8 @@ class SharedState {
     private var navSceneDestCoords : FloorPoint
     private var nearestStaircase : Staircase?
     private var destinationLevel : FloorLevel?
+    private var destinationTitle : DestTitle?
+    private var destinationSubtitle : DestSubtitle?
 
     init() {
         self.hasScanned = false
@@ -33,6 +35,8 @@ class SharedState {
         self.navSceneDestCoords = FloorPoint(0, 0)
         self.nearestStaircase = nil
         self.destinationLevel = nil
+        self.destinationTitle = nil
+        self.destinationSubtitle = nil
     }
 
     // Getters
@@ -66,7 +70,13 @@ class SharedState {
     func getDestinationLevel() -> FloorLevel {
         return self.destinationLevel!
     }
-
+    func getDestinationTitle() -> DestTitle {
+        return self.destinationTitle!
+    }
+    func getDestinationSubtitle() -> DestSubtitle {
+        return self.destinationSubtitle!
+    }
+    
     // Setters
     func switchScanner() {
         if (self.hasScanned) {
@@ -101,6 +111,12 @@ class SharedState {
     }
     func setDestinationLevel(_ destinationLevel : Int){
         self.destinationLevel = FloorLevel(destinationLevel)
+    }
+    func setDestinationTitle(_ destinationTitle : String) {
+        self.destinationTitle = DestTitle(destinationTitle)
+    }
+    func setDestinationSubtitle(_ destinationSubtitle : String) {
+        self.destinationSubtitle = DestSubtitle(destinationSubtitle)
     }
     
     // Conditions

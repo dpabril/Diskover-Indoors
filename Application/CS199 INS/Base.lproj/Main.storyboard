@@ -107,6 +107,13 @@
                                     <action selector="onRecenterPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="5fI-M0-07D"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2u-Ey-Z4e" userLabel="Notice">
+                                <rect key="frame" x="16" y="428" width="343" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -124,6 +131,7 @@
                     <connections>
                         <outlet property="altLabel" destination="ZWt-M8-kTm" id="qeX-dJ-awe"/>
                         <outlet property="averageVLabel" destination="JSo-rf-TYo" id="dQX-uq-STB"/>
+                        <outlet property="destTitleLabel" destination="h2u-Ey-Z4e" id="X7B-pA-FXw"/>
                         <outlet property="levelLabel" destination="reb-Zl-aQU" id="o6S-XB-ltv"/>
                         <outlet property="maxAveLabel" destination="UnP-OR-Pk9" id="Lmx-vY-GZM"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
@@ -132,7 +140,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2" y="809"/>
+            <point key="canvasLocation" x="-2.3999999999999999" y="808.24587706146929"/>
         </scene>
         <!--Indoor Location List-->
         <scene sceneID="E0m-dQ-GUd">

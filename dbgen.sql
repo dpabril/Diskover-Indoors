@@ -66,7 +66,7 @@ INSERT INTO QRTag VALUES
     ("UP ITDC::2::A", 0.0, 0.0),
     ("UP ITDC::3::A", 0.0, 0.0);
 INSERT INTO Building VALUES
-    ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0),
+    ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 0.5),
     ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2);
 INSERT INTO Floor VALUES
     ("UP AECH", 1),

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B3E936CF222A4B76004AD718 /* FloorLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E936CE222A4B76004AD718 /* FloorLevel.swift */; };
+		B3EF70832236482100D22302 /* DestTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EF70822236482100D22302 /* DestTitle.swift */; };
+		B3EF708C22364B5700D22302 /* DestSubtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EF708B22364B5700D22302 /* DestSubtitle.swift */; };
 		E509E86D21C0DED6003A5FE3 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E86C21C0DED6003A5FE3 /* Utilities.swift */; };
 		E509E89621C0F511003A5FE3 /* MirrorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89521C0F511003A5FE3 /* MirrorFilter.swift */; };
 		E509E89821C0F51A003A5FE3 /* LowPassFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */; };
@@ -124,6 +126,8 @@
 
 /* Begin PBXFileReference section */
 		B3E936CE222A4B76004AD718 /* FloorLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorLevel.swift; sourceTree = "<group>"; };
+		B3EF70822236482100D22302 /* DestTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestTitle.swift; sourceTree = "<group>"; };
+		B3EF708B22364B5700D22302 /* DestSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestSubtitle.swift; sourceTree = "<group>"; };
 		E509E86C21C0DED6003A5FE3 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		E509E89521C0F511003A5FE3 /* MirrorFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorFilter.swift; sourceTree = "<group>"; };
 		E509E89721C0F51A003A5FE3 /* LowPassFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LowPassFilter.swift; sourceTree = "<group>"; };
@@ -246,6 +250,8 @@
 				E56FC7A0220D8D970094AB0C /* SharedState.swift */,
 				E5577F14220E90C200252A5F /* FloorPlan.swift */,
 				B3E936CE222A4B76004AD718 /* FloorLevel.swift */,
+				B3EF70822236482100D22302 /* DestTitle.swift */,
+				B3EF708B22364B5700D22302 /* DestSubtitle.swift */,
 				E5577F1C220ECDAA00252A5F /* FloorPoint.swift */,
 				E509E86C21C0DED6003A5FE3 /* Utilities.swift */,
 			);
@@ -395,9 +401,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5D11D2521BF831200123FEE /* NavigationController.swift in Sources */,
+				B3EF708C22364B5700D22302 /* DestSubtitle.swift in Sources */,
 				E5D11D8E21BF981800123FEE /* Building.swift in Sources */,
 				E56FC7A1220D8D970094AB0C /* SharedState.swift in Sources */,
 				E509E86D21C0DED6003A5FE3 /* Utilities.swift in Sources */,
+				B3EF70832236482100D22302 /* DestTitle.swift in Sources */,
 				E5577F15220E90C200252A5F /* FloorPlan.swift in Sources */,
 				E5D11D8C21BF980800123FEE /* QRTag.swift in Sources */,
 				E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */,

@@ -97,12 +97,14 @@ class IndoorLocationsListController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         AppState.setNavSceneDestCoords(AppState.getBuildingLocs()[indexPath.section][indexPath.row].xcoord, AppState.getBuildingLocs()[indexPath.section][indexPath.row].ycoord)
         AppState.setDestinationLevel(AppState.getBuildingLocs()[indexPath.section][indexPath.row].level)
+        AppState.setDestinationTitle(AppState.getBuildingLocs()[indexPath.section][indexPath.row].title)
+        AppState.setDestinationSubtitle(AppState.getBuildingLocs()[indexPath.section][indexPath.row].subtitle)
         // <NEW>
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>
         
         // Determine staircase/stairwell in building closest to destination
-        if (!AppState.isUserOnDestinationLevel()) {
+        //if (!AppState.isUserOnDestinationLevel()) {
             var buildingStaircases = AppState.getBuildingStaircases()
             var navSceneDestCoords = AppState.getNavSceneDestCoords()
             var nearestStaircase : Staircase = buildingStaircases[0]
@@ -117,7 +119,7 @@ class IndoorLocationsListController: UITableViewController {
             }
             //
             AppState.setNearestStaircase(nearestStaircase)
-        }
+        //}
         
         self.tabBarController!.tabBar.items![1].isEnabled = true
         self.tabBarController!.selectedIndex = 1
