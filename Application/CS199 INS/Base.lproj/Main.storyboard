@@ -94,19 +94,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Max Ave.: -----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnP-OR-Pk9" userLabel="Max Ave Label">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Max Ave.: -----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnP-OR-Pk9" userLabel="Max Ave Label">
                                 <rect key="frame" x="16" y="58" width="343" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6B-wU-WOP">
+                                <rect key="frame" x="305" y="87" width="62" height="30"/>
+                                <state key="normal" title="Recenter"/>
+                                <connections>
+                                    <action selector="onRecenterPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="5fI-M0-07D"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="YKH-TD-nhv" secondAttribute="top" constant="87" id="4VN-I3-mEQ"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="leading" secondItem="Kxl-op-w2y" secondAttribute="leading" constant="305" id="A8j-ui-q8S"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" id="dDl-49-FXf"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="bottom" secondItem="Zmk-b7-6bY" secondAttribute="bottom" id="gwJ-RJ-YFQ"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="UnP-OR-Pk9" secondAttribute="bottom" constant="8" symbolic="YES" id="hj4-QR-IcS"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kxl-op-w2y"/>

@@ -124,6 +124,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         self.startAltimeter()
         
         if (AppState.isUserOnDestinationLevel()) {
+            self.panCamToTargetAndBack()
             let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
             let destCoords = AppState.getNavSceneDestCoords()
             pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
@@ -324,6 +325,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        
+        //let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        //let staircaseMarkerPoint = AppState.getNearestStaircase()
+        //staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
         
         // Configuring user's / stairs marker's position
         if (AppState.isUserOnDestinationLevel()) {
@@ -340,6 +346,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
             self.showStaircaseMarker()
         }
         
+        self.centerCameraOnUser()
+        self.panCamToTargetAndBack()
+        
         self.startSensors()
     }
     
@@ -347,6 +356,65 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         super.viewWillDisappear(animated)
         
         self.stopSensors()
+    }
+    
+    // Scene manipulation
+    @IBAction func onRecenterPress(_ sender: UIButton) {
+        //let camera = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
+        let camera = navigationView.pointOfView!
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        let cameraPanAnimation = CABasicAnimation(keyPath: "position")
+        cameraPanAnimation.fromValue = camera.position
+        cameraPanAnimation.toValue = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        cameraPanAnimation.duration = 1.00
+        cameraPanAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        // cameraPanAnimation.removedOnCompletion = NO
+        camera.addAnimation(cameraPanAnimation, forKey: nil)
+        camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        // camera.removeAllAnimations()
+    }
+    
+    func centerCameraOnUser() {
+        let camera = navigationView.pointOfView!
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+    }
+    func panCamToTargetAndBack() {
+        let camera = navigationView.pointOfView!
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        let targetMarker : SCNNode!
+        
+        if (AppState.isUserOnDestinationLevel()) {
+            targetMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        } else {
+            targetMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        }
+        
+        let panFromCamToTarget = CABasicAnimation(keyPath: "position")
+        panFromCamToTarget.fromValue = camera.position
+        panFromCamToTarget.toValue = SCNVector3(targetMarker.position.x, targetMarker.position.y, camera.position.z)
+        panFromCamToTarget.duration = 1.00
+        panFromCamToTarget.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        panFromCamToTarget.beginTime = 0.00
+        panFromCamToTarget.fillMode = .forwards
+        // camera.position = SCNVector3(targetMarker.position.x, targetMarker.position.y, camera.position.z)
+        
+        let panFromTargetToUser = CABasicAnimation(keyPath: "position")
+        panFromTargetToUser.fromValue = SCNVector3(targetMarker.position.x, targetMarker.position.y, camera.position.z)
+        // panFromTargetToUser.fromValue = camera.position
+        panFromTargetToUser.toValue = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        panFromTargetToUser.duration = 1.00
+        panFromTargetToUser.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        panFromTargetToUser.beginTime = 2.00
+        
+        let panAnimations = CAAnimationGroup()
+        panAnimations.animations = [panFromCamToTarget, panFromTargetToUser]
+        panAnimations.duration = 3.00
+        
+        // panAnimations.removedOnCompletion = NO
+        camera.addAnimation(panAnimations, forKey: nil)
+        camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        // camera.removeAllAnimations()
     }
 }
 
