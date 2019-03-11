@@ -55,7 +55,8 @@ Application:
         ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
         ☐ Scan QR codes under the hood for relocalization
           > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
-        ☐ Rework staircase logic
+        ☐ Rework staircase logic @low
+          * or maybe not
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)

@@ -10,8 +10,9 @@ import UIKit
 import SceneKit
 import CoreMotion
 import CoreLocation
+import AVFoundation
 
-class NavigationController: UIViewController, CLLocationManagerDelegate {
+class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
     @IBOutlet weak var navigationView: SCNView!
     @IBOutlet weak var altLabel: UILabel!
@@ -46,6 +47,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
     var averageV : Double = 0
     var count : Int = 1
     var maxAve : Double = 0
+    
+    // Variables for QR code scanner in Recalibration prompt
+    var captureSession = AVCaptureSession()
+    var videoPreviewLayer : AVCaptureVideoPreviewLayer?
+    var qrCodeFrameView : UIView?
+    var qrCodeFrameThreshold : CGSize?
     
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
@@ -379,6 +386,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
     }
+    
     func panCamToTargetAndBack() {
         let camera = navigationView.pointOfView!
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
@@ -415,6 +423,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
         camera.addAnimation(panAnimations, forKey: nil)
         camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
         // camera.removeAllAnimations()
+    
     }
+    
+    // Recalibration QR code scanner functions
+    // @IBAction func onRecalibratePress(_ sender: Any) {
+       // self.stopSensors()
+        //
+        // Recycle QRCodeScannerController. Shift to its view, but set a Boolean variable indicating that the current scan is for recalibration
+    //}
 }
-
