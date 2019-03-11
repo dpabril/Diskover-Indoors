@@ -182,7 +182,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             print(error)
         }
         // Set the prompt message
-        promptMessage = "You are in the \(Utilities.ordinalize(floor!.level)) Floor of \(building!.name). Press Navigate! to start navigating."
+        promptMessage = "You are on the \(Utilities.ordinalize(floor!.level)) Floor of \(building!.name). Press Navigate! to start navigating."
         
         let alertPrompt = UIAlertController(title: "Localization successful.", message: promptMessage, preferredStyle: .actionSheet)
         let confirmAction = UIAlertAction(title: "Navigate!", style: UIAlertAction.Style.default, handler: { (action) -> Void in
