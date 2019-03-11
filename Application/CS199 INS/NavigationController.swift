@@ -48,6 +48,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var averageV : Double = 0
     var count : Int = 1
     var maxAve : Double = 0
+    var pos : Double = 0
     
     // Variables for QR code scanner in Recalibration prompt
     var captureSession = AVCaptureSession()
@@ -204,29 +205,25 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                 
                 if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
                     // Calculates velocity
-                    let vx = self.prevVx * 9.8, vy = self.prevVy * 9.8, vz = self.prevVz * 9.8;
+                    let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz;
                     let lastV = sqrt(vx * vx + vy * vy + vz * vz);
+                    self.pos = (lastV * (1.0/6.0)) / 10.0
+                    if (self.pos >= 0.00063){
+                        self.pos = 0.00063
+                    }
+                    print(self.pos)
                     self.averageV = ( self.averageV + lastV ) / Double(self.count)
                     if (self.averageV > self.maxAve) {
                         self.maxAve = self.averageV
                     }
                     self.count += 1
                     
-                    print("AVERAGE SPEED:")
-                    print(self.averageV)
-                    print("Count:")
-                    print(self.count)
-                    print("MAX AVERAGE SPEED:")
-                    print(self.maxAve)
-                    print("")
-                    
                     self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
                     self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                     
-                    
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-                    user.simdPosition += user.simdWorldFront * 0.0004998
-                    //user.simdPosition += user.simdWorldFront * (Float(self.averageV)/10)
+                    //user.simdPosition += user.simdWorldFront * 0.0004998
+                    user.simdPosition += user.simdWorldFront * (Float(self.pos))
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
@@ -305,7 +302,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        if (d <= 0.05 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+        if (d <= 0.04 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
