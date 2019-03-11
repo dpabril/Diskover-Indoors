@@ -216,8 +216,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate {
                     
                     
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-                    //user.simdPosition += user.simdWorldFront * 0.0004998
-                    user.simdPosition += user.simdWorldFront * (Float(self.averageV)/10)
+                    user.simdPosition += user.simdWorldFront * 0.0004998
+                    //user.simdPosition += user.simdWorldFront * (Float(self.averageV)/10)
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
