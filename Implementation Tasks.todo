@@ -15,7 +15,7 @@ Application:
         ✔ Keep QR code in center of screen @low @done (19-02-22 16:14)
           * This is to keep the user at the desired distance from the QR code image
           * UIKit -> CGRect -> contains(_ rect2 : CGRect)
-        ☐ Write an under-the-hood scanner for when in the navigation view (tied with a Navigation View task)
+        ✔ Write an under-the-hood scanner for when in the navigation view (tied with a Navigation View task) @done (19-03-13 19:33)
       ☐ Print QR codes for testing
       ☐ Add Boolean variable for determining whether this is the first scan or not and @low
         * To prevent switching views to location list upon relocalization
@@ -41,7 +41,7 @@ Application:
     ☐ Navigation View
       * Change plane size and material depending on most recently scanned location + relative altitude reading
       ☐ Program scene adjustments
-        ☐ Translation of location and user markers
+        ✔ Translation of location and user markers @done (19-03-13 19:34)
           ✔ Location pin marker @done (18-12-14 18:07)
           ✔ User marker @done (19-02-22 19:06)
             * Translation on initial scan works. Do relocalization next.
@@ -51,21 +51,22 @@ Application:
         ☐ Resize plan for different maps @high
           * Store ratio in DB or calculate resolution
         ☐ Current floor and target floor labels/messages
+          * > Partly done. Make friendlier
           * e.g. "You are currently on the nth floor" "[Room selected] is on the mth floor"
         ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
-        ☐ Scan QR codes under the hood for relocalization
+        ✔ Scan QR codes under the hood for relocalization @done (19-03-13 19:34)
           > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
           > BETTER OPTION? : Add a hidden subview to the navigation scene view that is shown when "Recalibrate" is pressed. After scan (of either outcome) display a UIAlert (style: .alert) and proceed accordingly
-        ☐ Rework staircase logic @low
-          * or maybe not
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
-      ☐ Add a Pause functionality
+      ☐ Add a "Show Destination" button
       ☐ Use SpriteKit instead of SceneKit @low
       ☐ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer)
       ☐ Bind camera to user marker
       ☐ Allow rotation of camera to simulate rotation of world around user (switch between this and default view)
+      ☐ Add labels ("You are here" and "This is your target" upon selecting a location)
+      ☐ Fix logic in Utilities.ordinalize to accomodate hasLGF truth value
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)

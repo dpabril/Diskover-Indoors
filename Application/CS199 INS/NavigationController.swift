@@ -11,9 +11,11 @@ import SceneKit
 import CoreMotion
 import CoreLocation
 import AVFoundation
+import GRDB
 
 class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
+    // Variables for main navigation scene
     @IBOutlet weak var navigationView: SCNView!
     @IBOutlet weak var altLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
@@ -21,6 +23,14 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     @IBOutlet weak var averageVLabel: UILabel!
     @IBOutlet weak var maxAveLabel: UILabel!
     @IBOutlet weak var destTitleLabel: UILabel!
+    
+    // Variables for use with recalibration
+    @IBOutlet weak var recalibrationView: UIView!
+    @IBOutlet weak var recalibrationFrame: UIImageView!
+    var recalibrationFrameBox : UIView?
+    var recalibrationFrameThreshold : CGSize?
+    var captureSession : AVCaptureSession = AVCaptureSession()
+    var videoPreviewLayer : AVCaptureVideoPreviewLayer?
     
     // Sensor object variables + Accelerometer noise|spike filter
     lazy var compassManager = CLLocationManager()
@@ -50,15 +60,135 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var maxAve : Double = 0
     var pos : Double = 0
     
-    // Variables for QR code scanner in Recalibration prompt
-    var captureSession = AVCaptureSession()
-    var videoPreviewLayer : AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView : UIView?
-    var qrCodeFrameThreshold : CGSize?
-    
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
     
+    /*
+    ====================================================================================================
+                                        ~ CONTROLLER FUNCTIONS ~
+    ====================================================================================================
+    */
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        navigationView.scene = self.scene
+        navigationView.pointOfView = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
+        
+        self.recalibrationView.isHidden = true
+        self.recalibrationView.isOpaque = false
+        self.recalibrationView.alpha = 0.0
+        self.view.sendSubviewToBack(self.recalibrationView)
+        
+        // Configuring the QR code scanner
+        // > Get the back-facing camera for capturing videos
+        var deviceDiscoverySession : AVCaptureDevice.DiscoverySession
+        
+        if (AVCaptureDevice.default(AVCaptureDevice.DeviceType.builtInDualCamera, for: AVMediaType.video, position: AVCaptureDevice.Position.back) != nil) {
+            deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
+        } else {
+            deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
+        }
+        
+        guard let captureDevice = deviceDiscoverySession.devices.first else {
+            print("ERROR: No compatible camera device found.")
+            return
+        }
+        
+        do {
+            // Get an instance of the AVCaptureDeviceInput class using the previous device object.
+            let input = try AVCaptureDeviceInput(device: captureDevice)
+            // Set the input device on the capture session.
+            captureSession.addInput(input)
+            
+            let captureMetadataOutput = AVCaptureMetadataOutput()
+            captureSession.addOutput(captureMetadataOutput)
+            
+            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+            
+        } catch {
+            print(error)
+            return
+        }
+        
+        // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        videoPreviewLayer?.frame = recalibrationView.layer.bounds
+        recalibrationView.layer.addSublayer(videoPreviewLayer!)
+        
+        // Start video capture.
+        // captureSession.startRunning()
+        
+        // Move the message label and top bar to the front
+        self.recalibrationView.bringSubviewToFront(self.recalibrationFrame)
+        self.view.bringSubviewToFront(self.recalibrationView)
+        
+        // Initialize QR Code Frame to highlight the QR code
+        recalibrationFrameBox = UIView()
+        // Initialize QR code frame size threshold for reference to enforce min. distance
+        recalibrationFrameThreshold = CGSize.init(width: 100.0, height: 100.0)
+        
+        if let recalibrationFrameBox = recalibrationFrameBox {
+            recalibrationFrameBox.layer.borderColor = UIColor.cyan.cgColor
+            recalibrationFrameBox.layer.borderWidth = 2
+            self.recalibrationView.addSubview(recalibrationFrameBox)
+            self.recalibrationView.bringSubviewToFront(recalibrationFrameBox)
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
+        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
+        
+        // Configuring user position
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        let userCoords = AppState.getNavSceneUserCoords()
+        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        
+        // Configuring location marker position
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        let destCoords = AppState.getNavSceneDestCoords()
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        
+        // Configuring user's / stairs marker's position
+        if (AppState.isUserOnDestinationLevel()) {
+            self.showPinMarker()
+            self.hideStaircaseMarker()
+            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            self.pinX = pinMarker.position.x
+            self.pinY = pinMarker.position.y
+        } else {
+            let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+            let staircaseMarkerPoint = AppState.getNearestStaircase()
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            self.hidePinMarker()
+            self.showStaircaseMarker()
+        }
+        
+        self.centerCameraOnUser()
+        self.panCamToTargetAndBack()
+        
+        self.startSensors()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.stopSensors()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    /*
+    ====================================================================================================
+                                         ~ SENSORS MANAGEMENT ~
+    ====================================================================================================
+    */
     // Magnetometer functions
     func startCompass() {
         if CLLocationManager.headingAvailable() {
@@ -273,100 +403,16 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.stopDeviceMotionManager()
     }
     
-    // Show the destination pin marker
-    func showPinMarker () {
-        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
-        pinMarker.isHidden = false
-    }
-    // Hide the desintation pin marker
-    func hidePinMarker () {
-        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
-        pinMarker.isHidden = true
-    }
-    // Show the staircase marker
-    func showStaircaseMarker () {
-        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
-        staircaseMarker.isHidden = false
-    }
-    // Hide the staircase marker
-    func hideStaircaseMarker () {
-        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
-        staircaseMarker.isHidden = true
-    }
-    
-    // Checks if user have arrived to its destination
-    func haveArrived(userX: Float, userY: Float) -> Bool {
-        var left : Float = 0
-        var right : Float = 0
-        var d : Float = 0
-        left = (pinX - userX)*(pinX - userX)
-        right = (pinY - userY)*(pinY - userY)
-        d = (left + right).squareRoot()
-        if (d <= 0.04 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        navigationView.scene = self.scene
-        navigationView.pointOfView = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
-        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
-        
-        // Configuring user position
-        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-        let userCoords = AppState.getNavSceneUserCoords()
-        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
-        
-        // Configuring location marker position
-        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
-        let destCoords = AppState.getNavSceneDestCoords()
-        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
-        
-        //let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
-        //let staircaseMarkerPoint = AppState.getNearestStaircase()
-        //staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
-        
-        // Configuring user's / stairs marker's position
-        if (AppState.isUserOnDestinationLevel()) {
-            self.showPinMarker()
-            self.hideStaircaseMarker()
-            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
-            self.pinX = pinMarker.position.x
-            self.pinY = pinMarker.position.y
-        } else {
-            let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
-            let staircaseMarkerPoint = AppState.getNearestStaircase()
-            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
-            self.hidePinMarker()
-            self.showStaircaseMarker()
-        }
-        
-        self.centerCameraOnUser()
-        self.panCamToTargetAndBack()
-        
-        self.startSensors()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        self.stopSensors()
-    }
-    
-    // Scene manipulation
+    /*
+    ====================================================================================================
+                                          ~ SCENE MANIPULATION ~
+    ====================================================================================================
+    */
     @IBAction func onRecenterPress(_ sender: UIButton) {
-        //let camera = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
+        self.panCameraToUser()
+    }
+    
+    func panCameraToUser() {
         let camera = navigationView.pointOfView!
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         let cameraPanAnimation = CABasicAnimation(keyPath: "position")
@@ -424,11 +470,241 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // camera.removeAllAnimations()
     
     }
+    // Render the floor plan
+    func renderNavScene() {
+        let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
+        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
+        
+        // Configuring user position
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        let userCoords = AppState.getNavSceneUserCoords()
+        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        
+        // Configuring location marker position
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        let destCoords = AppState.getNavSceneDestCoords()
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        
+        // Configuring user's / stairs marker's position
+        if (AppState.isUserOnDestinationLevel()) {
+            self.showPinMarker()
+            self.hideStaircaseMarker()
+            // pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            self.pinX = pinMarker.position.x
+            self.pinY = pinMarker.position.y
+        } else {
+            let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+            let staircaseMarkerPoint = AppState.getNearestStaircase()
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            self.hidePinMarker()
+            self.showStaircaseMarker()
+        }
+        self.panCamToTargetAndBack()
+        
+    }
+    // Show the destination pin marker
+    func showPinMarker () {
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        pinMarker.isHidden = false
+    }
+    // Hide the desintation pin marker
+    func hidePinMarker () {
+        let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
+        pinMarker.isHidden = true
+    }
+    // Show the staircase marker
+    func showStaircaseMarker () {
+        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        staircaseMarker.isHidden = false
+    }
+    // Hide the staircase marker
+    func hideStaircaseMarker () {
+        let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
+        staircaseMarker.isHidden = true
+    }
+    // Checks if user have arrived to its destination
+    func haveArrived(userX: Float, userY: Float) -> Bool {
+        var left : Float = 0
+        var right : Float = 0
+        var d : Float = 0
+        left = (pinX - userX)*(pinX - userX)
+        right = (pinY - userY)*(pinY - userY)
+        d = (left + right).squareRoot()
+        if (d <= 0.04 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
     
-    // Recalibration QR code scanner functions
-    // @IBAction func onRecalibratePress(_ sender: Any) {
-       // self.stopSensors()
-        //
-        // Recycle QRCodeScannerController. Shift to its view, but set a Boolean variable indicating that the current scan is for recalibration
-    //}
+    /*
+    ====================================================================================================
+                                        ~ RECALIBRATION SUBFUNCTION ~
+    ====================================================================================================
+    */
+    @IBAction func startCaptureSession(_ sender: Any) {
+        // Stop sensors
+        self.recalibrationView.isHidden = false
+        self.view.bringSubviewToFront(self.recalibrationView)
+        self.stopSensors()
+        self.captureSession.startRunning()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.recalibrationView.alpha = 1.0
+        }, completion: { (isComplete: Bool) -> Void in
+            // self.scannerView.isUserInteractionEnabled = true
+            self.captureSession.startRunning()
+        })
+    }
+    
+    func stopCaptureSession() {
+        self.captureSession.stopRunning()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.recalibrationView.alpha = 0.0
+        }, completion: { (isComplete: Bool) -> Void in
+            self.recalibrationView.isHidden = true
+            //self.view.bringSubviewToFront(self.recalibrationFrame)
+            self.view.sendSubviewToBack(self.recalibrationView)
+        })
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if metadataObjects.count == 0 {
+            recalibrationFrameBox?.frame = CGRect.zero
+            return
+        }
+        
+        // Get metadata object
+        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        
+        if (metadataObj.type == AVMetadataObject.ObjectType.qr) {
+            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+            recalibrationFrameBox?.frame = barCodeObject!.bounds
+            
+            if metadataObj.stringValue != nil && sizeFitsGuide((recalibrationFrameBox?.frame)!) {
+                print("Size does fit guide.")
+                let qrCodeURL = metadataObj.stringValue!
+                var qrCodeMatches : Int = 0
+                
+                do {
+                    try DB.write { db in
+                        qrCodeMatches = try QRTag.filter(Column("url") == qrCodeURL).fetchCount(db)
+                    }
+                } catch {
+                    print(error)
+                }
+                
+                if (qrCodeMatches == 1) {
+                    print("QR Code matched with 1 in DB.")
+                    // Get building alias information from QR code
+                    let qrCodeBuilding = qrCodeURL.components(separatedBy: "::")[0]
+                    
+                    if (qrCodeBuilding == AppState.getBuilding().alias) {
+                        print("QR Code building info corresponds to current building.")
+                        recalibrateNavigator(rawURL: qrCodeURL)
+                    } else {
+                        print("QR Code building info DOES NOT correspond to current building.")
+                        let failurePrompt = UIAlertController(title: "Recalibration unsuccessful", message: "The scanned QR code belongs to another building.", preferredStyle: .alert)
+                        let retryAction = UIAlertAction(title: "Retry", style: .default, handler: { (action) -> Void in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action) -> Void in
+                            self.dismiss(animated: true, completion: nil)
+                            self.stopCaptureSession()
+                            
+                            // Start sensors
+                            self.startSensors()
+                        })
+                        failurePrompt.addAction(retryAction)
+                        failurePrompt.addAction(cancelAction)
+                        
+                        self.present(failurePrompt, animated: true, completion: nil)
+                    }
+                } else {
+                    print("QR Code matched none.")
+                    if self.presentedViewController != nil {
+                        return
+                    } else {
+                        let failurePrompt = UIAlertController(title: "Recalibration unsuccessful", message: "The scanned QR code could not be recognized.", preferredStyle: .alert)
+                        let retryAction = UIAlertAction(title: "Retry", style: .default, handler: { (action) -> Void in
+                            self.dismiss(animated: true, completion: nil)
+                        })
+                        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action) -> Void in
+                            self.dismiss(animated: true, completion: nil)
+                            self.stopCaptureSession()
+                            
+                            // Start sensors
+                            self.startSensors()
+                        })
+                        failurePrompt.addAction(retryAction)
+                        failurePrompt.addAction(cancelAction)
+                        
+                        self.present(failurePrompt, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+    }
+    
+    func recalibrateNavigator(rawURL: String) {
+        if self.presentedViewController != nil {
+            print("There is currently a presented view controller")
+            return
+        }
+        
+        // Retreive components of QR code
+        let qrCodeFragments = rawURL.components(separatedBy: "::")
+        let qrCodeBuilding = qrCodeFragments[0]
+        let qrCodeFloorLevel = Int(qrCodeFragments[1])!
+        
+        // Variables to store info on QR code, building, and floor
+        var qrTag : QRTag?
+        var building : Building?
+        var floor : Floor?
+        
+        // Prompt message
+        var promptMessage : String
+        
+        do {
+            try DB.write { db in
+                qrTag = try QRTag.fetchOne(db, "SELECT * FROM QRTag WHERE url = ?", arguments: [rawURL])
+                building = try Building.fetchOne(db, "SELECT * FROM Building WHERE alias = ?", arguments: [qrCodeBuilding])
+                floor = try Floor.fetchOne(db, "SELECT * FROM Floor WHERE bldg = ? AND level = ?", arguments: [qrCodeBuilding, qrCodeFloorLevel])
+            }
+        } catch {
+            print(error)
+        }
+        
+        // Setting the prompt message
+        if (floor!.level == AppState.getBuildingCurrentFloor().floorLevel) {
+            promptMessage = "You are still on the same floor. Your position has been fixed."
+        } else {
+            promptMessage = "You are currently on the \(Utilities.ordinalize(floor!.level)) Floor. Your position has been fixed."
+        }
+        
+        let successPrompt = UIAlertController(title: "Recalibration successful.", message: promptMessage, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Continue", style: .default, handler: { (action) -> Void in
+            self.dismiss(animated: true, completion: nil)
+            
+            // Set shared variables
+            AppState.setNavSceneUserCoords(qrTag!.xcoord, qrTag!.ycoord)
+            AppState.setBuildingCurrentFloor(floor!.level)
+            
+            // Re-render navigation scene
+            self.renderNavScene()
+            
+            // Stop capture session and start sensors
+            self.stopCaptureSession()
+            self.startSensors()
+        })
+        successPrompt.addAction(okAction)
+        
+        self.present(successPrompt, animated: true, completion: nil)
+    }
+    
+    func sizeFitsGuide(_ recalibrationFrameBox: CGRect) -> Bool {
+        let guideContainsCode = self.recalibrationFrame.frame.contains(recalibrationFrameBox)
+        let codeAboveThreshold = recalibrationFrameBox.size.width >= (recalibrationFrameThreshold?.width)! && recalibrationFrameBox.size.height >= (recalibrationFrameThreshold?.height)!
+        return (guideContainsCode && codeAboveThreshold)
+    }
 }

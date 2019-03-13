@@ -154,6 +154,7 @@
 		E5D508B0222CE76900FEAE88 /* Staircase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staircase.swift; sourceTree = "<group>"; };
 		E5D53B2F21C369A10033A0A4 /* Textures.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Textures.scnassets; sourceTree = "<group>"; };
 		E5EF549B21FEC6E60082DAEF /* navdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = navdb.sqlite; path = ../../navdb.sqlite; sourceTree = "<group>"; };
+		E5FF819022392BE100A0E698 /* CS199 INS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CS199 INS.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +199,7 @@
 		E5D11D1F21BF831200123FEE /* CS199 INS */ = {
 			isa = PBXGroup;
 			children = (
+				E5FF819022392BE100A0E698 /* CS199 INS.entitlements */,
 				E5D11D2021BF831200123FEE /* AppDelegate.swift */,
 				E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */,
 				E5D11D2221BF831200123FEE /* QRCodeScannerController.swift */,
@@ -293,6 +295,11 @@
 				TargetAttributes = {
 					E5D11D1C21BF831200123FEE = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

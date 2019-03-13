@@ -19,8 +19,6 @@ class Utilities {
     
     static func ordinalize(_ integer : Int) -> String {
         switch integer {
-        case 0:
-            return "basement"
         case 1:
             return "ground"
         case 2:
