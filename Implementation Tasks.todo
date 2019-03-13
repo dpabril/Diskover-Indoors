@@ -55,6 +55,7 @@ Application:
         ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
         ☐ Scan QR codes under the hood for relocalization
           > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
+          > BETTER OPTION? : Add a hidden subview to the navigation scene view that is shown when "Recalibrate" is pressed. After scan (of either outcome) display a UIAlert (style: .alert) and proceed accordingly
         ☐ Rework staircase logic @low
           * or maybe not
       ☐ Refine filter and movement vector calculation
@@ -63,6 +64,8 @@ Application:
       ☐ Add a Pause functionality
       ☐ Use SpriteKit instead of SceneKit @low
       ☐ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer)
+      ☐ Bind camera to user marker
+      ☐ Allow rotation of camera to simulate rotation of world around user (switch between this and default view)
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)
@@ -78,10 +81,13 @@ Application:
       ✔ use indexPath.section along with indexPath.row to fix some issues @done (19-02-09 17:31)
 
     ☐ Miscellaneous
-      ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
       ☐ Consider variable fixed-length movement; n velocity bins depending on current velocity
-      ☐ Create icon assets for tab bar @low
+      ☐ Add images of room facades to app @high
+      ☐ Transfer scaling of nodes in NavigationScene.scn to respective .scn files; set to 1.00 in former
+      ☐ Produce builds for Testflight
       ☐ Other tasks (enumerate when fleshed out)
+      ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
+      ✔ Create icon assets for tab bar @low @done (19-03-12 11:37)
 
     Issues:
       ✔ Fix "Error: Failed to load <image>" @high @done (18-12-14 12:42) -- tanga lang si Xcode di makita yung folder

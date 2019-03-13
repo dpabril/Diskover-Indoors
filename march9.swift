@@ -10,7 +10,7 @@
 // > add AVCaptureMetadataOutputObjectsDelegate parent class to NavigationController
 // > replace 'view' UIViewController instance variable with 'cameraView' as defined below
 // > copy metadataOutput function, rename launchNavigator -> recalibrateNavigator
-// > upon successful scan, call function to dismiss UIAlertController and do captureSession.stop()
+// > upon successful scan or cancel, call function to dismiss UIAlertController and do captureSession.stop()
 let recalibrationPrompt = UIAlertController(title: "Recalibrate position", message: "Scan a nearby QR code to recalibrate your position.", preferredStyle: .actionSheet)
 
 let cameraView = UIView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
@@ -22,6 +22,7 @@ recalibrationPrompt.view.addConstraint(height)
 recalibrationPrompt.view.addConstraint(width)
 
 let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: { (action) -> Void in
+    captureSession.stop()
     self.startSensors()
 })
 recalibrationPrompt.addAction(cancelAction)
@@ -29,6 +30,7 @@ recalibrationPrompt.addAction(cancelAction)
 // <NEW 3>
 // in NavigationController.swift : Reposition camera (add button for this)
 // > in viewWillAppear, set camera to hover over user marker
+/*
 @IBAction func onRecenterPress(_ sender: UIButton, forEvent event: UIEvent) { 
     let camera = self.scene.rootNode.childNode(withName: "sceneCamera", recursively: true)!
     let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
@@ -81,7 +83,7 @@ panAnimations.duration = 5.00
 camera.addAnimation(panAnimations, forKey: nil)
 camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
 // camera.removeAllAnimations()
-
+*/
 
 
 // <NEW 5>
