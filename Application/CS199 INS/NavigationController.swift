@@ -64,10 +64,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
     
     /*
-    ====================================================================================================
-                                        ~ CONTROLLER FUNCTIONS ~
-    ====================================================================================================
-    */
+     ====================================================================================================
+     ~ CONTROLLER FUNCTIONS ~
+     ====================================================================================================
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -185,10 +185,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     
     /*
-    ====================================================================================================
-                                         ~ SENSORS MANAGEMENT ~
-    ====================================================================================================
-    */
+     ====================================================================================================
+     ~ SENSORS MANAGEMENT ~
+     ====================================================================================================
+     */
     // Magnetometer functions
     func startCompass() {
         if CLLocationManager.headingAvailable() {
@@ -404,10 +404,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     
     /*
-    ====================================================================================================
-                                          ~ SCENE MANIPULATION ~
-    ====================================================================================================
-    */
+     ====================================================================================================
+     ~ SCENE MANIPULATION ~
+     ====================================================================================================
+     */
     @IBAction func onRecenterPress(_ sender: UIButton) {
         self.panCameraToUser()
     }
@@ -468,7 +468,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         camera.addAnimation(panAnimations, forKey: nil)
         camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
         // camera.removeAllAnimations()
-    
+        
+        // Shows user and destination message bubbles
+        self.showBubble()
+        
     }
     // Render the floor plan
     func renderNavScene() {
@@ -522,6 +525,31 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
         staircaseMarker.isHidden = true
     }
+    // Show user and pin bubble
+     func showBubble () {
+     let userBubble = self.scene.rootNode.childNode(withName: "You", recursively: true)!
+     let userCoords = AppState.getNavSceneUserCoords()
+     userBubble.position = SCNVector3(userCoords.x, userCoords.y + 0.02, -1.679)
+     
+     let destinationBubble = self.scene.rootNode.childNode(withName: "Destination", recursively: true)!
+     let destCoords = AppState.getNavSceneDestCoords()
+     destinationBubble.position = SCNVector3(destCoords.x, destCoords.y + 0.02, -1.679)
+     let textGeometry = destinationBubble.geometry as! SCNText
+     textGeometry.string = AppState.getDestinationTitle().title
+        if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+            destinationBubble.isHidden = false
+        }
+        else {
+            destinationBubble.isHidden = true
+        }
+/*
+     let hide = SCNAction.fadeOut(duration: 0.1)
+     let timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
+        userBubble.runAction(hide)
+        destinationBubble.runAction(hide)
+        }
+*/
+     }
     // Checks if user have arrived to its destination
     func haveArrived(userX: Float, userY: Float) -> Bool {
         var left : Float = 0
@@ -539,10 +567,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     
     /*
-    ====================================================================================================
-                                        ~ RECALIBRATION SUBFUNCTION ~
-    ====================================================================================================
-    */
+     ====================================================================================================
+     ~ RECALIBRATION SUBFUNCTION ~
+     ====================================================================================================
+     */
     @IBAction func startCaptureSession(_ sender: Any) {
         // Stop sensors
         self.recalibrationView.isHidden = false

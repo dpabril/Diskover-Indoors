@@ -125,6 +125,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B3B93871223A2348003FA3A5 /* CS199 INS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CS199 INS.entitlements"; sourceTree = "<group>"; };
 		B3E936CE222A4B76004AD718 /* FloorLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorLevel.swift; sourceTree = "<group>"; };
 		B3EF70822236482100D22302 /* DestTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestTitle.swift; sourceTree = "<group>"; };
 		B3EF708B22364B5700D22302 /* DestSubtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestSubtitle.swift; sourceTree = "<group>"; };
@@ -154,7 +155,6 @@
 		E5D508B0222CE76900FEAE88 /* Staircase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staircase.swift; sourceTree = "<group>"; };
 		E5D53B2F21C369A10033A0A4 /* Textures.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Textures.scnassets; sourceTree = "<group>"; };
 		E5EF549B21FEC6E60082DAEF /* navdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = navdb.sqlite; path = ../../navdb.sqlite; sourceTree = "<group>"; };
-		E5FF819022392BE100A0E698 /* CS199 INS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CS199 INS.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +185,7 @@
 				E5D11D6221BF96DA00123FEE /* GRDB.xcodeproj */,
 				E5D11D1F21BF831200123FEE /* CS199 INS */,
 				E5D11D1E21BF831200123FEE /* Products */,
+				B3B93871223A2348003FA3A5 /* CS199 INS.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,7 +200,6 @@
 		E5D11D1F21BF831200123FEE /* CS199 INS */ = {
 			isa = PBXGroup;
 			children = (
-				E5FF819022392BE100A0E698 /* CS199 INS.entitlements */,
 				E5D11D2021BF831200123FEE /* AppDelegate.swift */,
 				E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */,
 				E5D11D2221BF831200123FEE /* QRCodeScannerController.swift */,
@@ -296,6 +296,9 @@
 					E5D11D1C21BF831200123FEE = {
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
 							com.apple.Keychain = {
 								enabled = 0;
 							};
@@ -586,6 +589,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "CS199 INS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MMZ7BT2CHM;
 				INFOPLIST_FILE = "$(SRCROOT)/CS199 INS/Info.plist";
@@ -605,6 +609,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "CS199 INS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MMZ7BT2CHM;
 				INFOPLIST_FILE = "$(SRCROOT)/CS199 INS/Info.plist";
