@@ -23,6 +23,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     @IBOutlet weak var averageVLabel: UILabel!
     @IBOutlet weak var maxAveLabel: UILabel!
     @IBOutlet weak var destTitleLabel: UILabel!
+    @IBOutlet weak var recalibrateButton: UIButton!
     
     // Variables for use with recalibration
     @IBOutlet weak var recalibrationView: UIView!
@@ -62,6 +63,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
+    var cameraLockedOnUser = false
+    var recalibrationViewIsDisplayed = false
     
     /*
      ====================================================================================================
@@ -169,8 +172,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         self.centerCameraOnUser()
         self.panCamToTargetAndBack()
-        
-        self.startSensors()
+        // Start sensors after animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.startSensors()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -204,6 +209,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         userMarker.eulerAngles.z = -Utilities.degToRad(90 + newHeading.magneticHeading)
+
+        if (self.cameraLockedOnUser) {
+            let camera = self.navigationView.pointOfView!
+            camera.eulerAngles.z = userMarker.eulerAngles.z
+            print(Utilities.radToDeg(Double(camera.eulerAngles.z)))
+        }
     }
     func stopCompass() {
         if CLLocationManager.headingAvailable() {
@@ -341,7 +352,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     if (self.pos >= 0.00063){
                         self.pos = 0.00063
                     }
-                    print(self.pos)
+                    //print(self.pos)
                     self.averageV = ( self.averageV + lastV ) / Double(self.count)
                     if (self.averageV > self.maxAve) {
                         self.maxAve = self.averageV
@@ -352,8 +363,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                     
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+                    let camera = self.navigationView.pointOfView!
                     //user.simdPosition += user.simdWorldFront * 0.0004998
                     user.simdPosition += user.simdWorldFront * (Float(self.pos))
+                    camera.position = SCNVector3(user.position.x, user.position.y, camera.position.z)
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
@@ -408,8 +421,28 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ~ SCENE MANIPULATION ~
      ====================================================================================================
      */
-    @IBAction func onRecenterPress(_ sender: UIButton) {
-        self.panCameraToUser()
+    @IBAction func onShowDestinationPress(_ sender: UIButton) {
+        // Stop sensors to prepare animation
+        self.stopSensors()
+        self.panCamToTargetAndBack()
+        // Start sensors after animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.startSensors()
+        }
+    }
+    @IBAction func onLockCameraPress(_ sender: UIButton) {
+        if (!self.cameraLockedOnUser) {
+            self.cameraLockedOnUser = true
+            sender.setTitle("Unlock Camera", for: UIControl.State.normal)
+            let camera = self.navigationView.pointOfView!
+            let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+            camera.eulerAngles.z = userMarker.eulerAngles.z
+        } else {
+            self.cameraLockedOnUser = false
+            sender.setTitle("Lock Camera", for: UIControl.State.normal)
+            let camera = self.navigationView.pointOfView!
+            camera.eulerAngles.z = 0.0
+        }
     }
     
     func panCameraToUser() {
@@ -450,11 +483,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         panFromCamToTarget.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         panFromCamToTarget.beginTime = 0.00
         panFromCamToTarget.fillMode = .forwards
-        // camera.position = SCNVector3(targetMarker.position.x, targetMarker.position.y, camera.position.z)
         
         let panFromTargetToUser = CABasicAnimation(keyPath: "position")
         panFromTargetToUser.fromValue = SCNVector3(targetMarker.position.x, targetMarker.position.y, camera.position.z)
-        // panFromTargetToUser.fromValue = camera.position
         panFromTargetToUser.toValue = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
         panFromTargetToUser.duration = 1.00
         panFromTargetToUser.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
@@ -464,14 +495,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         panAnimations.animations = [panFromCamToTarget, panFromTargetToUser]
         panAnimations.duration = 3.00
         
-        // panAnimations.removedOnCompletion = NO
         camera.addAnimation(panAnimations, forKey: nil)
         camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
-        // camera.removeAllAnimations()
         
         // Shows user and destination message bubbles
         self.showBubble()
-        
     }
     // Render the floor plan
     func renderNavScene() {
@@ -571,18 +599,25 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ~ RECALIBRATION SUBFUNCTION ~
      ====================================================================================================
      */
-    @IBAction func startCaptureSession(_ sender: Any) {
-        // Stop sensors
-        self.recalibrationView.isHidden = false
-        self.view.bringSubviewToFront(self.recalibrationView)
-        self.stopSensors()
-        self.captureSession.startRunning()
-        UIView.animate(withDuration: 0.3, animations: {
-            self.recalibrationView.alpha = 1.0
-        }, completion: { (isComplete: Bool) -> Void in
-            // self.scannerView.isUserInteractionEnabled = true
+    @IBAction func startCaptureSession(_ sender: UIButton) {
+        if (self.recalibrationViewIsDisplayed) {
+            self.stopCaptureSession()
+        } else {
+            self.recalibrationView.isHidden = false
+            self.view.bringSubviewToFront(self.recalibrationView)
+            
+            // Stop sensors
+            self.stopSensors()
             self.captureSession.startRunning()
-        })
+            UIView.animate(withDuration: 0.3, animations: {
+                self.recalibrationView.alpha = 1.0
+            }, completion: { (isComplete: Bool) -> Void in
+                // self.scannerView.isUserInteractionEnabled = true
+                self.captureSession.startRunning()
+                sender.setTitle("Cancel", for: .normal)
+                self.recalibrationViewIsDisplayed = true
+            })
+        }
     }
     
     func stopCaptureSession() {
@@ -593,6 +628,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.recalibrationView.isHidden = true
             //self.view.bringSubviewToFront(self.recalibrationFrame)
             self.view.sendSubviewToBack(self.recalibrationView)
+            self.recalibrateButton.setTitle("Recalibrate", for: .normal)
+            self.recalibrationViewIsDisplayed = false
+            
         })
     }
     
@@ -681,14 +719,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         }
         
         // Retreive components of QR code
-        let qrCodeFragments = rawURL.components(separatedBy: "::")
-        let qrCodeBuilding = qrCodeFragments[0]
-        let qrCodeFloorLevel = Int(qrCodeFragments[1])!
+        let qrCodeFloorLevel = Int(rawURL.components(separatedBy: "::")[1])!
+//        let qrCodeBuilding = qrCodeFragments[0]
+//        let qrCodeFloorLevel = Int(qrCodeFragments[1])!
         
         // Variables to store info on QR code, building, and floor
         var qrTag : QRTag?
-        var building : Building?
-        var floor : Floor?
         
         // Prompt message
         var promptMessage : String
@@ -696,18 +732,16 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         do {
             try DB.write { db in
                 qrTag = try QRTag.fetchOne(db, "SELECT * FROM QRTag WHERE url = ?", arguments: [rawURL])
-                building = try Building.fetchOne(db, "SELECT * FROM Building WHERE alias = ?", arguments: [qrCodeBuilding])
-                floor = try Floor.fetchOne(db, "SELECT * FROM Floor WHERE bldg = ? AND level = ?", arguments: [qrCodeBuilding, qrCodeFloorLevel])
             }
         } catch {
             print(error)
         }
         
         // Setting the prompt message
-        if (floor!.level == AppState.getBuildingCurrentFloor().floorLevel) {
+        if (qrCodeFloorLevel == AppState.getBuildingCurrentFloor().floorLevel) {
             promptMessage = "You are still on the same floor. Your position has been fixed."
         } else {
-            promptMessage = "You are currently on the \(Utilities.ordinalize(floor!.level)) Floor. Your position has been fixed."
+            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel)) Floor. Your position has been fixed."
         }
         
         let successPrompt = UIAlertController(title: "Recalibration successful.", message: promptMessage, preferredStyle: .alert)
@@ -716,7 +750,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             
             // Set shared variables
             AppState.setNavSceneUserCoords(qrTag!.xcoord, qrTag!.ycoord)
-            AppState.setBuildingCurrentFloor(floor!.level)
+            AppState.setBuildingCurrentFloor(qrCodeFloorLevel)
             
             // Re-render navigation scene
             self.renderNavScene()

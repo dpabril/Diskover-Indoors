@@ -98,10 +98,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J6B-wU-WOP">
-                                <rect key="frame" x="289" y="87" width="70" height="30"/>
-                                <state key="normal" title="Recenter"/>
+                                <rect key="frame" x="229" y="87" width="130" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="130" id="40B-an-ufV"/>
+                                </constraints>
+                                <state key="normal" title="Show Destination"/>
                                 <connections>
-                                    <action selector="onRecenterPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="5fI-M0-07D"/>
+                                    <action selector="onShowDestinationPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="hCy-bx-TOA"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2u-Ey-Z4e" userLabel="Notice">
@@ -142,28 +145,35 @@
                                     <action selector="startCaptureSession:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="jTl-t5-Ntf"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N2o-No-fkO">
+                                <rect key="frame" x="16" y="87" width="90" height="30"/>
+                                <state key="normal" title="Lock Camera"/>
+                                <connections>
+                                    <action selector="onLockCameraPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="48Z-mv-K5d"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="YKH-TD-nhv" secondAttribute="top" constant="87" id="4VN-I3-mEQ"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="trailing" secondItem="YKH-TD-nhv" secondAttribute="trailingMargin" id="1cp-kF-A74"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="UnP-OR-Pk9" secondAttribute="bottom" constant="8" symbolic="YES" id="26L-e4-6dU"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="baseline" secondItem="N2o-No-fkO" secondAttribute="baseline" id="3Ok-rO-zjl"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="YKH-TD-nhv" secondAttribute="top" constant="87" id="76K-7I-TN1"/>
                             <constraint firstItem="EOT-Me-s7D" firstAttribute="trailing" secondItem="JSo-rf-TYo" secondAttribute="trailing" id="9Ml-C3-heI"/>
-                            <constraint firstItem="J6B-wU-WOP" firstAttribute="leading" secondItem="Kxl-op-w2y" secondAttribute="leading" constant="289" id="A8j-ui-q8S"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerY" secondItem="Zmk-b7-6bY" secondAttribute="centerY" id="Lzo-PA-7oI"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
+                            <constraint firstItem="J6B-wU-WOP" firstAttribute="trailing" secondItem="EOT-Me-s7D" secondAttribute="trailing" id="Z1n-Zl-EHS"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="Zmk-b7-6bY" secondAttribute="centerX" id="ZLq-5o-w4o"/>
                             <constraint firstItem="EOT-Me-s7D" firstAttribute="trailing" secondItem="wmM-OJ-iHU" secondAttribute="trailing" id="bsy-av-wbM"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" id="dDl-49-FXf"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="bottom" secondItem="Zmk-b7-6bY" secondAttribute="bottom" id="gwJ-RJ-YFQ"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="h2u-Ey-Z4e" secondAttribute="centerX" id="hdC-TP-hLI"/>
-                            <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="UnP-OR-Pk9" secondAttribute="bottom" constant="8" symbolic="YES" id="hj4-QR-IcS"/>
+                            <constraint firstItem="EOT-Me-s7D" firstAttribute="top" secondItem="J6B-wU-WOP" secondAttribute="bottom" constant="8" symbolic="YES" id="isx-92-reX"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="UnP-OR-Pk9" secondAttribute="centerX" id="ivO-Fn-sFV"/>
-                            <constraint firstItem="EOT-Me-s7D" firstAttribute="trailing" secondItem="J6B-wU-WOP" secondAttribute="trailing" id="lZ0-8v-tZa"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
-                            <constraint firstAttribute="trailing" secondItem="J6B-wU-WOP" secondAttribute="trailing" constant="16" id="oSk-9B-cSe"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="JSo-rf-TYo" secondAttribute="centerX" id="pbb-iK-TIB"/>
                             <constraint firstItem="EOT-Me-s7D" firstAttribute="trailing" secondItem="h2u-Ey-Z4e" secondAttribute="trailing" id="rfI-gP-nkY"/>
                             <constraint firstItem="ZWt-M8-kTm" firstAttribute="top" secondItem="7dh-oq-QAL" secondAttribute="bottom" constant="92" id="rko-ZH-v69"/>
-                            <constraint firstItem="EOT-Me-s7D" firstAttribute="top" secondItem="J6B-wU-WOP" secondAttribute="bottom" constant="8" symbolic="YES" id="vIh-1S-pFC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kxl-op-w2y"/>
                     </view>
@@ -176,6 +186,7 @@
                         <outlet property="maxAveLabel" destination="UnP-OR-Pk9" id="Lmx-vY-GZM"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
                         <outlet property="reachedDestLabel" destination="wmM-OJ-iHU" id="VIv-S6-dhm"/>
+                        <outlet property="recalibrateButton" destination="EOT-Me-s7D" id="RbP-Uh-Awk"/>
                         <outlet property="recalibrationFrame" destination="9M9-Pw-VRW" id="cuI-x9-Ho7"/>
                         <outlet property="recalibrationView" destination="7dh-oq-QAL" id="dGb-yx-47x"/>
                     </connections>

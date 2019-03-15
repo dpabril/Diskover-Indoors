@@ -17,6 +17,10 @@ class Utilities {
         return Float(degrees * .pi / 180)
     }
     
+    static func radToDeg(_ radians : Double) -> Float {
+        return Float(radians * 180 / .pi)
+    }
+    
     static func ordinalize(_ integer : Int) -> String {
         switch integer {
         case 1:
