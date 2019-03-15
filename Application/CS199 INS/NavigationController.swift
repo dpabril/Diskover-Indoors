@@ -554,29 +554,65 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         staircaseMarker.isHidden = true
     }
     // Show user and pin bubble
-     func showBubble () {
-     let userBubble = self.scene.rootNode.childNode(withName: "You", recursively: true)!
-     let userCoords = AppState.getNavSceneUserCoords()
-     userBubble.position = SCNVector3(userCoords.x, userCoords.y + 0.02, -1.679)
-     
-     let destinationBubble = self.scene.rootNode.childNode(withName: "Destination", recursively: true)!
-     let destCoords = AppState.getNavSceneDestCoords()
-     destinationBubble.position = SCNVector3(destCoords.x, destCoords.y + 0.02, -1.679)
-     let textGeometry = destinationBubble.geometry as! SCNText
-     textGeometry.string = AppState.getDestinationTitle().title
+    func showBubble () {
+        let show = SCNAction.fadeIn(duration: 0)
+        
+        let userBubble = self.scene.rootNode.childNode(withName: "You", recursively: true)!
+        let userCoords = AppState.getNavSceneUserCoords()
+        userBubble.position = SCNVector3(userCoords.x, userCoords.y + 0.02, -1.679)
+        userBubble.runAction(show)
+       /*
+        let userBox = self.scene.rootNode.childNode(withName: "UserBox", recursively: true) as! SCNBox
+        let (min, max) = userBubble.boundingBox
+        userBox.width = max.x - min.x
+        userBox.height = max.y - min.y
+        userBox.length = max.z - min.z
+        userBox.position = SCNVector3(userBubble.position.x, userBubble.position.y, userBubble.position.z)
+ 
+        let box = SCNBox(width: CGFloat(max.x - min.x), height: CGFloat(max.y - min.y), length: CGFloat(max.z - min.z), chamferRadius: 0.2)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.red
+        box.materials = [material]
+        let boxNode = SCNNode(geometry: box)
+        boxNode.position = SCNVector3(0,0,-0.5)
+        scene.rootNode.addChildNode(boxNode)
+        */
+        
+        let (min, max) = userBubble.boundingBox
+        let userBox = SCNPlane(width: CGFloat(max.x - min.x), height: CGFloat(max.y - min.y))
+        userBox.cornerRadius = 0.2
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.red
+        userBox.materials = [material]
+        let userBoxNode = SCNNode(geometry: userBox)
+        userBoxNode.position = SCNVector3(userBubble.position.x, userBubble.position.y, userBubble.position.z)
+        userBoxNode.scale = SCNVector3(0.03, 0.03, 0.03)
+        scene.rootNode.addChildNode(userBoxNode)
+        
+        let destinationBubble = self.scene.rootNode.childNode(withName: "Destination", recursively: true)!
+        let destCoords = AppState.getNavSceneDestCoords()
+        destinationBubble.position = SCNVector3(destCoords.x, destCoords.y + 0.02, -1.679)
+        destinationBubble.runAction(show)
+        
+        let textGeometry = destinationBubble.geometry as! SCNText
+        textGeometry.string = AppState.getDestinationTitle().title
         if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             destinationBubble.isHidden = false
         }
         else {
             destinationBubble.isHidden = true
         }
-/*
-     let hide = SCNAction.fadeOut(duration: 0.1)
-     let timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { timer in
-        userBubble.runAction(hide)
-        destinationBubble.runAction(hide)
-        }
-*/
+        
+        let hide = SCNAction.fadeOut(duration: 0.05)
+        let timer = Timer.scheduledTimer(withTimeInterval: 3.3, repeats: true) { timer in
+            userBubble.runAction(hide)
+            destinationBubble.runAction(hide)
+            userBoxNode.runAction(hide)
+            timer.invalidate()
+            }
+        //timer.fire()
+        //
+        //timer.fire()
      }
     // Checks if user have arrived to its destination
     func haveArrived(userX: Float, userY: Float) -> Bool {
