@@ -566,13 +566,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         userMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
         userMessageGeometry.firstMaterial?.isDoubleSided = true
-        userMessageGeometry.font = UIFont(name: "Menlo", size: CGFloat(3.0))
+        userMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
         userMessageGeometry.flatness = 0
         
         userMessageNode.geometry = userMessageGeometry
         
         let userCoords = AppState.getNavSceneUserCoords()
-        userMessageNode.position = SCNVector3(userCoords.x, userCoords.y + 0.07, -1.679)
+        userMessageNode.position = SCNVector3(userCoords.x, userCoords.y + 0.05, -1.679)
         userMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
         
         let userMax, userMin: SCNVector3
@@ -595,7 +595,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         userBGNode.geometry = userBGGeometry
         
-        userBGNode.position = SCNVector3(userCoords.x, userCoords.y + 0.07, -1.682)
+        userBGNode.position = SCNVector3(userCoords.x, userCoords.y + 0.05, -1.682)
         userBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
         
         // Destination message bubble text
@@ -605,13 +605,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         destMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
         destMessageGeometry.firstMaterial?.isDoubleSided = true
-        destMessageGeometry.font = UIFont(name: "Menlo", size: CGFloat(3.0))
+        destMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
         destMessageGeometry.flatness = 0
         
         destMessageNode.geometry = destMessageGeometry
         
         let destCoords = AppState.getNavSceneDestCoords()
-        destMessageNode.position = SCNVector3(destCoords.x, destCoords.y - 0.05, -1.679)
+        destMessageNode.position = SCNVector3(destCoords.x, destCoords.y - 0.03, -1.679)
         destMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
         
         let destMax, destMin: SCNVector3
@@ -634,7 +634,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         destBGNode.geometry = destBGGeometry
         
-        destBGNode.position = SCNVector3(destCoords.x, destCoords.y - 0.05, -1.682)
+        destBGNode.position = SCNVector3(destCoords.x, destCoords.y - 0.03, -1.682)
         destBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
         
         // Loading both the user bubble and destination to the messageBubble node
