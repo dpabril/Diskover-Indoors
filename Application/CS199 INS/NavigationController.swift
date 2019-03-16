@@ -371,20 +371,20 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
                         self.reachedDestLabel.text = "Reached Destination: TRUE"
+                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
+                        let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
-                        let alertPrompt = UIAlertController(title: "You have arrived.", message: " ", preferredStyle: .alert)
-                        
-                        let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
+                        let imageView = UIImageView(frame: CGRect(x: 10, y: 90, width: 250, height: 230))
                         imageView.image = UIImage(named: "image")
                         alertPrompt.view.addSubview(imageView)
                         
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 330)
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 370)
                         alertPrompt.view.addConstraint(height)
                         
                         let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
                         alertPrompt.view.addConstraint(width)
                         
-                        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
                         
                         self.present(alertPrompt, animated: true, completion: nil)
