@@ -557,63 +557,114 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     func showBubble () {
         let show = SCNAction.fadeIn(duration: 0)
         
-        let userBubble = self.scene.rootNode.childNode(withName: "You", recursively: true)!
+        let userMessageBubble = SCNNode()
+        let destMessageBubble = SCNNode()
+        
+        // User message bubble text
+        let userMessageNode = SCNNode()
+        let userMessageGeometry = SCNText(string: "You", extrusionDepth: 0)
+        
+        userMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
+        userMessageGeometry.firstMaterial?.isDoubleSided = true
+        userMessageGeometry.font = UIFont(name: "Menlo", size: CGFloat(3.0))
+        userMessageGeometry.flatness = 0
+        
+        userMessageNode.geometry = userMessageGeometry
+        
         let userCoords = AppState.getNavSceneUserCoords()
-        userBubble.position = SCNVector3(userCoords.x, userCoords.y + 0.02, -1.679)
-        userBubble.runAction(show)
-       /*
-        let userBox = self.scene.rootNode.childNode(withName: "UserBox", recursively: true) as! SCNBox
-        let (min, max) = userBubble.boundingBox
-        userBox.width = max.x - min.x
-        userBox.height = max.y - min.y
-        userBox.length = max.z - min.z
-        userBox.position = SCNVector3(userBubble.position.x, userBubble.position.y, userBubble.position.z)
- 
-        let box = SCNBox(width: CGFloat(max.x - min.x), height: CGFloat(max.y - min.y), length: CGFloat(max.z - min.z), chamferRadius: 0.2)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
-        box.materials = [material]
-        let boxNode = SCNNode(geometry: box)
-        boxNode.position = SCNVector3(0,0,-0.5)
-        scene.rootNode.addChildNode(boxNode)
-        */
+        userMessageNode.position = SCNVector3(userCoords.x, userCoords.y + 0.07, -1.679)
+        userMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
         
-        let (min, max) = userBubble.boundingBox
-        let userBox = SCNPlane(width: CGFloat(max.x - min.x), height: CGFloat(max.y - min.y))
-        userBox.cornerRadius = 0.2
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
-        userBox.materials = [material]
-        let userBoxNode = SCNNode(geometry: userBox)
-        userBoxNode.position = SCNVector3(userBubble.position.x, userBubble.position.y, userBubble.position.z)
-        userBoxNode.scale = SCNVector3(0.03, 0.03, 0.03)
-        scene.rootNode.addChildNode(userBoxNode)
+        let userMax, userMin: SCNVector3
+        userMax = userMessageGeometry.boundingBox.max
+        userMin = userMessageGeometry.boundingBox.min
+        userMessageNode.pivot = SCNMatrix4MakeTranslation(
+            userMin.x + (userMax.x - userMin.x)/2,
+            userMin.y + (userMax.y - userMin.y)/2,
+            userMin.z + (userMax.z - userMin.z)/2
+        )
         
-        let destinationBubble = self.scene.rootNode.childNode(withName: "Destination", recursively: true)!
+        // User message bubble background
+        let userBGNode = SCNNode()
+        
+        let userBGGeometry = SCNPlane(width: CGFloat((userMax.x - userMin.x) * 1.5), height: CGFloat((userMax.y - userMin.y) * 1.5))
+        userBGGeometry.cornerRadius = 0.7
+        let userMaterial = SCNMaterial()
+        userMaterial.diffuse.contents = UIColor.blue
+        userBGGeometry.materials = [userMaterial]
+        
+        userBGNode.geometry = userBGGeometry
+        
+        userBGNode.position = SCNVector3(userCoords.x, userCoords.y + 0.07, -1.682)
+        userBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
+        
+        // Destination message bubble text
+        let destMessageNode = SCNNode()
+        let destMessageGeometry = SCNText(string: "DESPA", extrusionDepth: 0)
+        destMessageGeometry.string = AppState.getDestinationTitle().title
+        
+        destMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
+        destMessageGeometry.firstMaterial?.isDoubleSided = true
+        destMessageGeometry.font = UIFont(name: "Menlo", size: CGFloat(3.0))
+        destMessageGeometry.flatness = 0
+        
+        destMessageNode.geometry = destMessageGeometry
+        
         let destCoords = AppState.getNavSceneDestCoords()
-        destinationBubble.position = SCNVector3(destCoords.x, destCoords.y + 0.02, -1.679)
-        destinationBubble.runAction(show)
+        destMessageNode.position = SCNVector3(destCoords.x, destCoords.y - 0.05, -1.679)
+        destMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
         
-        let textGeometry = destinationBubble.geometry as! SCNText
-        textGeometry.string = AppState.getDestinationTitle().title
+        let destMax, destMin: SCNVector3
+        destMax = destMessageGeometry.boundingBox.max
+        destMin = destMessageGeometry.boundingBox.min
+        destMessageNode.pivot = SCNMatrix4MakeTranslation(
+            destMin.x + (destMax.x - destMin.x)/2,
+            destMin.y + (destMax.y - destMin.y)/2,
+            destMin.z + (destMax.z - destMin.z)/2
+        )
+        
+        // Destination message bubble background
+        let destBGNode = SCNNode()
+        
+        let destBGGeometry = SCNPlane(width: CGFloat((destMax.x - destMin.x) * 1.5), height: CGFloat((destMax.y - destMin.y) * 1.5))
+        destBGGeometry.cornerRadius = 0.7
+        let destMaterial = SCNMaterial()
+        destMaterial.diffuse.contents = UIColor.blue
+        destBGGeometry.materials = [destMaterial]
+        
+        destBGNode.geometry = destBGGeometry
+        
+        destBGNode.position = SCNVector3(destCoords.x, destCoords.y - 0.05, -1.682)
+        destBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
+        
+        // Loading both the user bubble and destination to the messageBubble node
+        userMessageBubble.addChildNode(userMessageNode)
+        userMessageBubble.addChildNode(userBGNode)
+        destMessageBubble.addChildNode(destMessageNode)
+        destMessageBubble.addChildNode(destBGNode)
+        
+        self.scene.rootNode.addChildNode(userMessageBubble)
+        self.scene.rootNode.addChildNode(destMessageBubble)
+        
+        userMessageBubble.runAction(show)
+        destMessageBubble.runAction(show)
+        
         if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
-            destinationBubble.isHidden = false
+            destMessageBubble.isHidden = false
         }
         else {
-            destinationBubble.isHidden = true
+            destMessageBubble.isHidden = true
         }
         
         let hide = SCNAction.fadeOut(duration: 0.05)
         let timer = Timer.scheduledTimer(withTimeInterval: 3.3, repeats: true) { timer in
-            userBubble.runAction(hide)
-            destinationBubble.runAction(hide)
-            userBoxNode.runAction(hide)
+            userMessageBubble.runAction(hide)
+            destMessageBubble.runAction(hide)
             timer.invalidate()
-            }
-        //timer.fire()
-        //
-        //timer.fire()
-     }
+        }
+        
+    }
+    
     // Checks if user have arrived to its destination
     func haveArrived(userX: Float, userY: Float) -> Bool {
         var left : Float = 0
