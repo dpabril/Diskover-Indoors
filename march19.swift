@@ -36,3 +36,40 @@
     sender.setTranslation(CGPoint.zero, in: self.view)
 }
 
+// <NEW 8>
+// in NavigationController.swift : Gesture recognizer for pinch
+
+// var pinchGestureRecognizer = UIPinchGestureRecognizer()
+
+// override func viewDidLoad() {
+//     self.view.addGestureRecognizer(self.pinchGestureRecognizer)
+// }
+
+@IBAction func viewIsPinched(_ sender: UIPinchGestureRecognizer) {
+    let camera = self.navigationScene.pointOfView!
+    if (sender.velocity < 0) {
+        camera.position.z -= 0.001 // ?
+    } elsif (sender.velocity > 0) {
+        camera.position.z += 0.001 // ?
+    }
+
+    // if (sender.state == .ended) {
+    //     camera.position.z = -123 // Placeholder for the original value
+    // }
+
+    sender.scale = 1.0
+}
+
+// <NEW 9>
+// in NavigationController.swift : Gesture recognizer for rotation
+
+// var rotateGestureRecognizer = UIRotatationGestureRecognizer()
+
+// override func viewDidLoad() {
+//     self.view.addGestureRecognizer(self.rotateGestureRecognizer)
+// }
+
+@IBAction func viewIsRotated(_ sender: UIRotatationGestureRecognizer) {
+    let camera = self.navigationScene.pointOfView!
+    camera.eulerAngles.z = sender.rotation // scale this
+}
