@@ -42,6 +42,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     // Variables needed to detect if user haved arrived to destination
     var pinX : Float = 0
     var pinY : Float = 0
+    var shownArrived : Bool = false
+    var shownVicinity : Bool = false
     
     // Acceleration and velocity variables
     var accelXs : [Double] = [0, 0, 0, 0]
@@ -153,6 +155,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
+        self.shownVicinity = false
+        self.shownArrived = false
         pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
         
         // Configuring user's / stairs marker's position
@@ -278,6 +282,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.panCamToTargetAndBack()
             let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
             let destCoords = AppState.getNavSceneDestCoords()
+            self.shownVicinity = false
+            self.shownArrived = false
             pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
             self.pinX = pinMarker.position.x
             self.pinY = pinMarker.position.y
@@ -369,7 +375,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     camera.position = SCNVector3(user.position.x, user.position.y, camera.position.z)
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
-                    if (self.haveArrived(userX: user.position.x, userY: user.position.y)) {
+                    if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
                         self.reachedDestLabel.text = "Reached Destination: TRUE"
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
@@ -388,9 +394,28 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         alertPrompt.addAction(cancelAction)
                         
                         self.present(alertPrompt, animated: true, completion: nil)
+                        self.shownArrived = true
                     }
-                    else {
+                    if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
                         self.reachedDestLabel.text = "Reached Destination: FALSE"
+                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle)) is near."
+                        let alertPrompt = UIAlertController(title: "You are in the vicinity.", message: message, preferredStyle: .alert)
+                        
+                        let imageView = UIImageView(frame: CGRect(x: 10, y: 90, width: 250, height: 230))
+                        imageView.image = UIImage(named: "image")
+                        alertPrompt.view.addSubview(imageView)
+                        
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 370)
+                        alertPrompt.view.addConstraint(height)
+                        
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
+                        alertPrompt.view.addConstraint(width)
+                        
+                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
+                        alertPrompt.addAction(cancelAction)
+                        
+                        self.present(alertPrompt, animated: true, completion: nil)
+                        self.shownVicinity = true
                     }
                 }
             }
@@ -514,6 +539,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
+        self.shownVicinity = false
+        self.shownArrived = false
         pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
         
         // Configuring user's / stairs marker's position
@@ -674,6 +701,22 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
         if (d <= 0.04 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    //Checks if user is in the vicinity
+    func inVicinity(userX: Float, userY: Float) -> Bool {
+        var left : Float = 0
+        var right : Float = 0
+        var d : Float = 0
+        left = (pinX - userX)*(pinX - userX)
+        right = (pinY - userY)*(pinY - userY)
+        d = (left + right).squareRoot()
+        if (d <= 0.17 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
