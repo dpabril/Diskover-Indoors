@@ -63,8 +63,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zmk-b7-6bY">
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zmk-b7-6bY">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="WfZ-il-dhJ" appends="YES" id="liM-zH-FL4"/>
+                                    <outletCollection property="gestureRecognizers" destination="MVC-GO-pBj" appends="YES" id="quv-OT-fHK"/>
+                                    <outletCollection property="gestureRecognizers" destination="psA-n7-VLR" appends="YES" id="Veq-zv-Vco"/>
+                                </connections>
                             </sceneKitView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Rel. Alt. Label: -0.0000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWt-M8-kTm">
                                 <rect key="frame" x="16" y="525" width="176" height="21"/>
@@ -154,6 +160,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="J6B-wU-WOP" firstAttribute="trailing" secondItem="YKH-TD-nhv" secondAttribute="trailingMargin" id="1cp-kF-A74"/>
                             <constraint firstItem="J6B-wU-WOP" firstAttribute="top" secondItem="UnP-OR-Pk9" secondAttribute="bottom" constant="8" symbolic="YES" id="26L-e4-6dU"/>
@@ -185,13 +192,31 @@
                         <outlet property="levelLabel" destination="reb-Zl-aQU" id="o6S-XB-ltv"/>
                         <outlet property="maxAveLabel" destination="UnP-OR-Pk9" id="Lmx-vY-GZM"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
+                        <outlet property="panGestureRecognizer" destination="WfZ-il-dhJ" id="MOV-80-UPC"/>
+                        <outlet property="pinchGestureRecognizer" destination="MVC-GO-pBj" id="cwe-RU-WuA"/>
                         <outlet property="reachedDestLabel" destination="wmM-OJ-iHU" id="VIv-S6-dhm"/>
                         <outlet property="recalibrateButton" destination="EOT-Me-s7D" id="RbP-Uh-Awk"/>
                         <outlet property="recalibrationFrame" destination="9M9-Pw-VRW" id="cuI-x9-Ho7"/>
                         <outlet property="recalibrationView" destination="7dh-oq-QAL" id="dGb-yx-47x"/>
+                        <outlet property="rotateGestureRecognizer" destination="psA-n7-VLR" id="h8l-GS-hGp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer enabled="NO" minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="WfZ-il-dhJ">
+                    <connections>
+                        <action selector="viewIsPanned:" destination="8rJ-Kc-sve" id="sBW-ad-j9m"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer enabled="NO" id="MVC-GO-pBj">
+                    <connections>
+                        <action selector="viewIsPinched:" destination="8rJ-Kc-sve" id="Rlz-x0-7Pv"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer enabled="NO" id="psA-n7-VLR">
+                    <connections>
+                        <action selector="viewIsRotated:" destination="8rJ-Kc-sve" id="Yr3-nS-INn"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2.3999999999999999" y="808.24587706146929"/>
         </scene>

@@ -33,6 +33,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var captureSession : AVCaptureSession = AVCaptureSession()
     var videoPreviewLayer : AVCaptureVideoPreviewLayer?
     
+    // Gesture recognizers
+    @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
+    @IBOutlet var pinchGestureRecognizer: UIPinchGestureRecognizer!
+    @IBOutlet var rotateGestureRecognizer: UIRotationGestureRecognizer!
+    
     // Sensor object variables + Accelerometer noise|spike filter
     lazy var compassManager = CLLocationManager()
     lazy var altimeter = CMAltimeter()
@@ -65,7 +70,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
-    var cameraLockedOnUser = false
+    var cameraLockedOnUser = false // change to cameraMovesWithUser
+    var cameraTurnsWithUser = false
     var recalibrationViewIsDisplayed = false
     
     /*
@@ -179,6 +185,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Start sensors after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.startSensors()
+            self.enableGestureRecognizers()
         }
     }
     
@@ -186,6 +193,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         super.viewWillDisappear(animated)
         
         self.stopSensors()
+        self.disableGestureRecognizers()
     }
     
     override func didReceiveMemoryWarning() {
@@ -898,5 +906,65 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let guideContainsCode = self.recalibrationFrame.frame.contains(recalibrationFrameBox)
         let codeAboveThreshold = recalibrationFrameBox.size.width >= (recalibrationFrameThreshold?.width)! && recalibrationFrameBox.size.height >= (recalibrationFrameThreshold?.height)!
         return (guideContainsCode && codeAboveThreshold)
+    }
+    
+    /*
+     ====================================================================================================
+     ~ GESTURE RECOGNITION ~
+     ====================================================================================================
+     */
+    @IBAction func viewIsPanned(_ sender: UIPanGestureRecognizer) {
+        var translation = sender.translation(in: self.navigationView)
+        translation.x *= -1
+        
+        let camera = self.navigationView.pointOfView!
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        
+        if (sender.state == .began) {
+            self.stopSensors()
+            //print("Pan motion has begun.")
+        } else if (sender.state == .changed) {
+            camera.position = SCNVector3(camera.position.x + Float(translation.x / 1000), camera.position.y + Float(translation.y / 1000), camera.position.z)
+        } else if (sender.state == .ended) {
+            self.startSensors()
+        }
+        
+        sender.setTranslation(CGPoint.zero, in: self.navigationView)
+    }
+    
+    @IBAction func viewIsPinched(_ sender: UIPinchGestureRecognizer) {
+        let camera = self.navigationView.pointOfView!
+        
+        if (sender.velocity < 0) {
+            camera.position.z += Float(sender.scale / 35)
+        } else if (sender.velocity > 0) {
+            camera.position.z -= Float(sender.scale / 35)
+        }
+        
+        if (camera.position.z < -0.55) {
+            camera.position.z = -0.55
+        } else if (camera.position.z > 1.20) {
+            camera.position.z = 1.20
+        }
+        
+        sender.scale = 1.0
+    }
+    
+    @IBAction func viewIsRotated(_ sender: UIRotationGestureRecognizer) {
+        let camera = self.navigationView.pointOfView!
+        
+        camera.eulerAngles.z += Float(sender.rotation)
+        sender.rotation = 0
+    }
+    
+    func enableGestureRecognizers() {
+        self.panGestureRecognizer.isEnabled = true
+        self.pinchGestureRecognizer.isEnabled = true
+        self.rotateGestureRecognizer.isEnabled = true
+    }
+    func disableGestureRecognizers() {
+        self.panGestureRecognizer.isEnabled = false
+        self.pinchGestureRecognizer.isEnabled = false
+        self.rotateGestureRecognizer.isEnabled = false
     }
 }
