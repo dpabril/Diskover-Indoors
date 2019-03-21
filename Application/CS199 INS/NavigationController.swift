@@ -388,14 +388,15 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
-                        let imageView = UIImageView(frame: CGRect(x: 10, y: 90, width: 250, height: 230))
-                        imageView.image = UIImage(named: "image")
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
+                        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
+                        imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
                         
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 370)
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
                         alertPrompt.view.addConstraint(height)
                         
-                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
                         alertPrompt.view.addConstraint(width)
                         
                         let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
@@ -410,7 +411,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         let alertPrompt = UIAlertController(title: "You are in the vicinity.", message: message, preferredStyle: .alert)
                         
                         let imageView = UIImageView(frame: CGRect(x: 10, y: 90, width: 250, height: 230))
-                        imageView.image = UIImage(named: "image")
+                        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
+                        imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
                         
                         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 370)
