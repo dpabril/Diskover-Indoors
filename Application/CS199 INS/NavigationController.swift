@@ -17,12 +17,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     
     // Variables for main navigation scene
     @IBOutlet weak var navigationView: SCNView!
-    @IBOutlet weak var altLabel: UILabel!
-    @IBOutlet weak var levelLabel: UILabel!
-    @IBOutlet weak var reachedDestLabel: UILabel!
-    @IBOutlet weak var averageVLabel: UILabel!
-    @IBOutlet weak var maxAveLabel: UILabel!
-    @IBOutlet weak var destTitleLabel: UILabel!
+    //@IBOutlet weak var altLabel: UILabel!
+    //@IBOutlet weak var levelLabel: UILabel!
+    //@IBOutlet weak var reachedDestLabel: UILabel!
+    //@IBOutlet weak var averageVLabel: UILabel!
+    //@IBOutlet weak var maxAveLabel: UILabel!
+    //@IBOutlet weak var destTitleLabel: UILabel!
     @IBOutlet weak var recalibrateButton: UIButton!
     
     // Variables for use with recalibration
@@ -63,9 +63,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var zAccelZeroCount : Int = 0
     
     // Variables needed to calculate average velocity
-    var averageV : Double = 0
-    var count : Int = 1
-    var maxAve : Double = 0
+    //var averageV : Double = 0
+    //var count : Int = 1
+    //var maxAve : Double = 0
     var pos : Double = 0
     
     // Scene variables
@@ -242,13 +242,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                 
                 let altitude = altitudeData!.relativeAltitude.floatValue
                 
-                var level = 0
+                //var level = 0
                 
                 if (error != nil) {
                     self.stopAltimeter()
                 } else {
                     
-                    self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
+                    //self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
                     
                     // Set information on current floor upon significant change in altitude
                     if (Double(altitude) >= AppState.getBuilding().delta) {
@@ -271,9 +271,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         }
                     }
                 }
-                level = Int(altitude / 2.0)
-                self.levelLabel.text = String(format: "Level: %d", level)
-                self.destTitleLabel.text = "You are currently on the \(Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel)) floor. \(AppState.getDestinationTitle().title)  (\(AppState.getDestinationSubtitle().subtitle)) is on the \(Utilities.ordinalize(AppState.getDestinationLevel().level)) floor."
+                //level = Int(altitude / 2.0)
+                //self.levelLabel.text = String(format: "Level: %d", level)
+                //self.destTitleLabel.text = "You are currently on the \(Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel)) floor. \(AppState.getDestinationTitle().title)  (\(AppState.getDestinationSubtitle().subtitle)) is on the \(Utilities.ordinalize(AppState.getDestinationLevel().level)) floor."
             })
         }
     }
@@ -367,14 +367,14 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.pos = 0.00063
                     }
                     //print(self.pos)
-                    self.averageV = ( self.averageV + lastV ) / Double(self.count)
-                    if (self.averageV > self.maxAve) {
-                        self.maxAve = self.averageV
-                    }
-                    self.count += 1
+                    //self.averageV = ( self.averageV + lastV ) / Double(self.count)
+                    //if (self.averageV > self.maxAve) {
+                    //    self.maxAve = self.averageV
+                    //}
+                    //self.count += 1
                     
-                    self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
-                    self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
+                    //self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
+                    //self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                     
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
                     let camera = self.navigationView.pointOfView!
@@ -384,7 +384,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
-                        self.reachedDestLabel.text = "Reached Destination: TRUE"
+                        //self.reachedDestLabel.text = "Reached Destination: TRUE"
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
@@ -406,19 +406,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.shownArrived = true
                     }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
-                        self.reachedDestLabel.text = "Reached Destination: FALSE"
+                        //self.reachedDestLabel.text = "Reached Destination: FALSE"
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle)) is near."
                         let alertPrompt = UIAlertController(title: "You are in the vicinity.", message: message, preferredStyle: .alert)
                         
-                        let imageView = UIImageView(frame: CGRect(x: 10, y: 90, width: 250, height: 230))
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
                         let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
                         imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
                         
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 370)
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
                         alertPrompt.view.addConstraint(height)
                         
-                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
                         alertPrompt.view.addConstraint(width)
                         
                         let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
