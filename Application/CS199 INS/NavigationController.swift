@@ -23,7 +23,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     //@IBOutlet weak var averageVLabel: UILabel!
     //@IBOutlet weak var maxAveLabel: UILabel!
     //@IBOutlet weak var destTitleLabel: UILabel!
-    @IBOutlet weak var recalibrateButton: UIButton!
+    @IBOutlet weak var cameraModeButton: UIBarButtonItem!
+    @IBOutlet weak var showDesinationButton: UIBarButtonItem!
+    @IBOutlet weak var calibrateButton: UIBarButtonItem!
     
     // Variables for use with recalibration
     @IBOutlet weak var recalibrationView: UIView!
@@ -72,6 +74,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
     var cameraLockedOnUser = false // change to cameraMovesWithUser
     var cameraTurnsWithUser = false
+    var cameraMode : CameraMode = .unlocked
     var recalibrationViewIsDisplayed = false
     
     /*
@@ -222,10 +225,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         userMarker.eulerAngles.z = -Utilities.degToRad(90 + newHeading.magneticHeading)
 
-        if (self.cameraLockedOnUser) {
+        if (self.cameraMode == .rotating) {
             let camera = self.navigationView.pointOfView!
             camera.eulerAngles.z = userMarker.eulerAngles.z
-            print(Utilities.radToDeg(Double(camera.eulerAngles.z)))
         }
     }
     func stopCompass() {
@@ -241,8 +243,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.altimeter.startRelativeAltitudeUpdates(to: OperationQueue.main, withHandler: { (altitudeData:CMAltitudeData?, error:Error?) in
                 
                 let altitude = altitudeData!.relativeAltitude.floatValue
-                
-                //var level = 0
                 
                 if (error != nil) {
                     self.stopAltimeter()
@@ -271,9 +271,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         }
                     }
                 }
-                //level = Int(altitude / 2.0)
-                //self.levelLabel.text = String(format: "Level: %d", level)
-                //self.destTitleLabel.text = "You are currently on the \(Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel)) floor. \(AppState.getDestinationTitle().title)  (\(AppState.getDestinationSubtitle().subtitle)) is on the \(Utilities.ordinalize(AppState.getDestinationLevel().level)) floor."
             })
         }
     }
@@ -380,7 +377,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     let camera = self.navigationView.pointOfView!
                     //user.simdPosition += user.simdWorldFront * 0.0004998
                     user.simdPosition += user.simdWorldFront * (Float(self.pos))
-                    camera.position = SCNVector3(user.position.x, user.position.y, camera.position.z)
+                    
+                    // Rotate camera according to current camera mode
+                    if (self.cameraMode != .unlocked) {
+                        camera.position = SCNVector3(user.position.x, user.position.y, camera.position.z)
+                    }
+                    
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
@@ -456,7 +458,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ~ SCENE MANIPULATION ~
      ====================================================================================================
      */
-    @IBAction func onShowDestinationPress(_ sender: UIButton) {
+    @IBAction func onShowDestinationPress(_ sender: UIBarButtonItem) {
         // Stop sensors to prepare animation
         self.stopSensors()
         self.panCamToTargetAndBack()
@@ -465,18 +467,36 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.startSensors()
         }
     }
-    @IBAction func onLockCameraPress(_ sender: UIButton) {
-        if (!self.cameraLockedOnUser) {
-            self.cameraLockedOnUser = true
-            sender.setTitle("Unlock Camera", for: UIControl.State.normal)
-            let camera = self.navigationView.pointOfView!
-            let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-            camera.eulerAngles.z = userMarker.eulerAngles.z
-        } else {
-            self.cameraLockedOnUser = false
-            sender.setTitle("Lock Camera", for: UIControl.State.normal)
-            let camera = self.navigationView.pointOfView!
-            camera.eulerAngles.z = 0.0
+    
+    func cameraUnlocked() {
+        self.cameraMode = .unlocked
+        // change icon
+        self.cameraModeButton.title = "Unlocked"
+        self.panGestureRecognizer.isEnabled = true
+        self.rotateGestureRecognizer.isEnabled = true
+        self.resetCamera()
+    }
+    func cameraCentered() {
+        self.cameraMode = .centered
+        // change icon
+        self.cameraModeButton.title = "Centered"
+        self.panGestureRecognizer.isEnabled = false
+        self.panCameraToUser()
+    }
+    func cameraRotates() {
+        self.cameraMode = .rotating
+        // change icon
+        self.cameraModeButton.title = "Rotating"
+        self.panGestureRecognizer.isEnabled = false
+        self.rotateGestureRecognizer.isEnabled = false
+    }
+    @IBAction func onCameraModePress(_ sender: UIBarButtonItem) {
+        if (self.cameraMode == .unlocked) {
+            self.cameraCentered()
+        } else if (self.cameraMode == .centered) {
+            self.cameraRotates()
+        } else if (self.cameraMode == .rotating) {
+            self.cameraUnlocked()
         }
     }
     
@@ -536,6 +556,47 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Shows user and destination message bubbles
         self.showBubble()
     }
+    
+    func resetCamera() {
+        let camera = self.navigationView.pointOfView!
+        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+        
+        let panFromCamToUser = CABasicAnimation(keyPath: "position")
+        panFromCamToUser.fromValue = camera.position
+        // panFromCamToUser.toValue = SCNVector3(userMarker.position.x, userMarker.position.y, -0.065)
+        panFromCamToUser.toValue = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        panFromCamToUser.duration = 0.3
+        panFromCamToUser.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        
+        let rotateCamToZero = CABasicAnimation(keyPath: "eulerAngles.z")
+        rotateCamToZero.fromValue = camera.eulerAngles.z
+        let cameraAngle = Utilities.radToDeg(Double(camera.eulerAngles.z))
+        
+        if (cameraAngle <= -360.0 && cameraAngle >= -450.0) {
+            rotateCamToZero.toValue = Utilities.degToRad(-360.0)
+            rotateCamToZero.byValue = Utilities.degToRad(0.1)
+            rotateCamToZero.duration = 0.3
+        } else if (cameraAngle <= -90.0 && cameraAngle > -180.0) {
+            rotateCamToZero.toValue = Utilities.degToRad(0.0)
+            rotateCamToZero.byValue = Utilities.degToRad(0.1)
+            rotateCamToZero.duration = 0.3
+        } else if (cameraAngle <= -180.0 && cameraAngle > -360.0) {
+            rotateCamToZero.toValue = Utilities.degToRad(-360.0)
+            rotateCamToZero.byValue = Utilities.degToRad(-0.1)
+            rotateCamToZero.duration = 0.3
+        }
+        rotateCamToZero.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        
+        let camResetAnimation = CAAnimationGroup()
+        camResetAnimation.animations = [panFromCamToUser, rotateCamToZero]
+        camResetAnimation.duration = 0.3
+        
+        camera.addAnimation(camResetAnimation, forKey: nil)
+        // camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, -0.065)
+        camera.position = SCNVector3(userMarker.position.x, userMarker.position.y, camera.position.z)
+        camera.eulerAngles.z = 0.0
+    }
+    
     // Render the floor plan
     func renderNavScene() {
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
@@ -568,7 +629,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.showStaircaseMarker()
         }
         self.panCamToTargetAndBack()
-        
     }
     // Show the destination pin marker
     func showPinMarker () {
@@ -699,7 +759,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             destMessageBubble.runAction(hide)
             timer.invalidate()
         }
-        
     }
     
     // Checks if user have arrived to its destination
@@ -739,7 +798,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ~ RECALIBRATION SUBFUNCTION ~
      ====================================================================================================
      */
-    @IBAction func startCaptureSession(_ sender: UIButton) {
+    @IBAction func startCalibration(_ sender: UIBarButtonItem) {
         if (self.recalibrationViewIsDisplayed) {
             self.stopCaptureSession()
         } else {
@@ -754,7 +813,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             }, completion: { (isComplete: Bool) -> Void in
                 // self.scannerView.isUserInteractionEnabled = true
                 self.captureSession.startRunning()
-                sender.setTitle("Cancel", for: .normal)
+                sender.title = "Cancel"
                 self.recalibrationViewIsDisplayed = true
             })
         }
@@ -766,9 +825,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.recalibrationView.alpha = 0.0
         }, completion: { (isComplete: Bool) -> Void in
             self.recalibrationView.isHidden = true
-            //self.view.bringSubviewToFront(self.recalibrationFrame)
             self.view.sendSubviewToBack(self.recalibrationView)
-            self.recalibrateButton.setTitle("Recalibrate", for: .normal)
+            self.calibrateButton.title = "Calibrate"
             self.recalibrationViewIsDisplayed = false
             
         })
@@ -860,8 +918,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         // Retreive components of QR code
         let qrCodeFloorLevel = Int(rawURL.components(separatedBy: "::")[1])!
-//        let qrCodeBuilding = qrCodeFragments[0]
-//        let qrCodeFloorLevel = Int(qrCodeFragments[1])!
         
         // Variables to store info on QR code, building, and floor
         var qrTag : QRTag?
@@ -920,16 +976,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         translation.x *= -1
         
         let camera = self.navigationView.pointOfView!
-        let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         
-        if (sender.state == .began) {
-            self.stopSensors()
-            //print("Pan motion has begun.")
-        } else if (sender.state == .changed) {
-            camera.position = SCNVector3(camera.position.x + Float(translation.x / 1000), camera.position.y + Float(translation.y / 1000), camera.position.z)
-        } else if (sender.state == .ended) {
-            self.startSensors()
-        }
+        camera.position = SCNVector3(camera.position.x + Float(translation.x / 1000), camera.position.y + Float(translation.y / 1000), camera.position.z)
         
         sender.setTranslation(CGPoint.zero, in: self.navigationView)
     }

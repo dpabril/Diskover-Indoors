@@ -17,6 +17,7 @@
 		E5577F15220E90C200252A5F /* FloorPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5577F14220E90C200252A5F /* FloorPlan.swift */; };
 		E5577F1D220ECDAA00252A5F /* FloorPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5577F1C220ECDAA00252A5F /* FloorPoint.swift */; };
 		E56FC7A1220D8D970094AB0C /* SharedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56FC7A0220D8D970094AB0C /* SharedState.swift */; };
+		E590963B2244BEC000C81695 /* CameraMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E590963A2244BEC000C81695 /* CameraMode.swift */; };
 		E5AE720521C267150010A5BA /* SceneObjects.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E5AE720421C267150010A5BA /* SceneObjects.scnassets */; };
 		E5D11D2121BF831200123FEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2021BF831200123FEE /* AppDelegate.swift */; };
 		E5D11D2321BF831200123FEE /* QRCodeScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2221BF831200123FEE /* QRCodeScannerController.swift */; };
@@ -135,6 +136,7 @@
 		E5577F14220E90C200252A5F /* FloorPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlan.swift; sourceTree = "<group>"; };
 		E5577F1C220ECDAA00252A5F /* FloorPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPoint.swift; sourceTree = "<group>"; };
 		E56FC7A0220D8D970094AB0C /* SharedState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedState.swift; sourceTree = "<group>"; };
+		E590963A2244BEC000C81695 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
 		E5AE720421C267150010A5BA /* SceneObjects.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SceneObjects.scnassets; sourceTree = "<group>"; };
 		E5D11D1D21BF831200123FEE /* CS199 INS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS199 INS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D11D2021BF831200123FEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				B3EF708B22364B5700D22302 /* DestSubtitle.swift */,
 				E5577F1C220ECDAA00252A5F /* FloorPoint.swift */,
 				E509E86C21C0DED6003A5FE3 /* Utilities.swift */,
+				E590963A2244BEC000C81695 /* CameraMode.swift */,
 			);
 			path = "Auxiliary Structs and Classes";
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				B3EF70832236482100D22302 /* DestTitle.swift in Sources */,
 				E5577F15220E90C200252A5F /* FloorPlan.swift in Sources */,
 				E5D11D8C21BF980800123FEE /* QRTag.swift in Sources */,
+				E590963B2244BEC000C81695 /* CameraMode.swift in Sources */,
 				E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */,
 				E5577F1D220ECDAA00252A5F /* FloorPoint.swift in Sources */,
 				E509E89621C0F511003A5FE3 /* MirrorFilter.swift in Sources */,

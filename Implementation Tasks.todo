@@ -17,7 +17,7 @@ Application:
           * UIKit -> CGRect -> contains(_ rect2 : CGRect)
         ✔ Write an under-the-hood scanner for when in the navigation view (tied with a Navigation View task) @done (19-03-13 19:33)
       ☐ Print QR codes for testing
-      ☐ Add Boolean variable for determining whether this is the first scan or not and @low
+      ✔ Add Boolean variable for determining whether this is the first scan or not and @REMOVED
         * To prevent switching views to location list upon relocalization
         * This has been added but is not in use yet
         > Adding an under-the-hood scanner for Nav view is more convenient and checks this off
@@ -57,14 +57,16 @@ Application:
         ✔ Scan QR codes under the hood for relocalization @done (19-03-13 19:34)
           > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
           > BETTER OPTION? : Add a hidden subview to the navigation scene view that is shown when "Recalibrate" is pressed. After scan (of either outcome) display a UIAlert (style: .alert) and proceed accordingly
+        ☐ Only allow camera panning up to plane bounds @low
+        ☐ Make location pin marker and message bubbles rotate against camera @low
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
-      ☐ Add a "Show Destination" button
+      ✔ Add a "Show Destination" button @done (19-03-22 19:35)
       ☐ Use SpriteKit instead of SceneKit @low
-      ☐ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer)
-      ☐ Bind camera to user marker
-      ☐ Allow rotation of camera to simulate rotation of world around user (switch between this and default view)
+      ✔ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer) @done (19-03-22 19:35)
+      ✔ Bind camera to user marker @done (19-03-22 19:35)
+      ✔ Allow rotation of camera to simulate rotation of world around user (switch between this and default view) @done (19-03-22 19:35)
       ☐ Add labels ("You are here" and "This is your target" upon selecting a location)
       ☐ Fix logic in Utilities.ordinalize to accomodate hasLGF truth value
 
