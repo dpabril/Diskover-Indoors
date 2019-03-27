@@ -182,7 +182,9 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             print(error)
         }
         // Set the prompt message
-        promptMessage = "You are on the \(Utilities.ordinalize(floor!.level)) Floor of \(building!.name). Press Navigate! to start navigating."
+        promptMessage = Utilities.initializeSuccessMessage(floor!.level, building!.hasLGF, building!.name) + " Press Navigate! to start navigating."
+        //print(promptMessage)
+        //promptMessage = "You are on the \(Utilities.ordinalize(floor!.level, building!.hasLGF)) Floor of \(building!.name). Press Navigate! to start navigating."
         
         let alertPrompt = UIAlertController(title: "Localization successful.", message: promptMessage, preferredStyle: .actionSheet)
         let confirmAction = UIAlertAction(title: "Navigate!", style: UIAlertAction.Style.default, handler: { (action) -> Void in
@@ -214,9 +216,8 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                 }
             }
             
-            // Retrieving building's staircases, in case they would be needed, and set staircase nearest to destination
+            // Retrieving building's staircases, in case they would be needed
             var buildingStaircases : [Staircase] = []
-            var nearestStaircase : Staircase?
             //
             do {
                 try DB.write { db in

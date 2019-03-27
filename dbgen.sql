@@ -19,9 +19,9 @@ CREATE TABLE Building (
     floors INTEGER NOT NULL,
     hasLGF BOOLEAN NOT NULL, -- has (l)ower (g)round (f)loor
     delta REAL NOT NULL,
-    -- xscale REAL NOT NULL, -- scale columns for plane size
-    -- yscale REAL NOT NULL,
-    -- compassOffset REAL NOT NULL, -- in degrees
+    xscale REAL NOT NULL, -- scale columns for plane size
+    yscale REAL NOT NULL,
+    compassOffset REAL NOT NULL, -- in degrees
     PRIMARY KEY (alias)
     );
 
@@ -69,11 +69,11 @@ INSERT INTO QRTag VALUES
     ("UP ITDC::2::A", 0.0, 0.0),
     ("UP ITDC::3::A", 0.0, 0.0);
 INSERT INTO Building VALUES
-    ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0),
-    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2);
+    -- ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0),
+    -- ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2);
 -- INSERT INTO Building VALUES
---     ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0, 1.885, 1, 90),
---     ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2, 1, 1, 0);
+    ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0, 1.885, 1, 90),
+    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2, 1, 1, 0);
 INSERT INTO Floor VALUES
     ("UP AECH", 1),
     ("UP AECH", 2),

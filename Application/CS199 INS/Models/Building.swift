@@ -14,13 +14,19 @@ class Building : Record {
     var floors : Int
     var hasLGF : Bool
     var delta : Double
+    var xscale : Double
+    var yscale : Double
+    var compassOffset : Double
     
-    init(alias: String, name: String, floors: Int, hasLGF: Bool, delta: Double) {
+    init(alias: String, name: String, floors: Int, hasLGF: Bool, delta: Double, xscale: Double, yscale: Double, compassOffset: Double) {
         self.alias = alias
         self.name = name
         self.floors = floors
         self.hasLGF = hasLGF
         self.delta = delta
+        self.xscale = xscale
+        self.yscale = yscale
+        self.compassOffset = compassOffset
         super.init()
     }
     
@@ -29,7 +35,7 @@ class Building : Record {
     }
     
     enum Columns : String, ColumnExpression {
-        case alias, name, floors, hasLGF, delta
+        case alias, name, floors, hasLGF, delta, xscale, yscale, compassOffset
     }
     
     required init(row: Row) {
@@ -38,6 +44,9 @@ class Building : Record {
         floors = row[Columns.floors]
         hasLGF = row[Columns.hasLGF]
         delta = row[Columns.delta]
+        xscale = row[Columns.xscale]
+        yscale = row[Columns.yscale]
+        compassOffset = row[Columns.compassOffset]
         super.init(row: row)
     }
     
@@ -47,5 +56,8 @@ class Building : Record {
         container[Columns.floors] = floors
         container[Columns.hasLGF] = hasLGF
         container[Columns.delta] = delta
+        container[Columns.xscale] = xscale
+        container[Columns.yscale] = yscale
+        container[Columns.compassOffset] = compassOffset
     }
 }

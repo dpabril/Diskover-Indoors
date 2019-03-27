@@ -72,6 +72,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
+    var rotationOffset : Double = 0
     var cameraLockedOnUser = false // change to cameraMovesWithUser
     var cameraTurnsWithUser = false
     var cameraMode : CameraMode = .unlocked
@@ -153,8 +154,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.rotationOffset = AppState.getBuilding().compassOffset
+        
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
         sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
+        sceneFloor.scale.x = Float(AppState.getBuilding().xscale)
+        sceneFloor.scale.y = Float(AppState.getBuilding().yscale)
         
         // Configuring user position
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
@@ -193,6 +198,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        if (self.recalibrationViewIsDisplayed) {
+            self.stopCaptureSession()
+        }
         super.viewWillDisappear(animated)
         
         self.stopSensors()
@@ -223,7 +231,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-        userMarker.eulerAngles.z = -Utilities.degToRad(90 + newHeading.magneticHeading)
+        userMarker.eulerAngles.z = -Utilities.degToRad(self.rotationOffset + newHeading.magneticHeading)
 
         if (self.cameraMode == .rotating) {
             let camera = self.navigationView.pointOfView!
@@ -470,7 +478,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     
     func cameraUnlocked() {
         self.cameraMode = .unlocked
-        // change icon
+        self.cameraModeButton.image = UIImage(named: "CameraMode_Default")
         self.cameraModeButton.title = "Unlocked"
         self.panGestureRecognizer.isEnabled = true
         self.rotateGestureRecognizer.isEnabled = true
@@ -478,14 +486,14 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     func cameraCentered() {
         self.cameraMode = .centered
-        // change icon
+        self.cameraModeButton.image = UIImage(named: "CameraMode_Centered")
         self.cameraModeButton.title = "Centered"
         self.panGestureRecognizer.isEnabled = false
         self.panCameraToUser()
     }
     func cameraRotates() {
         self.cameraMode = .rotating
-        // change icon
+        self.cameraModeButton.image = UIImage(named: "CameraMode_Rotating")
         self.cameraModeButton.title = "Rotating"
         self.panGestureRecognizer.isEnabled = false
         self.rotateGestureRecognizer.isEnabled = false
@@ -661,7 +669,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let userMessageNode = SCNNode()
         let userMessageGeometry = SCNText(string: "You", extrusionDepth: 0)
         
-        userMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
+        userMessageGeometry.firstMaterial?.diffuse.contents = UIColor.black
         userMessageGeometry.firstMaterial?.isDoubleSided = true
         userMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
         userMessageGeometry.flatness = 0
@@ -687,7 +695,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let userBGGeometry = SCNPlane(width: CGFloat((userMax.x - userMin.x) * 1.5), height: CGFloat((userMax.y - userMin.y) * 1.5))
         userBGGeometry.cornerRadius = 0.7
         let userMaterial = SCNMaterial()
-        userMaterial.diffuse.contents = UIColor.blue
+        userMaterial.diffuse.contents = UIColor.yellow
         userBGGeometry.materials = [userMaterial]
         
         userBGNode.geometry = userBGGeometry
@@ -700,7 +708,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let destMessageGeometry = SCNText(string: "DESPA", extrusionDepth: 0)
         destMessageGeometry.string = AppState.getDestinationTitle().title
         
-        destMessageGeometry.firstMaterial?.diffuse.contents = UIColor.orange
+        destMessageGeometry.firstMaterial?.diffuse.contents = UIColor.black
         destMessageGeometry.firstMaterial?.isDoubleSided = true
         destMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
         destMessageGeometry.flatness = 0
@@ -726,7 +734,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let destBGGeometry = SCNPlane(width: CGFloat((destMax.x - destMin.x) * 1.5), height: CGFloat((destMax.y - destMin.y) * 1.5))
         destBGGeometry.cornerRadius = 0.7
         let destMaterial = SCNMaterial()
-        destMaterial.diffuse.contents = UIColor.blue
+        destMaterial.diffuse.contents = UIColor.yellow
         destBGGeometry.materials = [destMaterial]
         
         destBGNode.geometry = destBGGeometry
@@ -801,6 +809,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     @IBAction func startCalibration(_ sender: UIBarButtonItem) {
         if (self.recalibrationViewIsDisplayed) {
             self.stopCaptureSession()
+            self.startSensors()
         } else {
             self.recalibrationView.isHidden = false
             self.view.bringSubviewToFront(self.recalibrationView)
@@ -814,6 +823,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                 // self.scannerView.isUserInteractionEnabled = true
                 self.captureSession.startRunning()
                 sender.title = "Cancel"
+                sender.image = UIImage(named: "RecalibrateCancel")
+                sender.tintColor = UIColor.red
                 self.recalibrationViewIsDisplayed = true
             })
         }
@@ -827,8 +838,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.recalibrationView.isHidden = true
             self.view.sendSubviewToBack(self.recalibrationView)
             self.calibrateButton.title = "Calibrate"
+            self.calibrateButton.image = UIImage(named: "Recalibrate")
+            self.calibrateButton.tintColor = self.view.tintColor
             self.recalibrationViewIsDisplayed = false
-            
         })
     }
     
@@ -937,7 +949,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         if (qrCodeFloorLevel == AppState.getBuildingCurrentFloor().floorLevel) {
             promptMessage = "You are still on the same floor. Your position has been fixed."
         } else {
-            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel)) Floor. Your position has been fixed."
+            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel, AppState.getBuilding().hasLGF)) Floor. Your position has been fixed."
         }
         
         let successPrompt = UIAlertController(title: "Recalibration successful.", message: promptMessage, preferredStyle: .alert)
