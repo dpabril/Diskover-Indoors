@@ -50,7 +50,7 @@ Application:
           * Consider keeping altimeter running in the background, checking if delta has been passed in this controller's viewWillAppear()
         ✔ Resize plan for different maps @high @done (19-03-27 14:52)
           * Store ratio in DB or calculate resolution
-        ☐ Current floor and target floor labels/messages
+        ✔ Current floor and target floor labels/messages @done (19-03-29 20:11)
           * > Partly done. Make friendlier
           * e.g. "You are currently on the nth floor" "[Room selected] is on the mth floor"
         ✔ Success message when user marker is within radius of loc. pin marker @done (19-02-09 17:35)
@@ -68,8 +68,8 @@ Application:
       ✔ Bind camera to user marker @done (19-03-22 19:35)
       ✔ Allow rotation of camera to simulate rotation of world around user (switch between this and default view) @done (19-03-22 19:35)
       ✔ Add bubbles ("You are here" and "This is your target") @high @done (19-03-27 15:55)
-      ☐ Add labels (current floor and destination floor) @high
-      ☐ Fix logic in Utilities.ordinalize to accomodate hasLGF truth value
+      ✔ Add labels (current floor and destination floor) @high @done (19-03-29 20:11)
+      ✔ Fix logic in Utilities.ordinalize to accomodate hasLGF truth value @done (19-03-29 20:11)
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)

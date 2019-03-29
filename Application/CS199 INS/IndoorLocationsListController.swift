@@ -103,23 +103,18 @@ class IndoorLocationsListController: UITableViewController {
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>
         
-        // Determine staircase/stairwell in building closest to destination
-        //if (!AppState.isUserOnDestinationLevel()) {
-            var buildingStaircases = AppState.getBuildingStaircases()
-            var navSceneDestCoords = AppState.getNavSceneDestCoords()
-            var nearestStaircase : Staircase = buildingStaircases[0]
-            var nearestStaircaseDistance : Double = sqrt(pow(navSceneDestCoords.x - nearestStaircase.xcoord, 2) + pow(navSceneDestCoords.y - nearestStaircase.ycoord, 2))
-            //
-            for staircase in buildingStaircases {
-                var staircaseToDestDistance = sqrt(pow(navSceneDestCoords.x - staircase.xcoord, 2) + pow(navSceneDestCoords.y - staircase.ycoord, 2))
-                if (staircaseToDestDistance <= nearestStaircaseDistance) {
-                    nearestStaircase = staircase
-                    nearestStaircaseDistance = staircaseToDestDistance
-                }
+        var buildingStaircases = AppState.getBuildingStaircases()
+        var navSceneDestCoords = AppState.getNavSceneDestCoords()
+        var nearestStaircase : Staircase = buildingStaircases[0]
+        var nearestStaircaseDistance : Double = sqrt(pow(navSceneDestCoords.x - nearestStaircase.xcoord, 2) + pow(navSceneDestCoords.y - nearestStaircase.ycoord, 2))
+        for staircase in buildingStaircases {
+            var staircaseToDestDistance = sqrt(pow(navSceneDestCoords.x - staircase.xcoord, 2) + pow(navSceneDestCoords.y - staircase.ycoord, 2))
+            if (staircaseToDestDistance <= nearestStaircaseDistance) {
+                nearestStaircase = staircase
+                nearestStaircaseDistance = staircaseToDestDistance
             }
-            //
-            AppState.setNearestStaircase(nearestStaircase)
-        //}
+        }
+        AppState.setNearestStaircase(nearestStaircase)
         
         self.tabBarController!.tabBar.items![1].isEnabled = true
         self.tabBarController!.selectedIndex = 1

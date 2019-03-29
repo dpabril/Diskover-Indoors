@@ -25,17 +25,17 @@ class Utilities {
         if (hasLGF) {
             switch integer {
             case 1:
-                return "Lower Ground"
+                return "Lower Ground Floor"
             case 2:
-                return "Ground"
+                return "Ground Floor"
             case 3:
-                return "2nd"
+                return "2nd Floor"
             case 4:
-                return "3rd"
+                return "3rd Floor"
             case 5:
-                return "4th"
+                return "4th Floor"
             case 6:
-                return "5th"
+                return "5th Floor"
             default:
                 // This should never be the case
                 return ""
@@ -43,15 +43,15 @@ class Utilities {
         } else {
             switch integer {
             case 1:
-                return "Ground"
+                return "Ground Floor"
             case 2:
-                return "2nd"
+                return "2nd Floor"
             case 3:
-                return "3rd"
+                return "3rd Floor"
             case 4:
-                return "4th"
+                return "4th Floor"
             case 5:
-                return "5th"
+                return "5th Floor"
             default:
                 // This should never be the case
                 return ""
@@ -60,14 +60,14 @@ class Utilities {
     }
     
     static func initializeSuccessMessage(_ level : Int, _ hasLGF : Bool, _ bldg : String) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)) Floor of \(bldg).")
+        return String(format: "You are on the \(ordinalize(level, hasLGF)) of \(bldg).")
     }
     
     static func currentLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)) floor.")
+        return String(format: "You are on the \(ordinalize(level, hasLGF)).")
     }
     
     static func targetLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "Destination is on the \(ordinalize(level, hasLGF)) floor.")
+        return String(format: "Destination is on the \(ordinalize(level, hasLGF)).")
     }
 }
