@@ -41,36 +41,36 @@ class IndoorLocationsListController: UITableViewController {
         if (AppState.getBuilding().hasLGF) {
             switch section {
             case 0:
-                return "Lower Ground Floor"
+                return "Lower Ground Floor (LGF)"
             case 1:
-                return "Upper Ground Floor"
+                return "Ground Floor (GF)"
             case 2:
-                return "Second Floor"
+                return "Second Floor (2F)"
             case 3:
-                return "Third Floor"
+                return "Third Floor (3F)"
             case 4:
-                return "Fourth Floor"
+                return "Fourth Floor (4F)"
             case 5:
-                return "Fifth Floor"
+                return "Fifth Floor (5F)"
             default:
-                return "Secret Floor" // Should never be the case
+                return "" // Should never be the case
             }
         } else {
             switch section {
             case 0:
-                return "Ground Floor"
+                return "Ground Floor (GF)"
             case 1:
-                return "Second Floor"
+                return "Second Floor (2F)"
             case 2:
-                return "Third Floor"
+                return "Third Floor (3F)"
             case 3:
-                return "Fourth Floor"
+                return "Fourth Floor (4F)"
             case 4:
-                return "Fifth Floor"
+                return "Fifth Floor (5F)"
             case 5:
-                return "Sixth Floor"
+                return "Sixth Floor (6F)"
             default:
-                return "Secret Floor" // Should never be the case
+                return "" // Should never be the case
             }
         }
     }

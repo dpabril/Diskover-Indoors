@@ -21,20 +21,38 @@ class Utilities {
         return Float(radians * 180 / .pi)
     }
     
-    static func ordinalize(_ integer : Int, _ hasLGF : Bool) -> String {
+    static func ordinalize(_ integer : Int, _ hasLGF : Bool, abbv: Bool) -> String {
         if (hasLGF) {
             switch integer {
             case 1:
+                if (abbv) {
+                    return "LGF"
+                }
                 return "Lower Ground Floor"
             case 2:
+                if (abbv) {
+                    return "GF"
+                }
                 return "Ground Floor"
             case 3:
+                if (abbv) {
+                    return "2F"
+                }
                 return "2nd Floor"
             case 4:
+                if (abbv) {
+                    return "3F"
+                }
                 return "3rd Floor"
             case 5:
+                if (abbv) {
+                    return "4F"
+                }
                 return "4th Floor"
             case 6:
+                if (abbv) {
+                    return "5F"
+                }
                 return "5th Floor"
             default:
                 // This should never be the case
@@ -60,14 +78,14 @@ class Utilities {
     }
     
     static func initializeSuccessMessage(_ level : Int, _ hasLGF : Bool, _ bldg : String) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)) of \(bldg).")
+        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)) of \(bldg).")
     }
     
     static func currentLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)).")
+        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)).")
     }
     
     static func targetLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "Destination is on the \(ordinalize(level, hasLGF)).")
+        return String(format: "Destination is on the \(ordinalize(level, hasLGF, abbv: false)).")
     }
 }

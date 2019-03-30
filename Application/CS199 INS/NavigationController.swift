@@ -157,8 +157,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.navigationItem.title = currentBuilding.name
         
         // Configuring user and destination level labels
-        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, currentBuilding.hasLGF)
-        self.destinationLevelLabel.title = AppState.getDestinationTitle().title + ", " + Utilities.ordinalize(AppState.getDestinationLevel().level, currentBuilding.hasLGF)
+        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, currentBuilding.hasLGF, abbv: false)
+        self.destinationLevelLabel.title = AppState.getDestinationTitle().title + ", " + Utilities.ordinalize(AppState.getDestinationLevel().level, currentBuilding.hasLGF, abbv: AppState.getDestinationTitle().title.count >= 20)
         
         // Configuring floor plane and rendered plan
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
@@ -302,7 +302,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.stopAltimeter()
         self.startAltimeter()
         
-        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, AppState.getBuilding().hasLGF)
+        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, AppState.getBuilding().hasLGF, abbv: false)
         
         if (AppState.isUserOnDestinationLevel()) {
             self.panCamToTargetAndBack()
@@ -433,24 +433,23 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.shownArrived = true
                     }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
-                        //self.reachedDestLabel.text = "Reached Destination: FALSE"
-                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle)) is near."
-                        let alertPrompt = UIAlertController(title: "You are in the vicinity.", message: message, preferredStyle: .alert)
-                        
-                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
+                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Please be guided by the image for direction, and press Done upon arrival."
+                        let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
+
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 110, width: 250, height: 333))
                         let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
                         imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
-                        
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
+
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 495)
                         alertPrompt.view.addConstraint(height)
-                        
-                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
+
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
                         alertPrompt.view.addConstraint(width)
-                        
-                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
+
+                        let cancelAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
-                        
+
                         self.present(alertPrompt, animated: true, completion: nil)
                         self.shownVicinity = true
                     }
@@ -971,7 +970,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         if (qrCodeFloorLevel == AppState.getBuildingCurrentFloor().floorLevel) {
             promptMessage = "You are still on the same floor. Your position has been fixed."
         } else {
-            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel, AppState.getBuilding().hasLGF)) Floor. Your position has been fixed."
+            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel, AppState.getBuilding().hasLGF, abbv: false)). Your position has been fixed."
         }
         
         let successPrompt = UIAlertController(title: "Recalibration successful.", message: promptMessage, preferredStyle: .alert)

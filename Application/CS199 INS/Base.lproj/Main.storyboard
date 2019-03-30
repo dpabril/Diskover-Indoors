@@ -151,47 +151,15 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lcc-cu-Dmw" userLabel="Testbar">
-                                <rect key="frame" x="0.0" y="152" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem image="LocationIcon" id="yWM-mY-htK" userLabel="Destination Icon">
-                                        <color key="tintColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" image="Divider" id="48B-AQ-p3v" userLabel="Divider"/>
-                                    <barButtonItem style="plain" id="Qx0-XP-6DI">
-                                        <view key="customView" contentMode="scaleToFill" id="QHD-ui-Fon">
-                                            <rect key="frame" x="46" y="5.5" width="313" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test toolbar for better label control" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZC-mq-BUd">
-                                                    <rect key="frame" x="8" y="6" width="297" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstItem="3ZC-mq-BUd" firstAttribute="top" secondItem="QHD-ui-Fon" secondAttribute="top" constant="6" id="7cW-Je-E3r"/>
-                                                <constraint firstAttribute="trailing" secondItem="3ZC-mq-BUd" secondAttribute="trailing" constant="8" id="Aco-eD-E5d"/>
-                                                <constraint firstItem="3ZC-mq-BUd" firstAttribute="leading" secondItem="QHD-ui-Fon" secondAttribute="leading" constant="8" id="Ss2-Uy-o20"/>
-                                                <constraint firstAttribute="bottom" secondItem="3ZC-mq-BUd" secondAttribute="bottom" constant="6" id="Vp7-B3-9xS"/>
-                                            </constraints>
-                                        </view>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="0fR-ME-Jnc"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="MZE-Uc-VwE"/>
-                            <constraint firstItem="lcc-cu-Dmw" firstAttribute="top" secondItem="7fC-va-zKj" secondAttribute="bottom" id="No9-e1-xpL"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="QXU-52-TdP"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Yrd-ng-rZV"/>
-                            <constraint firstItem="lcc-cu-Dmw" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="agT-FZ-WrT"/>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="top" secondItem="Kxl-op-w2y" secondAttribute="top" id="beq-O4-k8W"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" constant="20" id="dDl-49-FXf"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerY" secondItem="YKH-TD-nhv" secondAttribute="centerY" id="gmo-6H-Leh"/>
@@ -199,7 +167,6 @@
                             <constraint firstItem="7fC-va-zKj" firstAttribute="top" secondItem="wKk-GQ-cmr" secondAttribute="bottom" id="iU2-5P-gMf"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="j0Y-g5-iDa"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
-                            <constraint firstItem="lcc-cu-Dmw" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="p3Q-3D-7Rb"/>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="rQN-qo-oWf"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="bottom" secondItem="Kxl-op-w2y" secondAttribute="bottom" id="rWj-z5-UkK"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="w0J-Xl-ZZK"/>
@@ -283,7 +250,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2LT-CJ-wGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="913" y="1605"/>
+            <point key="canvasLocation" x="913" y="1603"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
