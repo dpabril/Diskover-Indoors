@@ -69,10 +69,7 @@ INSERT INTO QRTag VALUES
     ("UP ITDC::2::A", 0.0, 0.0),
     ("UP ITDC::3::A", 0.0, 0.0);
 INSERT INTO Building VALUES
-    -- ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0),
-    -- ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2);
--- INSERT INTO Building VALUES
-    ("UP AECH", "UP Alumni Engineering Centennial Hall", 4, TRUE, 3.0, 1.885, 1, 90),
+    ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 1.885, 1, 90),
     ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2, 1, 1, 0);
 INSERT INTO Floor VALUES
     ("UP AECH", 1),
@@ -101,7 +98,7 @@ INSERT INTO IndoorLocation VALUES
     ("UP AECH", 3, "Rm 212", "Classroom 4 (CLR 4)", 0.482, 0.2),
     ("UP AECH", 3, "Rm 214", "Teaching Lab 2 (TL2)", 0.556, 0.262),
     ("UP AECH", 3, "Rm 215", "Seminar Room", -0.614, 0.244),
-    ("UP AECH", 4, "Administration Office", "", 0.0, 0.0),
+    ("UP AECH", 4, "Rm 300", "Administration Office", 0.0, 0.0),
     ("UP ITDC", 1, "Rm 101", "", 0.0, 0.0),
     ("UP ITDC", 2, "Conference Room", "", 0.0, 0.0),
     ("UP ITDC", 3, "Networks and Infrastructure", "", 0.0, 0.0);

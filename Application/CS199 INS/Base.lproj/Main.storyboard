@@ -55,7 +55,7 @@
             </objects>
             <point key="canvasLocation" x="-935.20000000000005" y="809.14542728635683"/>
         </scene>
-        <!--Navigation-->
+        <!--Building Name-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
                 <viewController id="8rJ-Kc-sve" customClass="NavigationController" customModule="CS199_INS" customModuleProvider="target" sceneMemberID="viewController">
@@ -64,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zmk-b7-6bY">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="WfZ-il-dhJ" appends="YES" id="liM-zH-FL4"/>
@@ -97,7 +97,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iau-ay-gbr">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iau-ay-gbr" userLabel="Navigation Control Toolbar">
                                 <rect key="frame" x="0.0" y="568" width="375" height="50"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hdA-bN-3Gi"/>
@@ -125,26 +125,59 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="w8w-a6-y8Q"/>
                                 </items>
                             </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKk-GQ-cmr" userLabel="User Level Indicator">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem image="UserIcon" id="F8u-u9-FLK" userLabel="User Icon">
+                                        <color key="tintColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem enabled="NO" image="Divider" id="RVW-RS-JLK" userLabel="Divider"/>
+                                    <barButtonItem enabled="NO" title="User Level" id="zO9-4y-ZpW" userLabel="User Level Label">
+                                        <color key="tintColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7fC-va-zKj" userLabel="Destination Level Indicator">
+                                <rect key="frame" x="0.0" y="108" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem image="LocationIcon" id="GlB-Cc-KGC" userLabel="Destination Icon">
+                                        <color key="tintColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </barButtonItem>
+                                    <barButtonItem enabled="NO" image="Divider" id="cdn-Pc-fuk" userLabel="Divider"/>
+                                    <barButtonItem title="Destination + Level" style="done" id="jPM-I0-lFN" userLabel="Destination and Level Label">
+                                        <connections>
+                                            <action selector="onDestinationLevelLabelPress:" destination="8rJ-Kc-sve" id="a9d-7T-eIb"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="wKk-GQ-cmr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="0fR-ME-Jnc"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="MZE-Uc-VwE"/>
+                            <constraint firstItem="7fC-va-zKj" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="QXU-52-TdP"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Yrd-ng-rZV"/>
+                            <constraint firstItem="wKk-GQ-cmr" firstAttribute="top" secondItem="Kxl-op-w2y" secondAttribute="top" id="beq-O4-k8W"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" constant="20" id="dDl-49-FXf"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerY" secondItem="YKH-TD-nhv" secondAttribute="centerY" id="gmo-6H-Leh"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="bottom" secondItem="Zmk-b7-6bY" secondAttribute="bottom" constant="-49" id="gwJ-RJ-YFQ"/>
+                            <constraint firstItem="7fC-va-zKj" firstAttribute="top" secondItem="wKk-GQ-cmr" secondAttribute="bottom" id="iU2-5P-gMf"/>
+                            <constraint firstItem="7fC-va-zKj" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="j0Y-g5-iDa"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
+                            <constraint firstItem="wKk-GQ-cmr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="rQN-qo-oWf"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="bottom" secondItem="Kxl-op-w2y" secondAttribute="bottom" id="rWj-z5-UkK"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="w0J-Xl-ZZK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kxl-op-w2y"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Navigation" image="Navigation" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" title="Building Name" id="4lC-KN-tOn"/>
                     <connections>
                         <outlet property="calibrateButton" destination="Zds-Pi-aHV" id="xYs-R6-tRh"/>
                         <outlet property="cameraModeButton" destination="ud6-gR-vZp" id="ZZX-DJ-izd"/>
+                        <outlet property="destinationLevelLabel" destination="jPM-I0-lFN" id="BhH-f4-J7B"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
                         <outlet property="panGestureRecognizer" destination="WfZ-il-dhJ" id="MOV-80-UPC"/>
                         <outlet property="pinchGestureRecognizer" destination="MVC-GO-pBj" id="cwe-RU-WuA"/>
@@ -152,6 +185,7 @@
                         <outlet property="recalibrationView" destination="7dh-oq-QAL" id="dGb-yx-47x"/>
                         <outlet property="rotateGestureRecognizer" destination="psA-n7-VLR" id="h8l-GS-hGp"/>
                         <outlet property="showDesinationButton" destination="TRa-Cd-yH1" id="3Ul-Fh-V6X"/>
+                        <outlet property="userLevelLabel" destination="zO9-4y-ZpW" id="RZ8-oc-7kc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -171,7 +205,7 @@
                     </connections>
                 </rotationGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-2.3999999999999999" y="808.24587706146929"/>
+            <point key="canvasLocation" x="-2.3999999999999999" y="1603.4482758620691"/>
         </scene>
         <!--Indoor Location List-->
         <scene sceneID="E0m-dQ-GUd">
@@ -212,11 +246,11 @@
                             <outlet property="delegate" destination="SVx-te-jkg" id="meq-Pc-W8Q"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Test Title" id="8jM-5q-b9w"/>
+                    <navigationItem key="navigationItem" title="Building Name" id="8jM-5q-b9w"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2LT-CJ-wGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="913" y="1605"/>
+            <point key="canvasLocation" x="913" y="1603"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -229,7 +263,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="sKi-AP-5Rg" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="Sxd-NV-pjU" kind="relationship" relationship="viewControllers" id="jtY-l6-DBz"/>
                     </connections>
                 </tabBarController>
@@ -254,17 +288,38 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u9I-jZ-OZF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="913" y="809"/>
+            <point key="canvasLocation" x="913" y="808"/>
+        </scene>
+        <!--Navigation-->
+        <scene sceneID="SJi-Ii-uiS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sKi-AP-5Rg" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Navigation" image="Navigation" id="cPa-gy-q4n"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="H6y-NB-bSV">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="DXY-Ue-BWt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YdR-yu-wL8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2.3999999999999999" y="808.24587706146929"/>
         </scene>
     </scenes>
     <resources>
         <image name="CamFrame" width="121.19999694824219" height="121"/>
         <image name="CameraMode_Default" width="44" height="44"/>
         <image name="Divider" width="4.8000001907348633" height="12"/>
+        <image name="LocationIcon" width="12" height="12"/>
         <image name="Locations" width="12" height="12"/>
         <image name="Navigation" width="12" height="12"/>
         <image name="QR" width="12" height="12"/>
         <image name="Recalibrate" width="50" height="50"/>
         <image name="ShowDestination" width="49" height="49"/>
+        <image name="UserIcon" width="12" height="12"/>
     </resources>
 </document>

@@ -15,14 +15,7 @@ import GRDB
 
 class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
-    // Variables for main navigation scene
     @IBOutlet weak var navigationView: SCNView!
-    //@IBOutlet weak var altLabel: UILabel!
-    //@IBOutlet weak var levelLabel: UILabel!
-    //@IBOutlet weak var reachedDestLabel: UILabel!
-    //@IBOutlet weak var averageVLabel: UILabel!
-    //@IBOutlet weak var maxAveLabel: UILabel!
-    //@IBOutlet weak var destTitleLabel: UILabel!
     @IBOutlet weak var cameraModeButton: UIBarButtonItem!
     @IBOutlet weak var showDesinationButton: UIBarButtonItem!
     @IBOutlet weak var calibrateButton: UIBarButtonItem!
@@ -73,10 +66,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     // Scene variables
     var scene = SCNScene(named: "SceneObjects.scnassets/NavigationScene.scn")!
     var rotationOffset : Double = 0
-    var cameraLockedOnUser = false // change to cameraMovesWithUser
-    var cameraTurnsWithUser = false
     var cameraMode : CameraMode = .unlocked
     var recalibrationViewIsDisplayed = false
+    
+    @IBOutlet weak var userLevelLabel: UIBarButtonItem!
+    @IBOutlet weak var destinationLevelLabel: UIBarButtonItem!
     
     /*
      ====================================================================================================
@@ -93,6 +87,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.recalibrationView.isOpaque = false
         self.recalibrationView.alpha = 0.0
         self.view.sendSubviewToBack(self.recalibrationView)
+        
+        // Modify disabled color, to emulate regular label
+        self.userLevelLabel.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .disabled)
+        self.destinationLevelLabel.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .disabled)
         
         // Configuring the QR code scanner
         // > Get the back-facing camera for capturing videos
@@ -154,17 +152,25 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.rotationOffset = AppState.getBuilding().compassOffset
+        let currentBuilding = AppState.getBuilding()
         
+        self.navigationItem.title = currentBuilding.name
+        
+        // Configuring user and destination level labels
+        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, currentBuilding.hasLGF, abbv: false)
+        self.destinationLevelLabel.title = AppState.getDestinationTitle().title + ", " + Utilities.ordinalize(AppState.getDestinationLevel().level, currentBuilding.hasLGF, abbv: AppState.getDestinationTitle().title.count >= 20)
+        
+        // Configuring floor plane and rendered plan
         let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
         sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
-        sceneFloor.scale.x = Float(AppState.getBuilding().xscale)
-        sceneFloor.scale.y = Float(AppState.getBuilding().yscale)
+        sceneFloor.scale.x = Float(currentBuilding.xscale)
+        sceneFloor.scale.y = Float(currentBuilding.yscale)
         
         // Configuring user position
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         let userCoords = AppState.getNavSceneUserCoords()
         userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        self.rotationOffset = currentBuilding.compassOffset
         
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
@@ -184,6 +190,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
             let staircaseMarkerPoint = AppState.getNearestStaircase()
             staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            if (AppState.getDestinationLevel().level < AppState.getBuildingCurrentFloor().floorLevel) {
+                staircaseMarker.eulerAngles.z = .pi
+            } else {
+                staircaseMarker.eulerAngles.z = 0
+            }
             self.hidePinMarker()
             self.showStaircaseMarker()
         }
@@ -291,6 +302,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.stopAltimeter()
         self.startAltimeter()
         
+        self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, AppState.getBuilding().hasLGF, abbv: false)
+        
         if (AppState.isUserOnDestinationLevel()) {
             self.panCamToTargetAndBack()
             let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
@@ -306,6 +319,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
             let staircaseMarkerPoint = AppState.getNearestStaircase()
             staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            if (AppState.getDestinationLevel().level < AppState.getBuildingCurrentFloor().floorLevel) {
+                staircaseMarker.eulerAngles.z = .pi
+            } else {
+                staircaseMarker.eulerAngles.z = 0
+            }
             self.hidePinMarker()
             self.showStaircaseMarker()
         }
@@ -342,7 +360,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     self.prevVy += (4.0 / 8.0) * (1.0 / 60.0) * (self.accelYs[0] + 3 * self.accelYs[1] + 3 * self.accelYs[2] + self.accelYs[3])
                     self.prevVz += (4.0 / 8.0) * (1.0 / 60.0) * (self.accelZs[0] + 3 * self.accelZs[1] + 3 * self.accelZs[2] + self.accelZs[3])
                 }
-                
                 
                 // Synthetic forces to remove velocity once relatively stationary
                 if (correctedAcc.x == 0) {
@@ -416,24 +433,23 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.shownArrived = true
                     }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
-                        //self.reachedDestLabel.text = "Reached Destination: FALSE"
-                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle)) is near."
-                        let alertPrompt = UIAlertController(title: "You are in the vicinity.", message: message, preferredStyle: .alert)
-                        
-                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
+                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Please be guided by the image for direction, and press Done upon arrival."
+                        let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
+
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 110, width: 250, height: 333))
                         let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
                         imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
-                        
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
+
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 495)
                         alertPrompt.view.addConstraint(height)
-                        
-                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
+
+                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
                         alertPrompt.view.addConstraint(width)
-                        
-                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
+
+                        let cancelAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
-                        
+
                         self.present(alertPrompt, animated: true, completion: nil)
                         self.shownVicinity = true
                     }
@@ -466,13 +482,18 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ~ SCENE MANIPULATION ~
      ====================================================================================================
      */
+    @IBAction func onDestinationLevelLabelPress(_ sender: UIBarButtonItem) {
+        self.tabBarController!.selectedIndex = 2
+    }
     @IBAction func onShowDestinationPress(_ sender: UIBarButtonItem) {
         // Stop sensors to prepare animation
         self.stopSensors()
+        self.disableGestureRecognizers()
         self.panCamToTargetAndBack()
         // Start sensors after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.startSensors()
+            self.enableGestureRecognizers()
         }
     }
     
@@ -949,7 +970,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         if (qrCodeFloorLevel == AppState.getBuildingCurrentFloor().floorLevel) {
             promptMessage = "You are still on the same floor. Your position has been fixed."
         } else {
-            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel, AppState.getBuilding().hasLGF)) Floor. Your position has been fixed."
+            promptMessage = "You are currently on the \(Utilities.ordinalize(qrCodeFloorLevel, AppState.getBuilding().hasLGF, abbv: false)). Your position has been fixed."
         }
         
         let successPrompt = UIAlertController(title: "Recalibration successful.", message: promptMessage, preferredStyle: .alert)

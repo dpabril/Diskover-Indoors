@@ -182,7 +182,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
             print(error)
         }
         // Set the prompt message
-        promptMessage = Utilities.initializeSuccessMessage(floor!.level, building!.hasLGF, building!.name) + " Press Navigate! to start navigating."
+        promptMessage = Utilities.initializeSuccessMessage(floor!.level, building!.hasLGF, building!.name) + " Press Navigate! to start."
         //print(promptMessage)
         //promptMessage = "You are on the \(Utilities.ordinalize(floor!.level, building!.hasLGF)) Floor of \(building!.name). Press Navigate! to start navigating."
         

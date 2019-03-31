@@ -41,36 +41,36 @@ class IndoorLocationsListController: UITableViewController {
         if (AppState.getBuilding().hasLGF) {
             switch section {
             case 0:
-                return "Lower Ground Floor"
+                return "Lower Ground Floor (LGF)"
             case 1:
-                return "Upper Ground Floor"
+                return "Ground Floor (GF)"
             case 2:
-                return "Second Floor"
+                return "Second Floor (2F)"
             case 3:
-                return "Third Floor"
+                return "Third Floor (3F)"
             case 4:
-                return "Fourth Floor"
+                return "Fourth Floor (4F)"
             case 5:
-                return "Fifth Floor"
+                return "Fifth Floor (5F)"
             default:
-                return "Secret Floor" // Should never be the case
+                return "" // Should never be the case
             }
         } else {
             switch section {
             case 0:
-                return "Ground Floor"
+                return "Ground Floor (GF)"
             case 1:
-                return "Second Floor"
+                return "Second Floor (2F)"
             case 2:
-                return "Third Floor"
+                return "Third Floor (3F)"
             case 3:
-                return "Fourth Floor"
+                return "Fourth Floor (4F)"
             case 4:
-                return "Fifth Floor"
+                return "Fifth Floor (5F)"
             case 5:
-                return "Sixth Floor"
+                return "Sixth Floor (6F)"
             default:
-                return "Secret Floor" // Should never be the case
+                return "" // Should never be the case
             }
         }
     }
@@ -103,23 +103,18 @@ class IndoorLocationsListController: UITableViewController {
         // self.tabBarController!.switchTab(tabBarController: self.tabBarController!, to: self.tabBarController!.viewControllers![1])
         // </NEW>
         
-        // Determine staircase/stairwell in building closest to destination
-        //if (!AppState.isUserOnDestinationLevel()) {
-            var buildingStaircases = AppState.getBuildingStaircases()
-            var navSceneDestCoords = AppState.getNavSceneDestCoords()
-            var nearestStaircase : Staircase = buildingStaircases[0]
-            var nearestStaircaseDistance : Double = sqrt(pow(navSceneDestCoords.x - nearestStaircase.xcoord, 2) + pow(navSceneDestCoords.y - nearestStaircase.ycoord, 2))
-            //
-            for staircase in buildingStaircases {
-                var staircaseToDestDistance = sqrt(pow(navSceneDestCoords.x - staircase.xcoord, 2) + pow(navSceneDestCoords.y - staircase.ycoord, 2))
-                if (staircaseToDestDistance <= nearestStaircaseDistance) {
-                    nearestStaircase = staircase
-                    nearestStaircaseDistance = staircaseToDestDistance
-                }
+        var buildingStaircases = AppState.getBuildingStaircases()
+        var navSceneDestCoords = AppState.getNavSceneDestCoords()
+        var nearestStaircase : Staircase = buildingStaircases[0]
+        var nearestStaircaseDistance : Double = sqrt(pow(navSceneDestCoords.x - nearestStaircase.xcoord, 2) + pow(navSceneDestCoords.y - nearestStaircase.ycoord, 2))
+        for staircase in buildingStaircases {
+            var staircaseToDestDistance = sqrt(pow(navSceneDestCoords.x - staircase.xcoord, 2) + pow(navSceneDestCoords.y - staircase.ycoord, 2))
+            if (staircaseToDestDistance <= nearestStaircaseDistance) {
+                nearestStaircase = staircase
+                nearestStaircaseDistance = staircaseToDestDistance
             }
-            //
-            AppState.setNearestStaircase(nearestStaircase)
-        //}
+        }
+        AppState.setNearestStaircase(nearestStaircase)
         
         self.tabBarController!.tabBar.items![1].isEnabled = true
         self.tabBarController!.selectedIndex = 1

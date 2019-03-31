@@ -21,21 +21,39 @@ class Utilities {
         return Float(radians * 180 / .pi)
     }
     
-    static func ordinalize(_ integer : Int, _ hasLGF : Bool) -> String {
+    static func ordinalize(_ integer : Int, _ hasLGF : Bool, abbv: Bool) -> String {
         if (hasLGF) {
             switch integer {
             case 1:
-                return "Lower Ground"
+                if (abbv) {
+                    return "LGF"
+                }
+                return "Lower Ground Floor"
             case 2:
-                return "Ground"
+                if (abbv) {
+                    return "GF"
+                }
+                return "Ground Floor"
             case 3:
-                return "2nd"
+                if (abbv) {
+                    return "2F"
+                }
+                return "2nd Floor"
             case 4:
-                return "3rd"
+                if (abbv) {
+                    return "3F"
+                }
+                return "3rd Floor"
             case 5:
-                return "4th"
+                if (abbv) {
+                    return "4F"
+                }
+                return "4th Floor"
             case 6:
-                return "5th"
+                if (abbv) {
+                    return "5F"
+                }
+                return "5th Floor"
             default:
                 // This should never be the case
                 return ""
@@ -43,15 +61,15 @@ class Utilities {
         } else {
             switch integer {
             case 1:
-                return "Ground"
+                return "Ground Floor"
             case 2:
-                return "2nd"
+                return "2nd Floor"
             case 3:
-                return "3rd"
+                return "3rd Floor"
             case 4:
-                return "4th"
+                return "4th Floor"
             case 5:
-                return "5th"
+                return "5th Floor"
             default:
                 // This should never be the case
                 return ""
@@ -60,14 +78,14 @@ class Utilities {
     }
     
     static func initializeSuccessMessage(_ level : Int, _ hasLGF : Bool, _ bldg : String) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)) Floor of \(bldg).")
+        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)) of \(bldg).")
     }
     
     static func currentLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF)) floor.")
+        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)).")
     }
     
     static func targetLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {
-        return String(format: "Destination is on the \(ordinalize(level, hasLGF)) floor.")
+        return String(format: "Destination is on the \(ordinalize(level, hasLGF, abbv: false)).")
     }
 }
