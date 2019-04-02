@@ -410,6 +410,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
+                    
+                    //stores info abt user orientation to determine whether the dest is in the user's left or right
+                    let userMarkerz = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+                    let orientation = -userMarkerz.eulerAngles.z
+                    
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
                         //self.reachedDestLabel.text = "Reached Destination: TRUE"
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
@@ -433,7 +438,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.shownArrived = true
                     }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
-                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Please be guided by the image for direction, and press Done upon arrival."
+                        
+                        let rightOrLeft = self.leftOrRight(userOrientation: orientation, userX: user.position.x, userY: user.position.y)
+                        
+                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft)Please be guided by the image for direction, and press Done upon arrival."
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 110, width: 250, height: 333))
@@ -449,7 +457,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
 
                         let cancelAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
-
+                        
+                        //print(orientation)
+                        
+                        
                         self.present(alertPrompt, animated: true, completion: nil)
                         self.shownVicinity = true
                     }
@@ -820,6 +831,46 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         else {
             return false
         }
+    }
+    
+    func leftOrRight(userOrientation: Float, userX: Float, userY: Float) -> String {
+        // up
+        if (userOrientation >= 5.6 && userOrientation <= 7.13) {
+            if (userX - pinX < 0) {
+                return "right. "
+            }
+            else {
+                return "left. "
+            }
+        }
+        // right
+        else if ((userOrientation >= 7.18 && userOrientation < 7.85) || (userOrientation > 1.5 && userOrientation < 2.48)) {
+            if (userY - pinY < 0) {
+                return "left. "
+            }
+            else {
+                return "right. "
+            }
+        }
+        // down
+        else if (userOrientation >= 2.53 && userOrientation <= 4.0) {
+            if (userX - pinX < 0) {
+                return "left. "
+            }
+            else {
+                return "right. "
+            }
+        }
+        // left
+        else if (userOrientation >= 4.05 && userOrientation <= 5.55) {
+            if (userY - pinY < 0) {
+                return "right. "
+            }
+            else {
+                return "left. "
+            }
+        }
+        return "front ."
     }
     
     /*
