@@ -28,6 +28,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var captureSession : AVCaptureSession = AVCaptureSession()
     var videoPreviewLayer : AVCaptureVideoPreviewLayer?
     
+    // UX Storyboard elements and logic variables
+    @IBOutlet weak var changingFloorIndicator: UIView!
+    @IBOutlet weak var changingFloorLabel: UILabel!
+    var levelChange : LevelChange = .none
+    @IBOutlet weak var altLabel: UILabel!
+    
     // Gesture recognizers
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet var pinchGestureRecognizer: UIPinchGestureRecognizer!
@@ -262,12 +268,52 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.altimeter.startRelativeAltitudeUpdates(to: OperationQueue.main, withHandler: { (altitudeData:CMAltitudeData?, error:Error?) in
                 
                 let altitude = altitudeData!.relativeAltitude.floatValue
+                self.altLabel.text = "Alt: \(altitude)"
                 
                 if (error != nil) {
                     self.stopAltimeter()
                 } else {
                     
-                    //self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
+                    // Determine whether or not to show loading activity indicator
+                    if ((Double(altitude) >= AppState.getBuilding().delta * 0.60) && (AppState.getBuildingCurrentFloor().floorLevel < AppState.getBuilding().floors)) {
+                        if (self.changingFloorIndicator.isHidden) {
+                            self.changingFloorLabel.text = "Going up..."
+                            self.changingFloorIndicator.isHidden = false
+                            self.levelChange = .up
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 1.0
+                            })
+                        }
+                    } else if ((Double(altitude) <= -AppState.getBuilding().delta * 0.60) && (AppState.getBuildingCurrentFloor().floorLevel > 1)) {
+                        if (self.changingFloorIndicator.isHidden) {
+                            self.changingFloorLabel.text = "Going down..."
+                            self.changingFloorIndicator.isHidden = false
+                            self.levelChange = .down
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 1.0
+                            })
+                        }
+                    }
+                    // Determine whether to hide floor change indicator when user doesn't continue going up/down
+                    if (!self.changingFloorIndicator.isHidden) {
+                        if ((self.levelChange == .up) && (Double(altitude) < AppState.getBuilding().delta * 0.60)) {
+                            self.changingFloorLabel.text = "Cancelling..."
+                            self.levelChange = .none
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 0.0
+                            }, completion: { (isComplete: Bool) -> Void in
+                                self.changingFloorIndicator.isHidden = true
+                            })
+                        } else if ((self.levelChange == .down) && (Double(altitude) > -AppState.getBuilding().delta * 0.60)) {
+                            self.changingFloorLabel.text = "Cancelling..."
+                            self.levelChange = .none
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 0.0
+                            }, completion: { (isComplete: Bool) -> Void in
+                                self.changingFloorIndicator.isHidden = true
+                            })
+                        }
+                    }
                     
                     // Set information on current floor upon significant change in altitude
                     if (Double(altitude) >= AppState.getBuilding().delta) {
@@ -280,7 +326,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             self.resetAltimeter()
                         }
                     } else if (Double(altitude) <= -AppState.getBuilding().delta) {
-                        if (AppState.getBuildingCurrentFloor().floorLevel > 0) {
+                        if (AppState.getBuildingCurrentFloor().floorLevel > 1) {
                             AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel - 1)
                             
                             let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
@@ -326,6 +372,15 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             }
             self.hidePinMarker()
             self.showStaircaseMarker()
+        }
+        
+        if (!self.changingFloorIndicator.isHidden) {
+            self.levelChange = .none
+            UIView.animate(withDuration: 0.3, animations: {
+                self.changingFloorIndicator.alpha = 0.0
+            }, completion: { (isComplete: Bool) -> Void in
+                self.changingFloorIndicator.isHidden = true
+            })
         }
     }
     
@@ -1049,5 +1104,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.panGestureRecognizer.isEnabled = false
         self.pinchGestureRecognizer.isEnabled = false
         self.rotateGestureRecognizer.isEnabled = false
+    }
+}
+
+extension NavigationController {
+    enum LevelChange {
+        case up, down, none
     }
 }
