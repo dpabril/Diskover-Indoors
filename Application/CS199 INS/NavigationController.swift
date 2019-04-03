@@ -32,7 +32,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     @IBOutlet weak var changingFloorIndicator: UIView!
     @IBOutlet weak var changingFloorLabel: UILabel!
     var levelChange : LevelChange = .none
-    @IBOutlet weak var altLabel: UILabel!
     
     // Gesture recognizers
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
@@ -268,7 +267,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.altimeter.startRelativeAltitudeUpdates(to: OperationQueue.main, withHandler: { (altitudeData:CMAltitudeData?, error:Error?) in
                 
                 let altitude = altitudeData!.relativeAltitude.floatValue
-                self.altLabel.text = "Alt: \(altitude)"
                 
                 if (error != nil) {
                     self.stopAltimeter()
@@ -475,12 +473,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
-                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
                         let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
                         imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
                         
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
                         alertPrompt.view.addConstraint(height)
                         
                         let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
@@ -496,7 +494,13 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         
                         let rightOrLeft = self.leftOrRight(userOrientation: orientation, userX: user.position.x, userY: user.position.y)
                         
-                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft)Please be guided by the image for direction, and press Done upon arrival."
+                        let message : String
+                        if (AppState.getDestinationSubtitle().subtitle == "") {
+                            message = "\(AppState.getDestinationTitle().title) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                        } else {
+                            message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                        }
+//                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 110, width: 250, height: 333))
@@ -892,40 +896,40 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // up
         if (userOrientation >= 5.6 && userOrientation <= 7.13) {
             if (userX - pinX < 0) {
-                return "right. "
+                return "right"
             }
             else {
-                return "left. "
+                return "left"
             }
         }
         // right
         else if ((userOrientation >= 7.18 && userOrientation < 7.85) || (userOrientation > 1.5 && userOrientation < 2.48)) {
             if (userY - pinY < 0) {
-                return "left. "
+                return "left"
             }
             else {
-                return "right. "
+                return "right"
             }
         }
         // down
         else if (userOrientation >= 2.53 && userOrientation <= 4.0) {
             if (userX - pinX < 0) {
-                return "left. "
+                return "left"
             }
             else {
-                return "right. "
+                return "right"
             }
         }
         // left
         else if (userOrientation >= 4.05 && userOrientation <= 5.55) {
             if (userY - pinY < 0) {
-                return "right. "
+                return "right"
             }
             else {
-                return "left. "
+                return "left"
             }
         }
-        return "front ."
+        return "front"
     }
     
     /*
