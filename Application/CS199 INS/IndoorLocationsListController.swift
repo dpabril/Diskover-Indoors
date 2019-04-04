@@ -116,8 +116,30 @@ class IndoorLocationsListController: UITableViewController {
         }
         AppState.setNearestStaircase(nearestStaircase)
         
-        self.tabBarController!.tabBar.items![1].isEnabled = true
-        self.tabBarController!.selectedIndex = 1
+        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
+        let alertPrompt = UIAlertController(title: "This is your destination.", message: message, preferredStyle: .alert)
+        
+        let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
+        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
+        imageView.image = UIImage(named: roomName)
+        alertPrompt.view.addSubview(imageView)
+        
+        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
+        alertPrompt.view.addConstraint(height)
+        
+        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
+        alertPrompt.view.addConstraint(width)
+        
+        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: {action in
+            self.tabBarController!.tabBar.items![1].isEnabled = true
+            self.tabBarController!.selectedIndex = 1
+        })
+        alertPrompt.addAction(cancelAction)
+        
+        self.present(alertPrompt, animated: true, completion: nil)
+        
+        //self.tabBarController!.tabBar.items![1].isEnabled = true
+        //self.tabBarController!.selectedIndex = 1
     }
 
 }
