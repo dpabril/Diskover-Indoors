@@ -151,13 +151,47 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vm9-5i-97g" userLabel="Floor Change Indicator">
+                                <rect key="frame" x="112.5" y="518" width="150" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Going up..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HyM-PT-JRD">
+                                        <rect key="frame" x="34" y="9.5" width="110" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="R3v-MW-eJH"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eJk-9i-FQD">
+                                        <rect key="frame" x="8" y="10" width="20" height="20"/>
+                                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.83450983502538068" green="0.83450983502538068" blue="0.83450983502538068" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="HyM-PT-JRD" firstAttribute="centerY" secondItem="vm9-5i-97g" secondAttribute="centerY" id="2AX-hx-4X8"/>
+                                    <constraint firstItem="HyM-PT-JRD" firstAttribute="leading" secondItem="eJk-9i-FQD" secondAttribute="trailing" constant="6" id="9Ho-11-o7t"/>
+                                    <constraint firstItem="eJk-9i-FQD" firstAttribute="leading" secondItem="vm9-5i-97g" secondAttribute="leading" constant="8" id="FOR-cb-7Eh"/>
+                                    <constraint firstAttribute="width" constant="150" id="M0w-fi-CWg"/>
+                                    <constraint firstAttribute="height" constant="40" id="cKI-S4-fF5"/>
+                                    <constraint firstItem="eJk-9i-FQD" firstAttribute="centerY" secondItem="vm9-5i-97g" secondAttribute="centerY" id="wpI-sE-wqu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="0fR-ME-Jnc"/>
+                            <constraint firstItem="Iau-ay-gbr" firstAttribute="top" secondItem="vm9-5i-97g" secondAttribute="bottom" constant="10" id="2sO-gU-mrz"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="MZE-Uc-VwE"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="QXU-52-TdP"/>
+                            <constraint firstItem="vm9-5i-97g" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Qt7-kq-s6n"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Yrd-ng-rZV"/>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="top" secondItem="Kxl-op-w2y" secondAttribute="top" id="beq-O4-k8W"/>
@@ -177,6 +211,8 @@
                     <connections>
                         <outlet property="calibrateButton" destination="Zds-Pi-aHV" id="xYs-R6-tRh"/>
                         <outlet property="cameraModeButton" destination="ud6-gR-vZp" id="ZZX-DJ-izd"/>
+                        <outlet property="changingFloorIndicator" destination="vm9-5i-97g" id="D7z-a0-lar"/>
+                        <outlet property="changingFloorLabel" destination="HyM-PT-JRD" id="m3G-yg-CZY"/>
                         <outlet property="destinationLevelLabel" destination="jPM-I0-lFN" id="BhH-f4-J7B"/>
                         <outlet property="navigationView" destination="Zmk-b7-6bY" id="DY1-aX-1wa"/>
                         <outlet property="panGestureRecognizer" destination="WfZ-il-dhJ" id="MOV-80-UPC"/>

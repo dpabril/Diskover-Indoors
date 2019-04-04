@@ -28,6 +28,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     var captureSession : AVCaptureSession = AVCaptureSession()
     var videoPreviewLayer : AVCaptureVideoPreviewLayer?
     
+    // UX Storyboard elements and logic variables
+    @IBOutlet weak var changingFloorIndicator: UIView!
+    @IBOutlet weak var changingFloorLabel: UILabel!
+    var levelChange : LevelChange = .none
+    
     // Gesture recognizers
     @IBOutlet var panGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet var pinchGestureRecognizer: UIPinchGestureRecognizer!
@@ -267,7 +272,46 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     self.stopAltimeter()
                 } else {
                     
-                    //self.altLabel.text = String(format: "Rel. alt.: %.02f", altitude)
+                    // Determine whether or not to show loading activity indicator
+                    if ((Double(altitude) >= AppState.getBuilding().delta * 0.60) && (AppState.getBuildingCurrentFloor().floorLevel < AppState.getBuilding().floors)) {
+                        if (self.changingFloorIndicator.isHidden) {
+                            self.changingFloorLabel.text = "Going up..."
+                            self.changingFloorIndicator.isHidden = false
+                            self.levelChange = .up
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 1.0
+                            })
+                        }
+                    } else if ((Double(altitude) <= -AppState.getBuilding().delta * 0.60) && (AppState.getBuildingCurrentFloor().floorLevel > 1)) {
+                        if (self.changingFloorIndicator.isHidden) {
+                            self.changingFloorLabel.text = "Going down..."
+                            self.changingFloorIndicator.isHidden = false
+                            self.levelChange = .down
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 1.0
+                            })
+                        }
+                    }
+                    // Determine whether to hide floor change indicator when user doesn't continue going up/down
+                    if (!self.changingFloorIndicator.isHidden) {
+                        if ((self.levelChange == .up) && (Double(altitude) < AppState.getBuilding().delta * 0.60)) {
+                            self.changingFloorLabel.text = "Cancelling..."
+                            self.levelChange = .none
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 0.0
+                            }, completion: { (isComplete: Bool) -> Void in
+                                self.changingFloorIndicator.isHidden = true
+                            })
+                        } else if ((self.levelChange == .down) && (Double(altitude) > -AppState.getBuilding().delta * 0.60)) {
+                            self.changingFloorLabel.text = "Cancelling..."
+                            self.levelChange = .none
+                            UIView.animate(withDuration: 0.3, animations: {
+                                self.changingFloorIndicator.alpha = 0.0
+                            }, completion: { (isComplete: Bool) -> Void in
+                                self.changingFloorIndicator.isHidden = true
+                            })
+                        }
+                    }
                     
                     // Set information on current floor upon significant change in altitude
                     if (Double(altitude) >= AppState.getBuilding().delta) {
@@ -280,7 +324,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             self.resetAltimeter()
                         }
                     } else if (Double(altitude) <= -AppState.getBuilding().delta) {
-                        if (AppState.getBuildingCurrentFloor().floorLevel > 0) {
+                        if (AppState.getBuildingCurrentFloor().floorLevel > 1) {
                             AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel - 1)
                             
                             let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
@@ -326,6 +370,15 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             }
             self.hidePinMarker()
             self.showStaircaseMarker()
+        }
+        
+        if (!self.changingFloorIndicator.isHidden) {
+            self.levelChange = .none
+            UIView.animate(withDuration: 0.3, animations: {
+                self.changingFloorIndicator.alpha = 0.0
+            }, completion: { (isComplete: Bool) -> Void in
+                self.changingFloorIndicator.isHidden = true
+            })
         }
     }
     
@@ -410,17 +463,22 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
+                    
+                    //stores info abt user orientation to determine whether the dest is in the user's left or right
+                    let userMarkerz = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+                    let orientation = -userMarkerz.eulerAngles.z
+                    
                     if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
                         //self.reachedDestLabel.text = "Reached Destination: TRUE"
                         let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
-                        let imageView = UIImageView(frame: CGRect(x: 25, y: 90, width: 250, height: 333))
+                        let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
                         let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
                         imageView.image = UIImage(named: roomName)
                         alertPrompt.view.addSubview(imageView)
                         
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 473)
+                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
                         alertPrompt.view.addConstraint(height)
                         
                         let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
@@ -433,7 +491,16 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         self.shownArrived = true
                     }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
-                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Please be guided by the image for direction, and press Done upon arrival."
+                        
+                        let rightOrLeft = self.leftOrRight(userOrientation: orientation, userX: user.position.x, userY: user.position.y)
+                        
+                        let message : String
+                        if (AppState.getDestinationSubtitle().subtitle == "") {
+                            message = "\(AppState.getDestinationTitle().title) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                        } else {
+                            message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                        }
+//                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 110, width: 250, height: 333))
@@ -449,7 +516,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
 
                         let cancelAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.cancel, handler: nil)
                         alertPrompt.addAction(cancelAction)
-
+                        
+                        //print(orientation)
+                        
+                        
                         self.present(alertPrompt, animated: true, completion: nil)
                         self.shownVicinity = true
                     }
@@ -822,6 +892,46 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         }
     }
     
+    func leftOrRight(userOrientation: Float, userX: Float, userY: Float) -> String {
+        // up
+        if (userOrientation >= 5.6 && userOrientation <= 7.13) {
+            if (userX - pinX < 0) {
+                return "right"
+            }
+            else {
+                return "left"
+            }
+        }
+        // right
+        else if ((userOrientation >= 7.18 && userOrientation < 7.85) || (userOrientation > 1.5 && userOrientation < 2.48)) {
+            if (userY - pinY < 0) {
+                return "left"
+            }
+            else {
+                return "right"
+            }
+        }
+        // down
+        else if (userOrientation >= 2.53 && userOrientation <= 4.0) {
+            if (userX - pinX < 0) {
+                return "left"
+            }
+            else {
+                return "right"
+            }
+        }
+        // left
+        else if (userOrientation >= 4.05 && userOrientation <= 5.55) {
+            if (userY - pinY < 0) {
+                return "right"
+            }
+            else {
+                return "left"
+            }
+        }
+        return "front"
+    }
+    
     /*
      ====================================================================================================
      ~ RECALIBRATION SUBFUNCTION ~
@@ -1049,5 +1159,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         self.panGestureRecognizer.isEnabled = false
         self.pinchGestureRecognizer.isEnabled = false
         self.rotateGestureRecognizer.isEnabled = false
+    }
+}
+
+extension NavigationController {
+    enum LevelChange {
+        case up, down, none
     }
 }
