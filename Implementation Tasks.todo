@@ -63,13 +63,15 @@ Application:
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
       ✔ Add a "Show Destination" button @done (19-03-22 19:35)
-      ☐ Use SpriteKit instead of SceneKit @low
       ✔ Allow map panning when detecting motion from single point of contact on screen (use UIPanGestureRecognizer) @done (19-03-22 19:35)
       ✔ Bind camera to user marker @done (19-03-22 19:35)
       ✔ Allow rotation of camera to simulate rotation of world around user (switch between this and default view) @done (19-03-22 19:35)
       ✔ Add bubbles ("You are here" and "This is your target") @high @done (19-03-27 15:55)
       ✔ Add labels (current floor and destination floor) @high @done (19-03-29 20:11)
       ✔ Fix logic in Utilities.ordinalize to accomodate hasLGF truth value @done (19-03-29 20:11)
+      ✔ Indicate left or right direction when showing facade image @done (19-04-04 10:08)
+      ✔ Add loading indicator for changing floors @done (19-04-04 10:09)
+      ☐ Separate altimeter reset from floor change logic?
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)
@@ -88,7 +90,6 @@ Application:
       ☐ Consider variable fixed-length movement; n velocity bins depending on current velocity
       ☐ Add images of room facades to app @high
       ☐ Add Credits screen (UIAlertController); include GRDB, MarqueeLabel, and Simon Ng (AppCoda)
-      ☐ Transfer scaling of nodes in NavigationScene.scn to respective .scn files; set to 1.00 in former
       ☐ Produce builds for Testflight
       ☐ Other tasks (enumerate when fleshed out)
       ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
