@@ -72,6 +72,7 @@ Application:
       ✔ Indicate left or right direction when showing facade image @done (19-04-04 10:08)
       ✔ Add loading indicator for changing floors @done (19-04-04 10:09)
       ☐ Separate altimeter reset from floor change logic?
+      ☐ Design and program Tutorial and Attribution Screens
 
     ☐ Indoor Location List View
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)

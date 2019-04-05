@@ -553,7 +553,35 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
      ====================================================================================================
      */
     @IBAction func onDestinationLevelLabelPress(_ sender: UIBarButtonItem) {
-        self.tabBarController!.selectedIndex = 2
+        //self.tabBarController!.selectedIndex = 2
+        let message : String
+        let locationHasSubtitle = AppState.getDestinationSubtitle().subtitle.count > 0
+        if (locationHasSubtitle) {
+            message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
+        } else {
+            message = "\(AppState.getDestinationTitle().title)"
+        }
+        
+        let alertPrompt = UIAlertController(title: "This is your destination.", message: message, preferredStyle: .alert)
+        
+        let imageView = UIImageView(frame: CGRect(x: 25, y: locationHasSubtitle ? 100 : 80, width: 250, height: 333))
+        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
+        imageView.image = UIImage(named: roomName)
+        alertPrompt.view.addSubview(imageView)
+        
+        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: locationHasSubtitle ? 485 : 465)
+        alertPrompt.view.addConstraint(height)
+        
+        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 300)
+        alertPrompt.view.addConstraint(width)
+        
+        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: {action in
+            self.tabBarController!.tabBar.items![1].isEnabled = true
+            self.tabBarController!.selectedIndex = 1
+        })
+        alertPrompt.addAction(cancelAction)
+        
+        self.present(alertPrompt, animated: true, completion: nil)
     }
     @IBAction func onShowDestinationPress(_ sender: UIBarButtonItem) {
         // Stop sensors to prepare animation

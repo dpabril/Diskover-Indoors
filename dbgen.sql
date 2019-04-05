@@ -97,9 +97,12 @@ INSERT INTO Staircase VALUES
     ("Melchor Hall", -0.27, -0.124);
 INSERT INTO IndoorLocation VALUES
     -- UP Alumni Engineers Centennial Hall
+    --  Lower Ground Floor
     ("UP AECH", 1, "Engineering Library 2", "", 0.0, 0.0),
+    --  Ground Floor
     ("UP AECH", 2, "Serials Section", "", -0.378, -0.056),
     ("UP AECH", 2, "The Learning Commons", "TLC", 0.277, 0.195),
+    --  Second Floor
     ("UP AECH", 3, "Rm 200", "Web Science Laboratory", 0.046, 0.018),
     ("UP AECH", 3, "Rm 201", "Web Science Group (WSG)", -0.031, 0.018),
     ("UP AECH", 3, "Rm 202", "ERDT Room", 0.225, 0.2),
@@ -112,117 +115,141 @@ INSERT INTO IndoorLocation VALUES
     ("UP AECH", 3, "Rm 212", "Classroom 4 (CLR 4)", 0.482, 0.2),
     ("UP AECH", 3, "Rm 214", "Teaching Lab 2 (TL2)", 0.556, 0.262),
     ("UP AECH", 3, "Rm 215", "Seminar Room", -0.614, 0.244),
+    --  Third Floor
     ("UP AECH", 4, "Rm 300", "Administration Office", 0.0, 0.0),
 
+
+
     -- UP Information Technology Development Center
+    --  Ground Floor
     ("UP ITDC", 1, "Rm 101", "", 0.0, 0.0),
+    --  Second Floor
     ("UP ITDC", 2, "Conference Room", "", 0.0, 0.0),
+    --  Third Floor
     ("UP ITDC", 3, "Networks and Infrastructure", "", 0.0, 0.0),
 
+
+
     -- College of Engineering
-    ("Melchor Hall", 1, "Rm 100", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 101", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 102", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 104-106", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 105-111", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 108-110", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 112-114", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 116", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 118", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 117", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 119-121", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 120", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 113-115", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Rm 123", "", 0.0, 0.0),
+    --  Ground Floor
+    ("Melchor Hall", 1, "MH 100", "DCE Faculty Office", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 101", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 102", "CoMSLab (Admin)", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 104-106", "Rosario S. Calderon Room", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 105-111", "Faculty Lounge", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 108-110", "Environmental Systems Applications of Geomatics Engineering Research Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 112-114", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 113-115", "Property Office", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 116", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 118", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 117", "NECFI", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 119-121", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 120", "", 0.0, 0.0), -- 122
+    ("Melchor Hall", 1, "MH 122", "DGE Instrument Room", 0.0, 0.0),
+    ("Melchor Hall", 1, "MH 123", "", 0.0, 0.0),
     ("Melchor Hall", 1, "Male Comfort Room 1", "", 0.0, 0.0),
     ("Melchor Hall", 1, "Female Comfort Room 1", "", 0.0, 0.0),
-    ("Melchor Hall", 1, "Male Comfort Room 2", "", 0.0, 0.0)
-    ("Melchor Hall", 2, "Rm 201-203", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 202", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 204", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 205", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 206", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 207", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 208", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 209-211", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 210-214", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 213-215", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 216-218", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 217", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 219", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 220", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 221-223", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 222", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Rm 225", "", 0.0, 0.0),
+    ("Melchor Hall", 1, "Male Comfort Room 2", "", 0.0, 0.0),
+    --  Second Floor
+    ("Melchor Hall", 2, "MH 201-203", "DOST-ERDT Project Office", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 202", "Dean's Office", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 204", "Office of the College Secretary / Administrative Staff Office", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 205", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 206", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 207", "College Secretary", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 208", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 209-211", "Office of the Associate Dean", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 210-214", "UP Remote Sensing Image Analysis Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 213-215", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 216-218", "Training Center for Applied Geodesy and Photogrammetry", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 217", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 219", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 220", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 221-223", "", 0.0, 0.0),
+    ("Melchor Hall", 2, "MH 222", "Geodesy, Survey, Land Administration and Valuation Laboratory", 0.0, 0.0), -- 224
+    ("Melchor Hall", 2, "MH 225", "", 0.0, 0.0),
     ("Melchor Hall", 2, "Library", "Engineering Library 1", 0.0, 0.0),
-    ("Melchor Hall", 2, "Male Comfort Room 1", "", 0.0, 0.0),
-    ("Melchor Hall", 2, "Female Comfort Room 1", "", 0.0, 0.0),
     ("Melchor Hall", 2, "Male Comfort Room 2", "", 0.0, 0.0),
     ("Melchor Hall", 2, "Female Comfort Room 2", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 325", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 323", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 321", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 319", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 317", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 313-315", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 309-311", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 305-307", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 301-303", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 302-304", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 306-308", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 310", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 312", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 314-316", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 318-320", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Rm 322", "", 0.0, 0.0),
+    --  Third Floor
+    ("Melchor Hall", 3, "MH 309-311", "", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 301-303", "UP ACES - DATEM Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 302-304", "Maynilad Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 305-307", "Civil Engineering Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 306-308", "", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 310", "Ma. Divina Cruz Casillan Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 312", "Marcello G. Casillan Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 313-315", "Epsilon Chi Alumni Inc. Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 314-316", "", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 317", "EE 1982 Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 318-320", "Beta Epsilon Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 319", "", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 321", "Januario P. ""Frondy"" Frondoso Room ", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 322", "UP DGE Faculty", 0.0, 0.0), -- 324
+    ("Melchor Hall", 3, "MH 323", "Alexan Commercial Room", 0.0, 0.0),
+    ("Melchor Hall", 3, "MH 325", "", 0.0, 0.0),
+    ("Melchor Hall", 3, "UP Engineering Theater", "", 0.0, 0.0),
     ("Melchor Hall", 3, "Male Comfort Room 1", "", 0.0, 0.0),
     ("Melchor Hall", 3, "Female Comfort Room 1", "", 0.0, 0.0),
     ("Melchor Hall", 3, "Male Comfort Room 2", "", 0.0, 0.0),
     ("Melchor Hall", 3, "Female Comfort Room 2", "", 0.0, 0.0),
-    ("Melchor Hall", 3, "Engineering Theater", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 421-423", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 417-419", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 415", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 413", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 411", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 407-409", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 405", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 401-403", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 406-408", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 410-414", "Geodetic Engineering Theater", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 416-418", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 420", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 422-424", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 426", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 428", "", 0.0, 0.0),
-    ("Melchor Hall", 4, "Rm 402-404", "", 0.0, 0.0),
+    --  Fourth Floor
+    ("Melchor Hall", 4, "MH 401-405", "IE / OR Computing Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 402-404", "Department of Industrial Engineering and Operations Research", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 406-408", "Applied Geodesy and Space Technology Research Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 407-409", "Human Factors and Ergonomics Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 410-414", "Geodetic Engineering Theater", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 411", "", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 413", "Quintin K. & NoMHa S. Calderon Room", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 415", "", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 416-418", "Maxima Room", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 417-419", "", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 420", "", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 421-423", "IDEA Laboratory", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 422-424", "Electrobus Consolidated Inc. Room", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 426", "", 0.0, 0.0),
+    ("Melchor Hall", 4, "MH 428", "GE Club", 0.0, 0.0),
     ("Melchor Hall", 4, "Male Comfort Room", "", 0.0, 0.0),
     ("Melchor Hall", 4, "Female Comfort Room", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 527", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 525", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 523", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 519-521", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 517", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 515", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 511-513", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 507-509", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 501-505", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 502", "", 0.0, 0.0),
-    ("Melchor Hall", 5, "Rm 500", "Procter & Gamble Theater", 0.0, 0.0),
+    --  Fifth Floor
+    ("Melchor Hall", 5, "MH 500", "Procter & Gamble Philippines Audiovisual Room", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 501-505", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 502", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 507-509", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 511-513", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 515", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 517", "Student Disciplinary Council", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 519-521", "UP CAPES", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 523", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 525", "", 0.0, 0.0),
+    ("Melchor Hall", 5, "MH 527", "", 0.0, 0.0),
     ("Melchor Hall", 5, "Male Comfort Room", "", 0.0, 0.0),
     ("Melchor Hall", 5, "Female Comfort Room", "", 0.0, 0.0);
 
-    -- Main Library
 
--- Notes:
---  QRTag is for initialization and localization. URL attribute stores strings of the form
---      BuildingAlias::FloorLevel ->
---        BuildingAlias used to determine building
---        BuildingAlias::FloorLevel used to determine Floor
---  Building information important for altimeter updates
---  Floor rows store paths to floor plans for plane retexturing
---  IndoorLocation entries show up in UI; relocate pin marker upon selection
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- Additional useful info:
---  - For Building, user marker rotation offset
---  - Don't forget to scale maps/user or both (not necessarily same time)
+
+    -- Institute of Mathematics Main Building
+    --  Ground Floor
+    --  Second Floor
+    --  Third Floor
+
+
+
+    -- Institute of Mathematics Annex
+    --  Ground Floor
+    --  Second Floor
+    --  Third Floor
+
+
+
+    -- UP School of Labor and Industrial Relations
+    --  Ground Floor
+    --  Second Floor
+
+
+
+    -- Main Library
+    --  Ground Floor
+    --  Second Floor
+    --  Third Floor
+    --  Fourth Floor
