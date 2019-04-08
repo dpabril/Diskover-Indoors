@@ -67,7 +67,7 @@ INSERT INTO QRTag VALUES
     ("UP AECH::4::A", 0.0, 0.0),
     ("UP ITDC::1::A", 0.0, 0.0),
     ("UP ITDC::2::A", 0.0, 0.0),
-    ("UP ITDC::3::A", 0.0, 0.0);
+    ("UP ITDC::3::A", 0.0, 0.0),
     ("Melchor Hall::1::A", 0.0, 0.0),
     ("Melchor Hall::2::A", 0.0, 0.0),
     ("Melchor Hall::3::A", 0.0, 0.0);

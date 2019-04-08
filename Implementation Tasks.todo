@@ -90,19 +90,12 @@ Application:
     ☐ Miscellaneous
       ☐ Consider variable fixed-length movement; n velocity bins depending on current velocity
       ☐ Add images of room facades to app @high
-      ☐ Add Credits screen (UIAlertController); include GRDB, MarqueeLabel, and Simon Ng (AppCoda)
       ☐ Produce builds for Testflight
       ☐ Other tasks (enumerate when fleshed out)
+      ✔ Add Credits screen (UIAlertController); include GRDB, MarqueeLabel, and Simon Ng (AppCoda) @done (19-04-08 15:56)
       ✔ Create a struct / class for variables / objects shared between controllers @done (19-02-09 17:31)
       ✔ Create icon assets for tab bar @low @done (19-03-12 11:37)
 
     Issues:
       ✔ Fix "Error: Failed to load <image>" @high @done (18-12-14 12:42) -- tanga lang si Xcode di makita yung folder
-        
-
-  CS 199 Nice-to-haves:
-    ☐ Outdoor Nav Subfunction
-      ☐ Integrate into app using MapKit
-Paper:
-  ☐ Write the paper, bois
-    ☐ Include diagram for data flow / high-level concept ?
+ 
