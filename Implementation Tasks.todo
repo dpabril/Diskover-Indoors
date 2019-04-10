@@ -98,4 +98,41 @@ Application:
 
     Issues:
       ✔ Fix "Error: Failed to load <image>" @high @done (18-12-14 12:42) -- tanga lang si Xcode di makita yung folder
- 
+
+Testing:
+  -- Submit documents : Request for plans (OCA), Permission to post QR codes (Per building)
+  ☐ UP Alumni Engineers Centennial Hall
+    ✔ Altitude @done (19-04-10 12:33)
+    ☐ Acquire floor plans from OCA
+    ✔ Collect images of room facades @done (19-04-10 12:33)
+    ☐ Post QR codes 
+  ☐ UP Information Technology Development Center
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ☐ Collect images of room facades
+    ☐ Post QR codes
+  ☐ Melchor Hall
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ✔ Collect images of room facades @done (19-04-10 12:33)
+    ☐ Post QR codes
+  ☐ University Main Library
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ☐ Collect images of room facades
+    ☐ Post QR codes
+  ☐ Institute of Mathematics (Main)
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ☐ Collect images of room facades
+    ☐ Post QR codes
+  ☐ Institute of Mathematics (Annex)
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ☐ Collect images of room facades
+    ☐ Post QR codes
+  ☐ UP School of Labor and Industrial Relations
+    ☐ Altitude
+    ☐ Acquire floor plans from OCA
+    ☐ Collect images of room facades
+    ☐ Post QR codes
