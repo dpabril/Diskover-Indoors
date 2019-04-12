@@ -6,7 +6,7 @@ Application:
       * Scanning QR codes instead of images solves the issue of unreliability thanks to varying lighting conditions
       * This is also a good solution for relocalization by placing QR codes in the areas covered by the application
 
-      ☐ QR Code Scanner
+      ✔ QR Code Scanner @done (19-04-12 18:03)
         ✔ Basic QR scanning functionality @done (18-12-06 16:36)
         ✔ Set minimum distance to QR code (arm's length) @done (18-12-07 14:29)
         ✔ Detect codes that do not exist in the database, and display informative message @high @done (19-02-09 17:25)
@@ -40,7 +40,7 @@ Application:
 
     ☐ Navigation View
       * Change plane size and material depending on most recently scanned location + relative altitude reading
-      ☐ Program scene adjustments
+      ✔ Program scene adjustments @done (19-04-12 18:03)
         ✔ Translation of location and user markers @done (19-03-13 19:34)
           ✔ Location pin marker @done (18-12-14 18:07)
           ✔ User marker @done (19-02-22 19:06)
@@ -58,7 +58,7 @@ Application:
           > Perhaps keep scanner in QR controller on but add a shared Boolean variable for checking which view the app is showing. When in Nav View, successful scans don't bring up a prompt ("Press Confirm to navigate!")
           > BETTER OPTION? : Add a hidden subview to the navigation scene view that is shown when "Recalibrate" is pressed. After scan (of either outcome) display a UIAlert (style: .alert) and proceed accordingly
         * REMOVED : ☐ Only allow camera panning up to plane bounds @low
-        ☐ Make location pin marker and message bubbles rotate against camera @low
+        ✔ Make location pin marker and message bubbles rotate against camera @low @done (19-04-12 18:03)
       ☐ Refine filter and movement vector calculation
         ✔ * Create a Filter class, with mirror, low-pass, and high-pass options @done (18-12-16 17:52)
       ✔ Replace ARKit with SceneKit @done (18-12-13 19:11)
@@ -72,9 +72,9 @@ Application:
       ✔ Indicate left or right direction when showing facade image @done (19-04-04 10:08)
       ✔ Add loading indicator for changing floors @done (19-04-04 10:09)
       ☐ Separate altimeter reset from floor change logic?
-      ☐ Design and program Tutorial and Attribution Screens
+      ✔ Design and program Tutorial and Attribution Screens @done (19-04-12 18:01)
 
-    ☐ Indoor Location List View
+    ✔ Indoor Location List View @done (19-04-12 18:03)
       ✔ Build query function for acquiring the list @done (18-12-14 18:07)
       ✔ Bind table cells to rows in the database @done (18-12-13 19:12)
       ✔ Don't restrict location list to current floor @done (19-02-09 17:31)
@@ -88,7 +88,6 @@ Application:
       ✔ use indexPath.section along with indexPath.row to fix some issues @done (19-02-09 17:31)
 
     ☐ Miscellaneous
-      ☐ Consider variable fixed-length movement; n velocity bins depending on current velocity
       ☐ Add images of room facades to app @high
       ☐ Produce builds for Testflight
       ☐ Other tasks (enumerate when fleshed out)
@@ -109,7 +108,7 @@ Testing:
   ☐ UP Information Technology Development Center
     ☐ Altitude
     ☐ Acquire floor plans from OCA
-    ☐ Collect images of room facades
+    ✔ Collect images of room facades @done (19-04-12 18:02)
     ☐ Post QR codes
   ☐ Melchor Hall
     ☐ Altitude
@@ -121,12 +120,7 @@ Testing:
     ☐ Acquire floor plans from OCA
     ☐ Collect images of room facades
     ☐ Post QR codes
-  ☐ Institute of Mathematics (Main)
-    ☐ Altitude
-    ☐ Acquire floor plans from OCA
-    ☐ Collect images of room facades
-    ☐ Post QR codes
-  ☐ Institute of Mathematics (Annex)
+  ☐ Institute of Mathematics
     ☐ Altitude
     ☐ Acquire floor plans from OCA
     ☐ Collect images of room facades
