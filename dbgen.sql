@@ -63,7 +63,7 @@ INSERT INTO QRTag VALUES
     ("UP AECH::1::B", 0.0, 0.0),
     ("UP AECH::1::C", 0.0, 0.0),
     ("UP AECH::2::A", 1.0, 1.0),
-    ("UP AECH::3::A", 0.0, 0.0),
+    ("UP AECH::3::A", 0.442, -0.7),
     ("UP AECH::4::A", 0.0, 0.0),
     ("UP ITDC::1::A", 0.0, 0.0),
     ("UP ITDC::2::A", 0.0, 0.0),
@@ -72,7 +72,7 @@ INSERT INTO QRTag VALUES
     ("Melchor Hall::2::A", 0.0, 0.0),
     ("Melchor Hall::3::A", 0.0, 0.0);
 INSERT INTO Building VALUES
-    ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 1.885, 1, 90),
+    ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 7.995, 4.086, 90),
     ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2, 1, 1, 0),
     ("Melchor Hall", "Melchor Hall", 5, FALSE, 4.0, 2.834, 1.411, 0);
 INSERT INTO Floor VALUES
@@ -100,23 +100,23 @@ INSERT INTO IndoorLocation VALUES
     --  Lower Ground Floor
     ("UP AECH", 1, "Engineering Library 2", "", 0.0, 0.0),
     --  Ground Floor
-    ("UP AECH", 2, "Serials Section", "", -0.378, -0.056),
-    ("UP AECH", 2, "The Learning Commons", "TLC", 0.277, 0.195),
+    ("UP AECH", 2, "Serials Section", "", -1.547, -0.23),
+    ("UP AECH", 2, "The Learning Commons", "TLC", 1.129, 0.8),
     --  Second Floor
-    ("UP AECH", 3, "Rm 200", "Web Science Laboratory", 0.046, 0.018),
-    ("UP AECH", 3, "Rm 201", "Web Science Group (WSG)", -0.031, 0.018),
-    ("UP AECH", 3, "Rm 202", "ERDT Room", 0.225, 0.2),
-    ("UP AECH", 3, "Rm 203", "Classroom 2 (CLR 2)", -0.207, 0.2),
-    ("UP AECH", 3, "Rm 204", "Classroom 3 (CLR 3)", 0.234, 0.35),
-    ("UP AECH", 3, "Rm 205", "Teaching Lab 1 (TL1)", -0.215, 0.266),
-    ("UP AECH", 3, "Rm 207", "Classroom 1 (CLR 1)", -0.515, 0.032),
-    ("UP AECH", 3, "Rm 210", "Teaching Lab 3 (TL3)", 0.477, 0.045),
-    ("UP AECH", 3, "Rm 211", "Lecture Hall", -0.51, -0.128),
-    ("UP AECH", 3, "Rm 212", "Classroom 4 (CLR 4)", 0.482, 0.2),
-    ("UP AECH", 3, "Rm 214", "Teaching Lab 2 (TL2)", 0.556, 0.262),
-    ("UP AECH", 3, "Rm 215", "Seminar Room", -0.614, 0.244),
+    ("UP AECH", 3, "Rm 200", "Web Science Laboratory", 0.196, 0.155),
+    ("UP AECH", 3, "Rm 201", "Web Science Group (WSG)", -0.125, 0.155),
+    ("UP AECH", 3, "Rm 202", "ERDT Room", 0.925, 0.85),
+    ("UP AECH", 3, "Rm 203", "Classroom 2 (CLR 2)", -0.85, 0.85),
+    ("UP AECH", 3, "Rm 204", "Classroom 3 (CLR 3)", 1.00, 1.45),
+    ("UP AECH", 3, "Rm 205", "Teaching Lab 1 (TL1)", -0.886, 1.088),
+    ("UP AECH", 3, "Rm 207", "Classroom 1 (CLR 1)", -2.229, 0.098),
+    ("UP AECH", 3, "Rm 210", "Teaching Lab 3 (TL3)", 2.148, 0.516),
+    ("UP AECH", 3, "Rm 211", "Lecture Hall", -2.136, -0.486),
+    ("UP AECH", 3, "Rm 212", "Classroom 4 (CLR 4)", 2.082, 0.823),
+    ("UP AECH", 3, "Rm 214", "Teaching Lab 2 (TL2)", 2.393, 1.111),
+    ("UP AECH", 3, "Rm 215", "Seminar Room", -2.604, 1.066),
     --  Third Floor
-    ("UP AECH", 4, "Rm 300", "Administration Office", 0.0, 0.0),
+    ("UP AECH", 4, "Rm 300", "Administration Office", 0.038, 0.172),
 
 
 

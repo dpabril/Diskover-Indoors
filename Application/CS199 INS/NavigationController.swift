@@ -174,7 +174,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Configuring user position
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         let userCoords = AppState.getNavSceneUserCoords()
-        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        userMarker.position = SCNVector3(userCoords.x, userCoords.y, 0)
         self.rotationOffset = currentBuilding.compassOffset
         
         // Configuring location marker position
@@ -182,19 +182,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let destCoords = AppState.getNavSceneDestCoords()
         self.shownVicinity = false
         self.shownArrived = false
-        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, 0)
         
         // Configuring user's / stairs marker's position
         if (AppState.isUserOnDestinationLevel()) {
             self.showPinMarker()
             self.hideStaircaseMarker()
-            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, 0)
             self.pinX = pinMarker.position.x
             self.pinY = pinMarker.position.y
         } else {
             let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
             let staircaseMarkerPoint = AppState.getNearestStaircase()
-            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, 0)
             if (AppState.getDestinationLevel().level < AppState.getBuildingCurrentFloor().floorLevel) {
                 staircaseMarker.eulerAngles.z = .pi
             } else {
@@ -248,8 +248,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         userMarker.eulerAngles.z = -Utilities.degToRad(self.rotationOffset + newHeading.magneticHeading)
-        print(newHeading.magneticHeading)
-        print(Double(Utilities.radToDeg(Double(-userMarker.eulerAngles.z))) - self.rotationOffset)
 
         if (self.cameraMode == .rotating) {
             let camera = self.navigationView.pointOfView!
@@ -356,7 +354,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             let destCoords = AppState.getNavSceneDestCoords()
             self.shownVicinity = false
             self.shownArrived = false
-            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            pinMarker.position = SCNVector3(destCoords.x, destCoords.y, 0)
             self.pinX = pinMarker.position.x
             self.pinY = pinMarker.position.y
             self.hideStaircaseMarker()
@@ -364,7 +362,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         } else {
             let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
             let staircaseMarkerPoint = AppState.getNearestStaircase()
-            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, 0)
             if (AppState.getDestinationLevel().level < AppState.getBuildingCurrentFloor().floorLevel) {
                 staircaseMarker.eulerAngles.z = .pi
             } else {
@@ -437,13 +435,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                 
                 if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
                     // Calculates velocity
-                    let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz;
-                    let lastV = sqrt(vx * vx + vy * vy + vz * vz);
-                    self.pos = (lastV * (1.0/6.0)) / 10.0
-                    if (self.pos >= 0.00063){
-                        self.pos = 0.00063
-                    }
-                    //print(self.pos)
+                    let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz
+                    var lastV = sqrt(vx * vx + vy * vy + vz * vz) / 10
                     //self.averageV = ( self.averageV + lastV ) / Double(self.count)
                     //if (self.averageV > self.maxAve) {
                     //    self.maxAve = self.averageV
@@ -456,7 +449,14 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
                     let camera = self.navigationView.pointOfView!
                     //user.simdPosition += user.simdWorldFront * 0.0004998
-                    user.simdPosition += user.simdWorldFront * (Float(self.pos))
+                    if (lastV > 0.002) {
+                        lastV = 0.002
+                    }
+                    
+                    if (abs(deviceMotionData!.rotationRate.z) < 1.5) {
+                        user.simdPosition += user.simdWorldFront * Float(lastV)
+                    }
+                    
                     
                     // Rotate camera according to current camera mode
                     if (self.cameraMode != .unlocked) {
@@ -522,9 +522,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             self.tabBarController!.selectedIndex = 0
                         })
                         alertPrompt.addAction(cancelAction)
-                        
-                        //print(orientation)
-                        
                         
                         self.present(alertPrompt, animated: true, completion: nil)
                         self.shownVicinity = true
@@ -738,26 +735,26 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         // Configuring user position
         let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
         let userCoords = AppState.getNavSceneUserCoords()
-        userMarker.position = SCNVector3(userCoords.x, userCoords.y, -1.6817374)
+        userMarker.position = SCNVector3(userCoords.x, userCoords.y, 0)
         
         // Configuring location marker position
         let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
         let destCoords = AppState.getNavSceneDestCoords()
         self.shownVicinity = false
         self.shownArrived = false
-        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+        pinMarker.position = SCNVector3(destCoords.x, destCoords.y, 0)
         
         // Configuring user's / stairs marker's position
         if (AppState.isUserOnDestinationLevel()) {
             self.showPinMarker()
             self.hideStaircaseMarker()
-            // pinMarker.position = SCNVector3(destCoords.x, destCoords.y, -1.6817374)
+            // pinMarker.position = SCNVector3(destCoords.x, destCoords.y, 0)
             self.pinX = pinMarker.position.x
             self.pinY = pinMarker.position.y
         } else {
             let staircaseMarker = self.scene.rootNode.childNode(withName: "StaircaseMarker", recursively: true)!
             let staircaseMarkerPoint = AppState.getNearestStaircase()
-            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, -1.6817374)
+            staircaseMarker.position = SCNVector3(staircaseMarkerPoint.xcoord, staircaseMarkerPoint.ycoord, 0)
             self.hidePinMarker()
             self.showStaircaseMarker()
         }
@@ -785,10 +782,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     // Show user and pin bubble
     func showBubble () {
-        let show = SCNAction.fadeIn(duration: 0)
+        let show = SCNAction.fadeIn(duration: 0.35)
         
         let userMessageBubble = SCNNode()
-        let destMessageBubble = SCNNode()
+        let targetMessageBubble = SCNNode()
         
         // User message bubble text
         let userMessageNode = SCNNode()
@@ -802,8 +799,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         userMessageNode.geometry = userMessageGeometry
         
         let userCoords = AppState.getNavSceneUserCoords()
-        userMessageNode.position = SCNVector3(userCoords.x, userCoords.y + 0.05, -1.679)
-        userMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
+        userMessageNode.position = SCNVector3(userCoords.x, userCoords.y - 0.13, 0.011)
+        userMessageNode.scale = SCNVector3Make(0.04, 0.04, 0.04)
         
         let userMax, userMin: SCNVector3
         userMax = userMessageGeometry.boundingBox.max
@@ -825,71 +822,77 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         userBGNode.geometry = userBGGeometry
         
-        userBGNode.position = SCNVector3(userCoords.x, userCoords.y + 0.05, -1.682)
-        userBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
+        userBGNode.position = SCNVector3(userCoords.x, userCoords.y - 0.13, 0.01)
+        userBGNode.scale = SCNVector3(0.04, 0.04, 0.04)
         
-        // Destination message bubble text
-        let destMessageNode = SCNNode()
-        let destMessageGeometry = SCNText(string: "DESPA", extrusionDepth: 0)
-        destMessageGeometry.string = AppState.getDestinationTitle().title
+        // Secondary marker message bubble
+        let targetMessageNode = SCNNode()
+        let targetMessageGeometry = SCNText(string: "", extrusionDepth: 0)
+        let targetCoords : FloorPoint
+        let targetMessageOffset : Double
         
-        destMessageGeometry.firstMaterial?.diffuse.contents = UIColor.black
-        destMessageGeometry.firstMaterial?.isDoubleSided = true
-        destMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
-        destMessageGeometry.flatness = 0
+        if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+            targetMessageGeometry.string = AppState.getDestinationTitle().title
+            targetCoords = AppState.getNavSceneDestCoords()
+            targetMessageOffset = 0.12
+        } else {
+            let toFloorLevel = Utilities.ordinalize(AppState.getDestinationLevel().level, AppState.getBuilding().hasLGF, abbv: true)
+            targetMessageGeometry.string = "To \(toFloorLevel)"
+            
+            let staircaseCoords = AppState.getNearestStaircase()
+            targetCoords = FloorPoint(staircaseCoords.xcoord, staircaseCoords.ycoord)
+            
+            targetMessageOffset = 0.20
+        }
         
-        destMessageNode.geometry = destMessageGeometry
+        targetMessageGeometry.firstMaterial?.diffuse.contents = UIColor.black
+        targetMessageGeometry.firstMaterial?.isDoubleSided = true
+        targetMessageGeometry.font = UIFont(name: "Helvetica Neue", size: CGFloat(3.0))
+        targetMessageGeometry.flatness = 0
         
-        let destCoords = AppState.getNavSceneDestCoords()
-        destMessageNode.position = SCNVector3(destCoords.x, destCoords.y - 0.03, -1.679)
-        destMessageNode.scale = SCNVector3Make(0.01, 0.01, 0.01)
+        targetMessageNode.geometry = targetMessageGeometry
+        targetMessageNode.position = SCNVector3(targetCoords.x, targetCoords.y - targetMessageOffset, 0.011)
+        targetMessageNode.scale = SCNVector3Make(0.04, 0.04, 0.04)
         
-        let destMax, destMin: SCNVector3
-        destMax = destMessageGeometry.boundingBox.max
-        destMin = destMessageGeometry.boundingBox.min
-        destMessageNode.pivot = SCNMatrix4MakeTranslation(
-            destMin.x + (destMax.x - destMin.x)/2,
-            destMin.y + (destMax.y - destMin.y)/2,
-            destMin.z + (destMax.z - destMin.z)/2
+        let targetMax, targetMin: SCNVector3
+        targetMax = targetMessageGeometry.boundingBox.max
+        targetMin = targetMessageGeometry.boundingBox.min
+        targetMessageNode.pivot = SCNMatrix4MakeTranslation(
+            targetMin.x + (targetMax.x - targetMin.x)/2,
+            targetMin.y + (targetMax.y - targetMin.y)/2,
+            targetMin.z + (targetMax.z - targetMin.z)/2
         )
         
-        // Destination message bubble background
-        let destBGNode = SCNNode()
+        // Target message bubble background
+        let targetBGNode = SCNNode()
         
-        let destBGGeometry = SCNPlane(width: CGFloat((destMax.x - destMin.x) * 1.5), height: CGFloat((destMax.y - destMin.y) * 1.5))
-        destBGGeometry.cornerRadius = 0.7
-        let destMaterial = SCNMaterial()
-        destMaterial.diffuse.contents = UIColor.yellow
-        destBGGeometry.materials = [destMaterial]
+        let targetBGGeometry = SCNPlane(width: CGFloat((targetMax.x - targetMin.x) * 1.5), height: CGFloat((targetMax.y - targetMin.y) * 1.5))
+        targetBGGeometry.cornerRadius = 0.7
+        let targetMaterial = SCNMaterial()
+        targetMaterial.diffuse.contents = UIColor.yellow
+        targetBGGeometry.materials = [targetMaterial]
         
-        destBGNode.geometry = destBGGeometry
+        targetBGNode.geometry = targetBGGeometry
         
-        destBGNode.position = SCNVector3(destCoords.x, destCoords.y - 0.03, -1.682)
-        destBGNode.scale = SCNVector3(0.01, 0.01, 0.01)
+        targetBGNode.position = SCNVector3(targetCoords.x, targetCoords.y - targetMessageOffset, 0.01)
+        targetBGNode.scale = SCNVector3(0.04, 0.04, 0.04)
         
         // Loading both the user bubble and destination to the messageBubble node
         userMessageBubble.addChildNode(userMessageNode)
         userMessageBubble.addChildNode(userBGNode)
-        destMessageBubble.addChildNode(destMessageNode)
-        destMessageBubble.addChildNode(destBGNode)
+        targetMessageBubble.addChildNode(targetMessageNode)
+        targetMessageBubble.addChildNode(targetBGNode)
         
         self.scene.rootNode.addChildNode(userMessageBubble)
-        self.scene.rootNode.addChildNode(destMessageBubble)
+        self.scene.rootNode.addChildNode(targetMessageBubble)
         
         userMessageBubble.runAction(show)
-        destMessageBubble.runAction(show)
+        targetMessageBubble.runAction(show)
         
-        if (AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
-            destMessageBubble.isHidden = false
-        }
-        else {
-            destMessageBubble.isHidden = true
-        }
-        
-        let hide = SCNAction.fadeOut(duration: 0.05)
+        let hide = SCNAction.fadeOut(duration: 0.25)
         let timer = Timer.scheduledTimer(withTimeInterval: 3.3, repeats: true) { timer in
             userMessageBubble.runAction(hide)
-            destMessageBubble.runAction(hide)
+            targetMessageBubble.runAction(hide)
             timer.invalidate()
         }
     }
@@ -902,7 +905,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        if (d <= 0.04 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+        if (d <= 0.15 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
@@ -918,7 +921,8 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        if (d <= 0.17 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+        print("Distance : \(d)")
+        if (d <= 0.55 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
@@ -1156,7 +1160,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         let camera = self.navigationView.pointOfView!
         
-        camera.position = SCNVector3(camera.position.x + Float(translation.x / 1000), camera.position.y + Float(translation.y / 1000), camera.position.z)
+        camera.position = SCNVector3(camera.position.x + Float(translation.x / 200), camera.position.y + Float(translation.y / 200), camera.position.z)
         
         sender.setTranslation(CGPoint.zero, in: self.navigationView)
     }
@@ -1170,10 +1174,10 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             camera.position.z -= Float(sender.scale / 35)
         }
         
-        if (camera.position.z < -0.55) {
-            camera.position.z = -0.55
-        } else if (camera.position.z > 1.20) {
-            camera.position.z = 1.20
+        if (camera.position.z < 1.05) {
+            camera.position.z = 1.05
+        } else if (camera.position.z > 2.00) {
+            camera.position.z = 2.00
         }
         
         sender.scale = 1.0
