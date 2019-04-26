@@ -1,2 +1,2 @@
-# CS198
-iOS ARKit application for indoor navigation
+# CS199
+An indoor navigation system for iOS written in Swift
