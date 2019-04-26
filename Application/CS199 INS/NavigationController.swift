@@ -19,6 +19,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     @IBOutlet weak var cameraModeButton: UIBarButtonItem!
     @IBOutlet weak var showDesinationButton: UIBarButtonItem!
     @IBOutlet weak var calibrateButton: UIBarButtonItem!
+    @IBOutlet weak var relAltLabel: UILabel!
     
     // Variables for use with recalibration
     @IBOutlet weak var recalibrationView: UIView!
@@ -219,7 +220,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         }
         super.viewWillDisappear(animated)
         
-        self.stopSensors()
+        self.stopSensors(withAltimeter: false)
         self.disableGestureRecognizers()
     }
     
@@ -267,6 +268,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.altimeter.startRelativeAltitudeUpdates(to: OperationQueue.main, withHandler: { (altitudeData:CMAltitudeData?, error:Error?) in
                 
                 let altitude = altitudeData!.relativeAltitude.floatValue
+                self.relAltLabel.text = "\(altitude)"
                 
                 if (error != nil) {
                     self.stopAltimeter()
@@ -281,6 +283,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             UIView.animate(withDuration: 0.3, animations: {
                                 self.changingFloorIndicator.alpha = 1.0
                             })
+                            self.changeFloor(1)
                         }
                     } else if ((Double(altitude) <= -AppState.getBuilding().delta * 0.60) && (AppState.getBuildingCurrentFloor().floorLevel > 1)) {
                         if (self.changingFloorIndicator.isHidden) {
@@ -290,6 +293,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             UIView.animate(withDuration: 0.3, animations: {
                                 self.changingFloorIndicator.alpha = 1.0
                             })
+                            self.changeFloor(-1)
                         }
                     }
                     // Determine whether to hide floor change indicator when user doesn't continue going up/down
@@ -302,6 +306,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             }, completion: { (isComplete: Bool) -> Void in
                                 self.changingFloorIndicator.isHidden = true
                             })
+                            self.changeFloor(-1)
                         } else if ((self.levelChange == .down) && (Double(altitude) > -AppState.getBuilding().delta * 0.60)) {
                             self.changingFloorLabel.text = "Cancelling..."
                             self.levelChange = .none
@@ -310,46 +315,29 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                             }, completion: { (isComplete: Bool) -> Void in
                                 self.changingFloorIndicator.isHidden = true
                             })
+                            self.changeFloor(1)
                         }
                     }
                     
-                    // Set information on current floor upon significant change in altitude
+                    // Reset altimeter upon significant change in altitude
                     if (Double(altitude) >= AppState.getBuilding().delta) {
-                        if (AppState.getBuildingCurrentFloor().floorLevel < AppState.getBuilding().floors) {
-                            AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel + 1)
-                            
-                            let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
-                            sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
-                            
-                            self.resetAltimeter()
-                        }
+                        self.resetAltimeter(pan: true)
                     } else if (Double(altitude) <= -AppState.getBuilding().delta) {
-                        if (AppState.getBuildingCurrentFloor().floorLevel > 1) {
-                            AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel - 1)
-                            
-                            let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
-                            sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
-                            
-                            self.resetAltimeter()
-                        }
+                        self.resetAltimeter(pan: true)
                     }
                 }
             })
         }
     }
-    func stopAltimeter() {
-        if (CMAltimeter.isRelativeAltitudeAvailable()) {
-            self.altimeter.stopRelativeAltitudeUpdates()
-        }
-    }
-    func resetAltimeter() {
-        self.stopAltimeter()
-        self.startAltimeter()
+    func changeFloor(_ direction : Int) {
+        AppState.setBuildingCurrentFloor(AppState.getBuildingCurrentFloor().floorLevel + direction) // direction is either +1 or -1
+            
+        let sceneFloor = self.scene.rootNode.childNode(withName: "Floor", recursively: true)!
+        sceneFloor.geometry?.firstMaterial?.diffuse.contents = AppState.getBuildingCurrentFloor().floorImage
         
         self.userLevelLabel.title = Utilities.ordinalize(AppState.getBuildingCurrentFloor().floorLevel, AppState.getBuilding().hasLGF, abbv: false)
         
         if (AppState.isUserOnDestinationLevel()) {
-            self.panCamToTargetAndBack()
             let pinMarker = self.scene.rootNode.childNode(withName: "LocationPinMarker", recursively: true)!
             let destCoords = AppState.getNavSceneDestCoords()
             self.shownVicinity = false
@@ -371,7 +359,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.hidePinMarker()
             self.showStaircaseMarker()
         }
+    }
+    func stopAltimeter() {
+        if (CMAltimeter.isRelativeAltitudeAvailable()) {
+            self.altimeter.stopRelativeAltitudeUpdates()
+        }
+    }
+    func resetAltimeter(pan : Bool) {
+        self.stopAltimeter()
+        self.startAltimeter()
         
+        if (pan) {
+            self.panCamToTargetAndBack()
+        }
         if (!self.changingFloorIndicator.isHidden) {
             self.levelChange = .none
             UIView.animate(withDuration: 0.3, animations: {
@@ -540,14 +540,16 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     // Function to call sensors' start functions
     func startSensors () {
         self.startCompass()
-        self.startAltimeter()
         self.startDeviceMotionManager()
+        self.startAltimeter()
     }
     // Function to call sensors' stop functions
-    func stopSensors () {
+    func stopSensors (withAltimeter : Bool) {
         self.stopCompass()
-        self.stopAltimeter()
         self.stopDeviceMotionManager()
+        if (withAltimeter) {
+            self.stopAltimeter()
+        }
     }
     
     /*
@@ -588,7 +590,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     @IBAction func onShowDestinationPress(_ sender: UIBarButtonItem) {
         // Stop sensors to prepare animation
-        self.stopSensors()
+        self.stopSensors(withAltimeter: false)
         self.disableGestureRecognizers()
         self.panCamToTargetAndBack()
         // Start sensors after animation
@@ -986,7 +988,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.view.bringSubviewToFront(self.recalibrationView)
             
             // Stop sensors
-            self.stopSensors()
+            self.stopSensors(withAltimeter: false)
             self.captureSession.startRunning()
             UIView.animate(withDuration: 0.3, animations: {
                 self.recalibrationView.alpha = 1.0
@@ -1137,6 +1139,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             // Stop capture session and start sensors
             self.stopCaptureSession()
             self.startSensors()
+            self.resetAltimeter(pan: false)
         })
         successPrompt.addAction(okAction)
         

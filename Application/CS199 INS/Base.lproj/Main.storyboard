@@ -201,6 +201,12 @@
                                     <segue destination="yHp-bP-3to" kind="show" id="F1Y-bo-oo4"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcP-k4-gi0" userLabel="Rel Alt Lbel">
+                                <rect key="frame" x="160" y="168" width="48" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -208,6 +214,7 @@
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="0fR-ME-Jnc"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="top" secondItem="vm9-5i-97g" secondAttribute="bottom" constant="10" id="2sO-gU-mrz"/>
                             <constraint firstItem="Pwk-ib-NgA" firstAttribute="top" secondItem="7fC-va-zKj" secondAttribute="bottom" constant="16" id="LCh-6w-cYF"/>
+                            <constraint firstItem="XcP-k4-gi0" firstAttribute="top" secondItem="7fC-va-zKj" secondAttribute="bottom" constant="16" id="LK3-pa-7zs"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="MZE-Uc-VwE"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="QXU-52-TdP"/>
                             <constraint firstItem="vm9-5i-97g" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Qt7-kq-s6n"/>
@@ -241,6 +248,7 @@
                         <outlet property="pinchGestureRecognizer" destination="MVC-GO-pBj" id="cwe-RU-WuA"/>
                         <outlet property="recalibrationFrame" destination="9M9-Pw-VRW" id="cuI-x9-Ho7"/>
                         <outlet property="recalibrationView" destination="7dh-oq-QAL" id="dGb-yx-47x"/>
+                        <outlet property="relAltLabel" destination="XcP-k4-gi0" id="I3A-zW-Oiw"/>
                         <outlet property="rotateGestureRecognizer" destination="psA-n7-VLR" id="h8l-GS-hGp"/>
                         <outlet property="showDesinationButton" destination="TRa-Cd-yH1" id="3Ul-Fh-V6X"/>
                         <outlet property="userLevelLabel" destination="zO9-4y-ZpW" id="RZ8-oc-7kc"/>
