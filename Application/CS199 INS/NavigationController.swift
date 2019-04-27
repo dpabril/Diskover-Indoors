@@ -476,8 +476,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
                         
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
-                        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
-                        imageView.image = UIImage(named: roomName)
+                        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
                         alertPrompt.view.addSubview(imageView)
                         
                         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
@@ -506,8 +505,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 130, width: 250, height: 333))
-                        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
-                        imageView.image = UIImage(named: roomName)
+                        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
                         alertPrompt.view.addSubview(imageView)
 
                         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 515)
@@ -518,8 +516,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
 
                         let cancelAction = UIAlertAction(title: "Done", style: UIAlertAction.Style.cancel, handler: { (action) -> Void in
                             self.tabBarController!.tabBar.items![1].isEnabled = false
-                            self.tabBarController!.tabBar.items![2].isEnabled = false
-                            self.tabBarController!.selectedIndex = 0
+                            self.tabBarController!.selectedIndex = 2
                         })
                         alertPrompt.addAction(cancelAction)
                         
@@ -570,8 +567,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         let alertPrompt = UIAlertController(title: "This is your destination.", message: message, preferredStyle: .alert)
         
         let imageView = UIImageView(frame: CGRect(x: 25, y: locationHasSubtitle ? 100 : 80, width: 250, height: 333))
-        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
-        imageView.image = UIImage(named: roomName)
+        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
         alertPrompt.view.addSubview(imageView)
         
         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: locationHasSubtitle ? 485 : 465)

@@ -127,8 +127,7 @@ class IndoorLocationsListController: UITableViewController {
         let alertPrompt = UIAlertController(title: "This is your destination.", message: message, preferredStyle: .alert)
         
         let imageView = UIImageView(frame: CGRect(x: 25, y: locationHasSubtitle ? 100 : 80, width: 250, height: 333))
-        let roomName = "\(AppState.getBuilding().alias)-\(AppState.getDestinationLevel().level)-\(AppState.getDestinationTitle().title)"
-        imageView.image = UIImage(named: roomName)
+        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
         alertPrompt.view.addSubview(imageView)
         
         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: locationHasSubtitle ? 485 : 465)

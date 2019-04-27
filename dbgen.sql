@@ -90,12 +90,12 @@ INSERT INTO Floor VALUES
     ("MH", 4),
     ("MH", 5);
 INSERT INTO Staircase VALUES
-    ("UP AECH", 0.281, -0.124),
-    ("UP AECH", -0.27, -0.124),
-    ("UP ITDC", 0.281, -0.124),
-    ("UP ITDC", -0.27, -0.124),
-    ("MH", 0.281, -0.124),
-    ("MH", -0.27, -0.124);
+    ("UP AECH", 1.186, -0.649),
+    ("UP AECH", -1.09, -0.649),
+    ("UP ITDC", -2.298, 0.106),
+    ("UP ITDC", 1.463, -0.291),
+    ("MH", -5.432, -0.45),
+    ("MH", 0.084, -0.162);
 INSERT INTO IndoorLocation VALUES
     -- UP Alumni Engineers Centennial Hall
     --  Lower Ground Floor
