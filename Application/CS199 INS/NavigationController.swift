@@ -477,6 +477,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
                         imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
+                        imageView.contentMode = .scaleAspectFit
                         alertPrompt.view.addSubview(imageView)
                         
                         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
@@ -506,6 +507,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 130, width: 250, height: 333))
                         imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
+                        imageView.contentMode = .scaleAspectFit
                         alertPrompt.view.addSubview(imageView)
 
                         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 515)
@@ -568,6 +570,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         
         let imageView = UIImageView(frame: CGRect(x: 25, y: locationHasSubtitle ? 100 : 80, width: 250, height: 333))
         imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
+        imageView.contentMode = .scaleAspectFit
         alertPrompt.view.addSubview(imageView)
         
         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: locationHasSubtitle ? 485 : 465)
