@@ -84,7 +84,24 @@ INSERT INTO QRTag VALUES
     ("UP AECH::4::Admin", 0.038, -0.079),
     ("UP AECH::4::Conference", 0.038, 1.143),
     ("UP AECH::4::CSG", 2.404, 0.081),
-    ("UP AECH::4::CVMIG", -1.587, 0.245);
+    ("UP AECH::4::CVMIG", -1.587, 0.245)
+
+    ("UP ITDC::1::Entrance", -1.921, -0.281),
+    ("UP ITDC::1::FemaleCR", 1.109, -0.571),
+    ("UP ITDC::1::NorthStairs", 1.463, 0.233),
+    ("UP ITDC::2::209R", 1.088, -0.562),
+    ("UP ITDC::2::207Door", 0.129, -0.562),
+    ("UP ITDC::2::205BB203", -0.43, -0.562),
+    ("UP ITDC::2::FloorDirectory", -1.951, -0.562),
+    ("UP ITDC::2::208BB210", -0.534, 0.495),
+    ("UP ITDC::2::212L", 0.187, 0.495),
+    ("UP ITDC::2::UnderExitStairsN", 1.451, 0.233),
+    ("UP ITDC::3::303L", 0.028, -0.564),
+    ("UP ITDC::3::301", -1.009, -0.578),
+    ("UP ITDC::3::FAlarmStairsS", -1.86, -0.451),
+    ("UP ITDC::3::304", -1.89, 0.502),
+    ("UP ITDC::3::308B", -0.253, 0.513),
+    ("UP ITDC::3::312", 1.082, 0.508);
 
 INSERT INTO Building VALUES
     ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 7.995, 4.086, 90),
