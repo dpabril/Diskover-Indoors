@@ -201,8 +201,8 @@
                                     <segue destination="yHp-bP-3to" kind="show" id="F1Y-bo-oo4"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcP-k4-gi0" userLabel="Rel Alt Lbel">
-                                <rect key="frame" x="160" y="168" width="48" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcP-k4-gi0" userLabel="Rel Alt Lbel">
+                                <rect key="frame" x="317" y="168" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -228,6 +228,7 @@
                             <constraint firstItem="7fC-va-zKj" firstAttribute="top" secondItem="wKk-GQ-cmr" secondAttribute="bottom" id="iU2-5P-gMf"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="j0Y-g5-iDa"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="mFf-aA-xGL"/>
+                            <constraint firstItem="Kxl-op-w2y" firstAttribute="trailing" secondItem="XcP-k4-gi0" secondAttribute="trailing" constant="16" id="oSV-bx-7Mg"/>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="rQN-qo-oWf"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="bottom" secondItem="Kxl-op-w2y" secondAttribute="bottom" id="rWj-z5-UkK"/>
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="trailing" secondItem="Zmk-b7-6bY" secondAttribute="trailing" id="w0J-Xl-ZZK"/>

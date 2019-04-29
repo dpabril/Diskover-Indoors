@@ -57,14 +57,14 @@ CREATE TABLE IndoorLocation (
         ON DELETE CASCADE
     );
 
-INSERT INTO QRTag VALUES
+INSERT INTO QRTag VALUES 
     -- Format: Building::FloorLevel::Point
     ("UP ITDC::1::A", 0.0, 0.0),
     ("UP ITDC::2::A", 0.0, 0.0),
     ("UP ITDC::3::A", 0.0, 0.0),
     ("Melchor Hall::1::A", 0.0, 0.0),
     ("Melchor Hall::2::A", 0.0, 0.0),
-    ("Melchor Hall::3::A", 0.0, 0.0);
+    ("Melchor Hall::3::A", 0.0, 0.0),
 
     ("UP AECH::2::Entrance", -0.031, -0.201),
     ("UP AECH::2::ColumnL", -1.41, -0.341),
@@ -84,12 +84,13 @@ INSERT INTO QRTag VALUES
     ("UP AECH::4::Admin", 0.038, -0.079),
     ("UP AECH::4::Conference", 0.038, 1.143),
     ("UP AECH::4::CSG", 2.404, 0.081),
-    ("UP AECH::4::CVMIG", -1.587, 0.245),
+    ("UP AECH::4::CVMIG", -1.587, 0.245);
 
 INSERT INTO Building VALUES
     ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 7.995, 4.086, 90),
-    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.2, 1, 1, 0),
-    ("Melchor Hall", "Melchor Hall", 5, FALSE, 4.0, 2.834, 1.411, 0);
+    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.6, 5.781, 3.8, 0),
+    ("Melchor Hall", "Melchor Hall", 5, FALSE, 4.4, 12.595, 6.271, 0),
+    ("MainLib", "University Main Library", 4, TRUE, 5.2, 10.0, 6.0, 0);
 INSERT INTO Floor VALUES
     ("UP AECH", 1),
     ("UP AECH", 2),
