@@ -238,7 +238,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     func startCompass() {
         if CLLocationManager.headingAvailable() {
             print("Compass is now active.")
-            self.compassManager.headingFilter = 0.2
+            self.compassManager.headingFilter = 0.5
             self.compassManager.delegate = self
             self.compassManager.startUpdatingHeading()
         }
@@ -433,7 +433,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     self.zAccelZeroCount = 0
                 }
                 
-                if ((self.prevVy > 0.012) || (self.prevVx > 0.012)) {
+                if ((abs(self.prevVx) >= 0.012)) {
                     // Calculates velocity
                     let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz
                     var lastV = sqrt(vx * vx + vy * vy + vz * vz) / 10
@@ -589,12 +589,12 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     }
     @IBAction func onShowDestinationPress(_ sender: UIBarButtonItem) {
         // Stop sensors to prepare animation
-        self.stopSensors(withAltimeter: false)
+        //self.stopSensors(withAltimeter: false)
         self.disableGestureRecognizers()
         self.panCamToTargetAndBack()
         // Start sensors after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.startSensors()
+            //self.startSensors()
             self.enableGestureRecognizers()
         }
     }
