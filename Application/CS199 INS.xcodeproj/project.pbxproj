@@ -20,6 +20,7 @@
 		E570E1422270591700E77278 /* Rooms.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E570E1412270591700E77278 /* Rooms.xcassets */; };
 		E590963B2244BEC000C81695 /* CameraMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E590963A2244BEC000C81695 /* CameraMode.swift */; };
 		E5AE720521C267150010A5BA /* SceneObjects.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E5AE720421C267150010A5BA /* SceneObjects.scnassets */; };
+		E5D0338D2276B40A00C5E98F /* Plans.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D0338C2276B40A00C5E98F /* Plans.xcassets */; };
 		E5D11D2121BF831200123FEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2021BF831200123FEE /* AppDelegate.swift */; };
 		E5D11D2321BF831200123FEE /* QRCodeScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2221BF831200123FEE /* QRCodeScannerController.swift */; };
 		E5D11D2521BF831200123FEE /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D2421BF831200123FEE /* NavigationController.swift */; };
@@ -35,7 +36,6 @@
 		E5D11D9221BF983F00123FEE /* IndoorLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11D9121BF983F00123FEE /* IndoorLocation.swift */; };
 		E5D11DAD21BFCE2B00123FEE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */; };
 		E5D508B1222CE76900FEAE88 /* Staircase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D508B0222CE76900FEAE88 /* Staircase.swift */; };
-		E5D53B3021C369A10033A0A4 /* Textures.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = E5D53B2F21C369A10033A0A4 /* Textures.scnassets */; };
 		E5EF549C21FEC6E60082DAEF /* navdb.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E5EF549B21FEC6E60082DAEF /* navdb.sqlite */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +140,7 @@
 		E570E1412270591700E77278 /* Rooms.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Rooms.xcassets; sourceTree = "<group>"; };
 		E590963A2244BEC000C81695 /* CameraMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMode.swift; sourceTree = "<group>"; };
 		E5AE720421C267150010A5BA /* SceneObjects.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = SceneObjects.scnassets; sourceTree = "<group>"; };
+		E5D0338C2276B40A00C5E98F /* Plans.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Plans.xcassets; sourceTree = "<group>"; };
 		E5D11D1D21BF831200123FEE /* CS199 INS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS199 INS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5D11D2021BF831200123FEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5D11D2221BF831200123FEE /* QRCodeScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerController.swift; sourceTree = "<group>"; };
@@ -156,7 +157,6 @@
 		E5D11D9121BF983F00123FEE /* IndoorLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndoorLocation.swift; sourceTree = "<group>"; };
 		E5D11DAC21BFCE2B00123FEE /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		E5D508B0222CE76900FEAE88 /* Staircase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Staircase.swift; sourceTree = "<group>"; };
-		E5D53B2F21C369A10033A0A4 /* Textures.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Textures.scnassets; sourceTree = "<group>"; };
 		E5EF549B21FEC6E60082DAEF /* navdb.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = navdb.sqlite; path = ../../navdb.sqlite; sourceTree = "<group>"; };
 		E5F67E04226D8F9100D6341C /* Ruler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ruler.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -210,10 +210,10 @@
 				E5D11D3421BF86A800123FEE /* IndoorLocationsListController.swift */,
 				E5D11D2621BF831200123FEE /* Main.storyboard */,
 				E5D11D2B21BF831400123FEE /* LaunchScreen.storyboard */,
+				E5D0338C2276B40A00C5E98F /* Plans.xcassets */,
 				E570E1412270591700E77278 /* Rooms.xcassets */,
 				E5D11D2921BF831400123FEE /* Assets.xcassets */,
 				E5AE720421C267150010A5BA /* SceneObjects.scnassets */,
-				E5D53B2F21C369A10033A0A4 /* Textures.scnassets */,
 				E5F67E04226D8F9100D6341C /* Ruler.png */,
 				E5D11D8921BF977600123FEE /* Models */,
 				E509E89421C0F4EB003A5FE3 /* Filters */,
@@ -400,12 +400,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5D0338D2276B40A00C5E98F /* Plans.xcassets in Resources */,
 				E5AE720521C267150010A5BA /* SceneObjects.scnassets in Resources */,
 				E5EF549C21FEC6E60082DAEF /* navdb.sqlite in Resources */,
 				E5D11D2D21BF831400123FEE /* LaunchScreen.storyboard in Resources */,
 				E5D11D2A21BF831400123FEE /* Assets.xcassets in Resources */,
 				E5D11D2821BF831200123FEE /* Main.storyboard in Resources */,
-				E5D53B3021C369A10033A0A4 /* Textures.scnassets in Resources */,
 				E570E1422270591700E77278 /* Rooms.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

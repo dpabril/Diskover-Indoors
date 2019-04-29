@@ -123,11 +123,42 @@ INSERT INTO IndoorLocation VALUES
 
     -- UP Information Technology Development Center
     --  Ground Floor
-    ("UP ITDC", 1, "Rm 101", "", 0.0, 0.0),
+    ("UP ITDC", 1, "Rm 103", "", 0.0, 0.0),
+    ("UP ITDC", 1, "Rm 104", "", -1.353, 0.629),
+    ("UP ITDC", 1, "Rm 105", "", 0.0, 0.0),
+    ("UP ITDC", 1, "Rm 106", "", 0.532, 0.629),
+    ("UP ITDC", 1, "Rm 108", "", 1.091, 0.629),
+    ("UP ITDC", 1, "Men's Room", "", 0.979, 0.348),
+    ("UP ITDC", 1, "Ladies' Room", "", 0.979, -0.401),
     --  Second Floor
-    ("UP ITDC", 2, "Conference Room", "", 0.0, 0.0),
+    ("UP ITDC", 2, "Rm 201", "Conference Room", -0.98, -0.650),
+    ("UP ITDC", 2, "Rm 203", "Trainers Office", -0.724, -0.650),
+    ("UP ITDC", 2, "Rm 204", "Laboratory 3", -1.791, 0.597),
+    ("UP ITDC", 2, "Rm 205", "Admin Office", -0.092, -0.650),
+    ("UP ITDC", 2, "Rm 206", "Server Room", -1.617, 0.597),
+    ("UP ITDC", 2, "Rm 207-209", "", 0.136, -0.650),
+    ("UP ITDC", 2, "Rm 208-210", "", -1.153, 0.597),
+    ("UP ITDC", 2, "Rm 211", "", 1.40, -0.650),
+    ("UP ITDC", 2, "Rm 212", "Laboratory 5", 0.299, 0.597),
+    ("UP ITDC", 2, "Rm 213", "", 1.606, -0.571),
+    ("UP ITDC", 2, "Rm 214", "Meeting Room", 0.766, 0.597),
+    ("UP ITDC", 2, "Men's Room", "", 0.942, 0.300),
+    ("UP ITDC", 2, "Ladies' Room", "", 0.942, -0.378),
     --  Third Floor
-    ("UP ITDC", 3, "Networks and Infrastructure", "", 0.0, 0.0),
+    ("UP ITDC", 3, "Rm 301", "Software Engineering and Information Systems Group", -1.021, -0.654),
+    ("UP ITDC", 3, "Rm 303", "", -0.714, -0.654),
+    ("UP ITDC", 3, "Rm 304", "", -1.787, 0.627),
+    ("UP ITDC", 3, "Rm 304-B", "Office of the Director", -1.645, 0.627),
+    ("UP ITDC", 3, "Rm 305", "OVPD Project Management Office", 0.141, -0.654),
+    ("UP ITDC", 3, "Rm 306", "Office of the Deputy Director", -0.988, 0.627),
+    ("UP ITDC", 3, "Rm 307", "", 1.659, -0.548),
+    ("UP ITDC", 3, "Rm 308", "Tech Support", -0.741, 0.627),
+    ("UP ITDC", 3, "Rm 308-B", "Communications", -0.129, 0.627),
+    ("UP ITDC", 3, "Rm 309", "EITSC Computer Laboratory", 0.3, 0.627),
+    ("UP ITDC", 3, "Rm 310", "", 0.753, 0.627),
+    ("UP ITDC", 3, "Rm 312", "Infrastructure and Tech Support Group", 1.156, 0.627),
+    ("UP ITDC", 3, "Men's Room", "", 0.999, 0.338),
+    ("UP ITDC", 3, "Ladies' Room", "", 0.999, -0.38),
 
 
 
@@ -227,6 +258,7 @@ INSERT INTO IndoorLocation VALUES
     ("MH", 5, "MH 527", "", -5.096, -0.51),
     ("MH", 5, "Male Comfort Room", "", -4.934, -0.51),
     ("MH", 5, "Female Comfort Room", "", -4.934, -0.51);
+
 
 
     -- Main Library

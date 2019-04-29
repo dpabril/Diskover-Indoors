@@ -205,7 +205,7 @@ class QRCodeScannerController: UIViewController, AVCaptureMetadataOutputObjectsD
                     print(error)
                 }
                 
-                let floorImage = UIImage(named: Bundle.main.path(forResource: String(floorLevel), ofType: "png", inDirectory: "Textures.scnassets/\(qrCodeBuilding)")!)!
+                let floorImage = UIImage(named: "\(qrCodeBuilding)/\(floorLevel)")!
                 let floorPlan = FloorPlan(floorLevel, floorImage)
                 
                 buildingLocs.append(floorLocs)

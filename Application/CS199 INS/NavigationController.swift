@@ -919,7 +919,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        print("Distance : \(d)")
         if (d <= 0.55 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
