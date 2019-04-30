@@ -59,13 +59,6 @@ CREATE TABLE IndoorLocation (
 
 INSERT INTO QRTag VALUES 
     -- Format: Building::FloorLevel::Point
-    ("UP ITDC::1::A", 0.0, 0.0),
-    ("UP ITDC::2::A", 0.0, 0.0),
-    ("UP ITDC::3::A", 0.0, 0.0),
-    ("Melchor Hall::1::A", 0.0, 0.0),
-    ("Melchor Hall::2::A", 0.0, 0.0),
-    ("Melchor Hall::3::A", 0.0, 0.0),
-
     ("UP AECH::2::Entrance", -0.031, -0.201),
     ("UP AECH::2::ColumnL", -1.41, -0.341),
     ("UP AECH::2::ColumnR", 1.468, -0.341),
@@ -84,7 +77,7 @@ INSERT INTO QRTag VALUES
     ("UP AECH::4::Admin", 0.038, -0.079),
     ("UP AECH::4::Conference", 0.038, 1.143),
     ("UP AECH::4::CSG", 2.404, 0.081),
-    ("UP AECH::4::CVMIG", -1.587, 0.245)
+    ("UP AECH::4::CVMIG", -1.587, 0.245),
 
     ("UP ITDC::1::Entrance", -1.921, -0.281),
     ("UP ITDC::1::FemaleCR", 1.109, -0.571),
@@ -101,7 +94,35 @@ INSERT INTO QRTag VALUES
     ("UP ITDC::3::FAlarmStairsS", -1.86, -0.451),
     ("UP ITDC::3::304", -1.89, 0.502),
     ("UP ITDC::3::308B", -0.253, 0.513),
-    ("UP ITDC::3::312", 1.082, 0.508);
+    ("UP ITDC::3::312", 1.082, 0.508),
+
+    ("MH::1::EPL118", 4.799, -0.972),
+    ("MH::1::BBL101", 1.443, -0.772),
+    ("MH::1::EPLStairsM", -0.193, -0.624),
+    ("MH::1::BBRL117", -2.921, -0.661),
+    ("MH::1::EPLStairsL", -5.461, -0.693),
+    ("MH::2::Entrance", 1.112, -1.432),
+    ("MH::2::EPLStairsL", -5.367, -0.641),
+    ("MH::2::211BB209", -1.891, -0.588),
+    ("MH::2::EPStairsM", -0.222, -0.588),
+    ("MH::2::TC206", 2.549, -1.013),
+    ("MH::2::EPLStairsR", 5.545, -1.092),
+    ("MH::3::EPLStairsR", 5.545, -1.092),
+    ("MH::3::TC312L", 3.482, -0.958),
+    ("MH::3::ElevatorR", 1.508, -1.153),
+    ("MH::3::TheaterREntra", 1.065, 0.172),
+    ("MH::3::EPLStairsM", -0.173, -0.633),
+    ("MH::3::TC313L", -2.61, -0.633),
+    ("MH::3::EPLStairsL", -5.467, -0.695),
+    ("MH::4::EPLStairsL", -5.404, -0.731),
+    ("MH::4::L415", -2.889, -0.673),
+    ("MH::4::TC405L", -1.304, -0.673),
+    ("MH::4::EPStairsM1stS", -0.016, -0.647),
+    ("MH::4::ElevatorR", 1.478, -1.142),
+    ("MH::4::418TC420", 4.074, -0.987),
+    ("MH::4::EPLStairsR", 5.481, -1.074),
+    ("MH::5::505L", -0.664, -0.626),
+    ("MH::5::EP527L", -5.196, -0.59);
 
 INSERT INTO Building VALUES
     ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0 - 0.2, 7.995, 4.086, 95),
