@@ -238,7 +238,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
     func startCompass() {
         if CLLocationManager.headingAvailable() {
             print("Compass is now active.")
-            self.compassManager.headingFilter = 0.5
+            self.compassManager.headingFilter = 1.0
             self.compassManager.delegate = self
             self.compassManager.startUpdatingHeading()
         }
@@ -254,6 +254,19 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             let camera = self.navigationView.pointOfView!
             camera.eulerAngles.z = userMarker.eulerAngles.z
         }
+        
+        let front = userMarker.simdWorldFront
+        let userToLocVector = simd_float3(pinX - userMarker.position.x, pinY - userMarker.position.y, 1)
+        let userFrontVector = simd_float3(front.x, front.y, 1)
+        let normalVector = simd_float3(0, 0, 1)
+        var vectorAngle = acos(simd_dot(simd_normalize(userToLocVector), simd_normalize(userFrontVector)))
+        let vectorCross = simd_cross(userToLocVector, userFrontVector)
+        
+        if (simd_dot(normalVector, vectorCross) < 0) {
+            vectorAngle *= -1
+        }
+        print("Angle: \(vectorAngle)")
+        
     }
     func stopCompass() {
         if CLLocationManager.headingAvailable() {
@@ -437,14 +450,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     // Calculates velocity
                     let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz
                     var lastV = sqrt(vx * vx + vy * vy + vz * vz) / 10
-                    //self.averageV = ( self.averageV + lastV ) / Double(self.count)
-                    //if (self.averageV > self.maxAve) {
-                    //    self.maxAve = self.averageV
-                    //}
-                    //self.count += 1
-                    
-                    //self.averageVLabel.text = String(format: "Ave V.: %.05f", self.averageV)
-                    //self.maxAveLabel.text = String(format: "Max Ave.: %.05f", self.maxAve)
                     
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
                     let camera = self.navigationView.pointOfView!
@@ -467,34 +472,34 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     // <+ motion incorporating current velocity >
                     
                     //stores info abt user orientation to determine whether the dest is in the user's left or right
-                    let userMarkerz = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-                    let orientation = userMarkerz.eulerAngles.z
+                    let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
+                    let orientation = userMarker.eulerAngles.z
                     
-                    if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
-                        //self.reachedDestLabel.text = "Reached Destination: TRUE"
-                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
-                        let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
-                        
-                        let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
-                        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
-                        imageView.contentMode = .scaleAspectFit
-                        alertPrompt.view.addSubview(imageView)
-                        
-                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
-                        alertPrompt.view.addConstraint(height)
-                        
-                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
-                        alertPrompt.view.addConstraint(width)
-                        
-                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
-                        alertPrompt.addAction(cancelAction)
-                        
-                        self.present(alertPrompt, animated: true, completion: nil)
-                        self.shownArrived = true
-                    }
+//                    if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
+//                        //self.reachedDestLabel.text = "Reached Destination: TRUE"
+//                        let message = "\(AppState.getDestinationTitle().title)\n(\(AppState.getDestinationSubtitle().subtitle))"
+//                        let alertPrompt = UIAlertController(title: "You have arrived.", message: message, preferredStyle: .alert)
+//
+//                        let imageView = UIImageView(frame: CGRect(x: 25, y: 100, width: 250, height: 333))
+//                        imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
+//                        imageView.contentMode = .scaleAspectFit
+//                        alertPrompt.view.addSubview(imageView)
+//
+//                        let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 485)
+//                        alertPrompt.view.addConstraint(height)
+//
+//                        let width = NSLayoutConstraint(item: alertPrompt.view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 302)
+//                        alertPrompt.view.addConstraint(width)
+//
+//                        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertAction.Style.cancel, handler: nil)
+//                        alertPrompt.addAction(cancelAction)
+//
+//                        self.present(alertPrompt, animated: true, completion: nil)
+//                        self.shownArrived = true
+//                    }
                     if (self.inVicinity(userX: user.position.x, userY: user.position.y) && self.shownVicinity == false) {
                         
-                        let rightOrLeft = self.leftOrRight(userOrientation: orientation, userX: user.position.x, userY: user.position.y)
+                        let rightOrLeft = self.leftOrRight(userX: user.position.x, userY: user.position.y, front: user.simdWorldFront)
                         
                         let message : String
                         if (AppState.getDestinationSubtitle().subtitle == "") {
@@ -502,7 +507,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         } else {
                             message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         }
-//                        let message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
                         let imageView = UIImageView(frame: CGRect(x: 25, y: 130, width: 250, height: 333))
@@ -922,7 +926,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         left = (pinX - userX)*(pinX - userX)
         right = (pinY - userY)*(pinY - userY)
         d = (left + right).squareRoot()
-        if (d <= 0.55 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
+        if (d <= 0.66 && AppState.getBuildingCurrentFloor().floorLevel == AppState.getDestinationLevel().level) {
             return true
         }
         else {
@@ -930,46 +934,24 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
         }
     }
     
-    func leftOrRight(userOrientation: Float, userX: Float, userY: Float) -> String {
-        let trueOrientation = Double(Utilities.radToDeg(Double(-userOrientation))) - self.rotationOffset
+    func leftOrRight(userX: Float, userY: Float, front: simd_float3) -> String {
         
-        // True West
-        if (trueOrientation >= 225 && trueOrientation <= 315) {
-            if (userY < pinY) {
-                return "right"
-            }
-            else {
-                return "left"
-            }
+        let userToLocVector = simd_float3(pinX - userX, pinY - userY, 1)
+        let userFrontVector = simd_float3(front.x, front.y, 1)
+        let normalVector = simd_float3(0, 0, 1)
+        var vectorAngle = acos(simd_dot(simd_normalize(userToLocVector), simd_normalize(userFrontVector)))
+        let vectorCross = simd_cross(userToLocVector, userFrontVector)
+        
+        if (simd_dot(normalVector, vectorCross) < 0) {
+            vectorAngle *= -1
         }
-        // True North
-        else if ((trueOrientation >= 315 && trueOrientation < 360) || (trueOrientation > 0 && trueOrientation < 45)) {
-            if (userX < pinX) {
-                return "right"
-            }
-            else {
-                return "left"
-            }
+        
+        if (vectorAngle > 0) {
+            return "right"
+        } else {
+            return "left"
         }
-        // True East
-        else if (trueOrientation >= 45 && trueOrientation <= 135) {
-            if (userY < pinY) {
-                return "left"
-            }
-            else {
-                return "right"
-            }
-        }
-        // True South
-        else if (trueOrientation >= 135 && trueOrientation <= 225) {
-            if (userX < pinX) {
-                return "left"
-            }
-            else {
-                return "right"
-            }
-        }
-        return "front"
+        
     }
     
     /*

@@ -87,10 +87,10 @@ INSERT INTO QRTag VALUES
     ("UP AECH::4::CVMIG", -1.587, 0.245);
 
 INSERT INTO Building VALUES
-    ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0, 7.995, 4.086, 90),
-    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.6, 5.781, 3.8, 0),
-    ("MH", "Melchor Hall", 5, FALSE, 4.4, 12.595, 6.271, 0),
-    ("MainLib", "University Main Library", 4, TRUE, 5.2, 10.0, 6.0, 0);
+    ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0 - 0.2, 7.995, 4.086, 95),
+    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.6 - 0.2, 5.781, 3.8, 0),
+    ("MH", "Melchor Hall", 5, FALSE, 4.4 - 0.2, 12.595, 6.271, 0),
+    ("MainLib", "University Main Library", 4, TRUE, 5.2 - 0.2, 10.0, 6.0, 0);
 INSERT INTO Floor VALUES
     ("UP AECH", 1),
     ("UP AECH", 2),
@@ -106,7 +106,7 @@ INSERT INTO Floor VALUES
     ("MH", 5);
 INSERT INTO Staircase VALUES
     ("UP AECH", -1.116, -0.578),
-    ("UP AECH", -1.199, -0.578),
+    ("UP AECH", 1.199, -0.578),
     ("UP ITDC", 1.46, -0.228),
     ("UP ITDC", -2.304, 0.115),
     ("MH", 0.103, -0.145),
@@ -127,7 +127,7 @@ INSERT INTO IndoorLocation VALUES
     ("UP AECH", 3, "Rm 205", "Teaching Lab 1 (TL1)", -0.886, 1.088),
     ("UP AECH", 3, "Rm 207", "Classroom 1 (CLR 1)", -2.229, 0.098),
     ("UP AECH", 3, "Rm 210", "Teaching Lab 3 (TL3)", 2.148, 0.516),
-    ("UP AECH", 3, "Rm 211", "Lecture Hall", -2.136, -0.486),
+    ("UP AECH", 3, "Rm 211", "Accenture Ideas Exchange Room", -2.136, -0.486),
     ("UP AECH", 3, "Rm 212", "Classroom 4 (CLR 4)", 2.082, 0.823),
     ("UP AECH", 3, "Rm 214", "Teaching Lab 2 (TL2)", 2.393, 1.111),
     ("UP AECH", 3, "Rm 215", "Seminar Room", -2.604, 1.066),
