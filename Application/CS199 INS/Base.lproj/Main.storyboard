@@ -201,7 +201,7 @@
                                     <segue destination="yHp-bP-3to" kind="show" id="F1Y-bo-oo4"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcP-k4-gi0" userLabel="Rel Alt Lbel">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XcP-k4-gi0" userLabel="Rel Alt Lbel">
                                 <rect key="frame" x="317" y="168" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -513,7 +513,7 @@ This application was made with frequency filters from Apple's developer document
         <image name="CamFrame" width="121.19999694824219" height="121"/>
         <image name="CameraMode_Default" width="44" height="44"/>
         <image name="Divider" width="4.8000001907348633" height="12"/>
-        <image name="How-To" width="298.07998657226562" height="514.08001708984375"/>
+        <image name="How-To" width="298.07998657226562" height="516.47998046875"/>
         <image name="Info" width="12" height="12"/>
         <image name="LocationIcon" width="12" height="12"/>
         <image name="Locations" width="12" height="12"/>

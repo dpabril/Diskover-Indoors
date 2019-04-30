@@ -437,7 +437,7 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                 if (correctedAcc.z == 0) {
                     self.zAccelZeroCount += 1
                 }
-                if (self.xAccelZeroCount == 20 || self.yAccelZeroCount == 20 || self.zAccelZeroCount == 20) {
+                if (self.xAccelZeroCount == 10 || self.yAccelZeroCount == 10 || self.zAccelZeroCount == 10) {
                     self.prevVx = 0
                     self.prevVy = 0
                     self.prevVz = 0
@@ -446,9 +446,11 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     self.zAccelZeroCount = 0
                 }
                 
-                if ((abs(self.prevVx) >= 0.012)) {
+                if ((abs(self.prevVx) >= 0.01) || (abs(self.prevVy)) >= 0.01) {
                     // Calculates velocity
-                    let vx = self.prevVx, vy = self.prevVy, vz = self.prevVz
+                    let vx = self.prevVx
+                    let vy = self.prevVy
+                    let vz = self.prevVz
                     var lastV = sqrt(vx * vx + vy * vy + vz * vz) / 10
                     
                     let user = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
@@ -470,10 +472,6 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                     
                     AppState.setNavSceneUserCoords(Double(user.position.x), Double(user.position.y))
                     // <+ motion incorporating current velocity >
-                    
-                    //stores info abt user orientation to determine whether the dest is in the user's left or right
-                    let userMarker = self.scene.rootNode.childNode(withName: "UserMarker", recursively: true)!
-                    let orientation = userMarker.eulerAngles.z
                     
 //                    if (self.haveArrived(userX: user.position.x, userY: user.position.y) && self.shownArrived == false) {
 //                        //self.reachedDestLabel.text = "Reached Destination: TRUE"

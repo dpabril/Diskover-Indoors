@@ -1,0 +1,30 @@
+Experiment Testers:
+    Thursday:
+        Jules
+        Jerico
+        Arlan Uy - ITDC
+        Calunsag - ITDC
+        Merk Quilit - ITDC
+    Friday:
+        Hans
+        Kenneth
+    Saturday:
+        Hans Santos - ITDC
+        Johann Basilio - ITDC
+
+    (Wyllden)
+    (Kyna)
+    (Leo Santiago)
+    (Hans Bosshard)
+
+Control Tester:
+    Jenny Aquino
+
+
+<Notes>
+- Divide across locations (if possible)
+- Half iPhone 6S Plus, half iPhone XR
+- All testers should be asked to find the path to two locations; one on the same level as starting point, and another on a different level than starting point
+- Explain that users can recalibrate and that there are QR code markers on the map. Do not explain further (inform them that there are QR markers on the maps, and there is an instructions button (i))
+- Randomize starting locations and destinations. Limit multifloor navigation to 1 level difference
+- Walk with tester to record time (but DO NOT instruct)
