@@ -77,8 +77,8 @@ class Utilities {
         }
     }
     
-    static func initializeSuccessMessage(_ level : Int, _ hasLGF : Bool, _ bldg : String) -> String {
-        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)) of \(bldg).")
+    static func initializeSuccessMessage(_ level : Int, _ hasLGF : Bool, _ bldg : String, _ alias : String) -> String {
+        return String(format: "You are on the \(ordinalize(level, hasLGF, abbv: false)) of \(bldg) (\(alias)).")
     }
     
     static func currentLocationMessage(_ level : Int, _ hasLGF : Bool) -> String {

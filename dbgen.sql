@@ -126,7 +126,7 @@ INSERT INTO QRTag VALUES
 
 INSERT INTO Building VALUES
     ("UP AECH", "UP Alumni Engineers Centennial Hall", 4, TRUE, 3.0 - 0.2, 7.995, 4.086, 95),
-    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.6 - 0.2, 5.781, 3.8, 0),
+    ("UP ITDC", "UP Information Technology Development Center", 3, FALSE, 3.6 - 0.2, 5.781, 3.8, 180),
     ("MH", "Melchor Hall", 5, FALSE, 4.4 - 0.2, 12.595, 6.271, 0),
     ("MainLib", "University Main Library", 4, TRUE, 5.2 - 0.2, 10.0, 6.0, 0);
 INSERT INTO Floor VALUES
@@ -171,6 +171,7 @@ INSERT INTO IndoorLocation VALUES
     ("UP AECH", 3, "Rm 215", "Seminar Room", -2.604, 1.066),
     --  Third Floor
     ("UP AECH", 4, "Rm 300", "Administration Office", 0.038, 0.172),
+    ("UP AECH", 4, "Rm 306", "Computer Security Laboratory", 2.404, 0.081),
 
 
 
@@ -194,7 +195,7 @@ INSERT INTO IndoorLocation VALUES
     ("UP ITDC", 2, "Rm 211", "", 1.40, -0.650),
     ("UP ITDC", 2, "Rm 212", "Laboratory 5", 0.299, 0.597),
     ("UP ITDC", 2, "Rm 213", "", 1.606, -0.571),
-    ("UP ITDC", 2, "Rm 214", "Meeting Room", 0.766, 0.597),
+    ("UP ITDC", 2, "Rm 214", "Meeting Room", 1.208, 0.574),
     ("UP ITDC", 2, "Men's Room", "", 0.942, 0.300),
     ("UP ITDC", 2, "Ladies' Room", "", 0.942, -0.378),
     --  Third Floor
@@ -311,27 +312,6 @@ INSERT INTO IndoorLocation VALUES
     ("MH", 5, "MH 527", "", -5.096, -0.51),
     ("MH", 5, "Male Comfort Room", "", -4.934, -0.51),
     ("MH", 5, "Female Comfort Room", "", -4.934, -0.51);
-
-
-
-    -- Institute of Mathematics Main Building
-    --  Ground Floor
-    --  Second Floor
-    --  Third Floor
-
-
-
-    -- Institute of Mathematics Annex
-    --  Ground Floor
-    --  Second Floor
-    --  Third Floor
-
-
-
-    -- UP School of Labor and Industrial Relations
-    --  Ground Floor
-    --  Second Floor
-
 
 
 

@@ -128,6 +128,9 @@ class IndoorLocationsListController: UITableViewController {
         
         let imageView = UIImageView(frame: CGRect(x: 25, y: locationHasSubtitle ? 100 : 80, width: 250, height: 333))
         imageView.image = UIImage(named: "\(AppState.getBuilding().alias)/\(AppState.getDestinationLevel().level)/\(AppState.getDestinationTitle().title)")
+        if (imageView.image == nil) {
+            imageView.image = UIImage(named: "ImgNotFound")
+        }
         imageView.contentMode = .scaleAspectFit
         alertPrompt.view.addSubview(imageView)
         

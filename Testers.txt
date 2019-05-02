@@ -1,19 +1,24 @@
 Experiment Testers:
     Thursday:
-        Jules
-        Jerico
-        Arlan Uy - ITDC
-        Calunsag - ITDC
-        Merk Quilit - ITDC
+        Calunsag - XR
     Friday:
-        Hans
-        Kenneth
+        Hans - XR
+        Kenneth - 6S
     Saturday:
-        Hans Santos - ITDC
-        Johann Basilio - ITDC
+        Hans Santos - 6S - 1PM
+        Johann Basilio - XR -  3PM
+        Merk Quilit - XR - 12PM
+        Kyna - 6S - 3PM
+        Kuya - 3PM
 
-    (Wyllden)
-    (Kyna)
+    [DONE]:
+        iPhone 6S Plus:
+            Jules
+            Wyllden
+        iPhone XR:
+            Jerico
+            Arlan Uy
+
     (Leo Santiago)
     (Hans Bosshard)
 
