@@ -177,9 +177,9 @@ INSERT INTO IndoorLocation VALUES
 
     -- UP Information Technology Development Center
     --  Ground Floor
-    ("UP ITDC", 1, "Rm 103", "", 0.0, 0.0),
+    ("UP ITDC", 1, "Rm 103", "Audio Visual Room", 0.705, -0.682),
     ("UP ITDC", 1, "Rm 104", "", -1.353, 0.629),
-    ("UP ITDC", 1, "Rm 105", "", 0.0, 0.0),
+    ("UP ITDC", 1, "Rm 105", "Property Room", 1.644, -0.594),
     ("UP ITDC", 1, "Rm 106", "", 0.532, 0.629),
     ("UP ITDC", 1, "Rm 108", "", 1.091, 0.629),
     ("UP ITDC", 1, "Men's Room", "", 0.979, 0.348),
@@ -230,7 +230,6 @@ INSERT INTO IndoorLocation VALUES
     ("MH", 1, "MH 118", "", 4.895, -0.794),
     ("MH", 1, "MH 117", "NECFI", -3.123, -0.5),
     ("MH", 1, "MH 119-121", "", -3.77, -0.5),
-    ("MH", 1, "MH 120", "", 0.0, 0.0), -- 122
     ("MH", 1, "MH 122", "DGE Instrument Room", 5.355, -0.794),
     ("MH", 1, "MH 123", "", -4.104, -0.5),
     ("MH", 1, "Male Comfort Room 1", "", -4.928, -0.5),
@@ -271,7 +270,7 @@ INSERT INTO IndoorLocation VALUES
     ("MH", 3, "MH 318-320", "Beta Epsilon Room", 4.571, -0.83),
     ("MH", 3, "MH 319", "", -3.453, -0.48),
     ("MH", 3, "MH 321", "Januario P. ""Frondy"" Frondoso Room ", -3.781, -0.48),
-    ("MH", 3, "MH 322", "UP DGE Faculty", 5.358, -0.83), -- 324
+    ("MH", 3, "MH 324", "UP DGE Faculty", 5.358, -0.83),
     ("MH", 3, "MH 323", "Alexan Commercial Room", -4.108, -0.48),
     ("MH", 3, "MH 325", "", -5.286, -0.312),
     ("MH", 3, "UP Engineering Theater", "", 0.939, -0.299),

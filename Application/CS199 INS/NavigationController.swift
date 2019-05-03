@@ -501,9 +501,9 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
                         
                         let message : String
                         if (AppState.getDestinationSubtitle().subtitle == "") {
-                            message = "\(AppState.getDestinationTitle().title) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                            message = "\(AppState.getDestinationTitle().title) is nearby. The destination is \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         } else {
-                            message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. Your destination is on your \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
+                            message = "\(AppState.getDestinationTitle().title) (\(AppState.getDestinationSubtitle().subtitle)) is nearby. The destination is \(rightOrLeft). Please be guided by the image for direction, and press Done upon arrival."
                         }
                         let alertPrompt = UIAlertController(title: "Destination in vicinity.", message: message, preferredStyle: .alert)
 
@@ -950,12 +950,16 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             vectorAngle *= -1
         }
         
-        if (vectorAngle > 0) {
-            return "right"
+        if (abs(vectorAngle) <= 0.30) {
+            return "on your front"
         } else {
-            return "left"
+            if (vectorAngle < -0.30) {
+                return "to your left"
+            } else if (vectorAngle > 0.30) {
+                return "to your right"
+            }
         }
-        
+        return ""
     }
     
     /*
