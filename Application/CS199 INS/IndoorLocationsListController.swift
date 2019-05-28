@@ -132,7 +132,6 @@ class IndoorLocationsListController: UITableViewController {
         if (imageView.image == nil) {
             imageView.image = UIImage(named: "ImgNotFound")
         }
-        imageView.contentMode = .scaleAspectFit
         alertPrompt.view.addSubview(imageView)
         
         let height = NSLayoutConstraint(item: alertPrompt.view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: locationHasSubtitle ? 485 : 465)
