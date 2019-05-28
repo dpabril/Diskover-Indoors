@@ -1,6 +1,9 @@
 # Diskover Indoors
 This application is an indoor navigation system written for iOS in Swift. Created as part of a feasibility study on an indoor navigation solution.
 
+---
+
+## Support
 #### System Requirements
 Diskover Indoors is usable with any iPhone unit having the following prerequisite hardware:
 
@@ -21,3 +24,9 @@ Scan QR codes using the localization feature at will. The app will alert you whe
 #### Having problems while using the application?
 Please contact us at [dpabril@upd.edu.ph](mailto:dpabril@upd.edu.ph) or [jraquino5@upd.edu.ph](mailto:jraquino5@upd.edu.ph) with your inquiries.
 
+---
+
+## Privacy Policy
+This section informs you of our policy regarding the collection, use, and disclosure of personal data when you use Diskover Indoors (henceforth "the Application") in its form as a mobile application for iOS.
+
+We DO NOT collect any data or information from you when you use the Application or otherwise. Any data that could be generated and/or used by the Application is self-contained and is not sent anywhere.
