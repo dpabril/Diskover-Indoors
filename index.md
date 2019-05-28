@@ -1,7 +1,7 @@
 # Diskover Indoors
 This application is an indoor navigation system written for iOS in Swift. Created as part of a feasibility study on an indoor navigation solution.
 ## Quick Links
-+ [Support Contact Details](#having-problems-while-using-the-application?)
++ [Support Contact Details](#having-problems-while-using-the-application)
 + [Privacy Policy](#privacy-policy)
 
 ---
