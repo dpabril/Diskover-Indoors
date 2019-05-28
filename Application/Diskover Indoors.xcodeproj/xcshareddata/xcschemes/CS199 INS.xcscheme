@@ -17,7 +17,7 @@
                BlueprintIdentifier = "E5D11D1C21BF831200123FEE"
                BuildableName = "CS199 INS.app"
                BlueprintName = "CS199 INS"
-               ReferencedContainer = "container:CS199 INS.xcodeproj">
+               ReferencedContainer = "container:Diskover Indoors.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "E5D11D1C21BF831200123FEE"
             BuildableName = "CS199 INS.app"
             BlueprintName = "CS199 INS"
-            ReferencedContainer = "container:CS199 INS.xcodeproj">
+            ReferencedContainer = "container:Diskover Indoors.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -62,7 +62,7 @@
             BlueprintIdentifier = "E5D11D1C21BF831200123FEE"
             BuildableName = "CS199 INS.app"
             BlueprintName = "CS199 INS"
-            ReferencedContainer = "container:CS199 INS.xcodeproj">
+            ReferencedContainer = "container:Diskover Indoors.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -81,7 +81,7 @@
             BlueprintIdentifier = "E5D11D1C21BF831200123FEE"
             BuildableName = "CS199 INS.app"
             BlueprintName = "CS199 INS"
-            ReferencedContainer = "container:CS199 INS.xcodeproj">
+            ReferencedContainer = "container:Diskover Indoors.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

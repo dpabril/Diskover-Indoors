@@ -312,7 +312,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E5D11D1821BF831200123FEE /* Build configuration list for PBXProject "CS199 INS" */;
+			buildConfigurationList = E5D11D1821BF831200123FEE /* Build configuration list for PBXProject "Diskover Indoors" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -639,7 +639,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E5D11D1821BF831200123FEE /* Build configuration list for PBXProject "CS199 INS" */ = {
+		E5D11D1821BF831200123FEE /* Build configuration list for PBXProject "Diskover Indoors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E5D11D2F21BF831400123FEE /* Debug */,
