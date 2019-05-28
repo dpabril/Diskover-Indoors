@@ -19,5 +19,5 @@ Diskover Indoors is usable with any iPhone unit having the following prerequisit
 Scan QR codes using the localization feature at will. The app will alert you when the location you've selected is nearby.
 
 #### Having problems while using the application?
-Please contact us at dpabril@upd.edu.ph or jraquino5@upd.edu.ph with your inquiries.
+Please contact us at [dpabril@upd.edu.ph](mailto:dpabril@upd.edu.ph) or [jraquino5@upd.edu.ph](mailto:jraquino5@upd.edu.ph) with your inquiries.
 
