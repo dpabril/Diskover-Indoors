@@ -12,7 +12,7 @@
         <!--QR Code Scanner-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" userLabel="QR Code Scanner" customClass="QRCodeScannerController" customModule="CS199_INS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="9pv-A4-QxB" userLabel="QR Code Scanner" customClass="QRCodeScannerController" customModule="Diskover_Indoors" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,7 +58,7 @@
         <!--Main Navigation-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" userLabel="Main Navigation" customClass="NavigationController" customModule="CS199_INS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" userLabel="Main Navigation" customClass="NavigationController" customModule="Diskover_Indoors" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFill" id="YKH-TD-nhv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -183,7 +183,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pwk-ib-NgA">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pwk-ib-NgA" userLabel="Info Button">
                                 <rect key="frame" x="16" y="168" width="25" height="25"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
@@ -207,6 +207,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oc2-yr-ic5">
+                                <rect key="frame" x="16" y="201" width="25" height="25"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Ys7-0x-wdZ"/>
+                                    <constraint firstAttribute="width" constant="25" id="s2S-fb-0pX"/>
+                                </constraints>
+                                <state key="normal" image="Support"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onSupportPress:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="5nl-de-ses"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -218,11 +235,13 @@
                             <constraint firstItem="Iau-ay-gbr" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="MZE-Uc-VwE"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="QXU-52-TdP"/>
                             <constraint firstItem="vm9-5i-97g" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Qt7-kq-s6n"/>
+                            <constraint firstItem="Oc2-yr-ic5" firstAttribute="top" secondItem="Pwk-ib-NgA" secondAttribute="bottom" constant="8" id="TnI-3L-53V"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="leading" secondItem="Zmk-b7-6bY" secondAttribute="leading" id="WTz-YO-ZYp"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerX" secondItem="YKH-TD-nhv" secondAttribute="centerX" id="Yrd-ng-rZV"/>
                             <constraint firstItem="wKk-GQ-cmr" firstAttribute="top" secondItem="Kxl-op-w2y" secondAttribute="top" id="beq-O4-k8W"/>
                             <constraint firstItem="Pwk-ib-NgA" firstAttribute="leading" secondItem="Kxl-op-w2y" secondAttribute="leading" constant="16" id="cZ4-nG-Y0K"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="top" secondItem="Zmk-b7-6bY" secondAttribute="top" constant="20" id="dDl-49-FXf"/>
+                            <constraint firstItem="Oc2-yr-ic5" firstAttribute="leading" secondItem="Kxl-op-w2y" secondAttribute="leading" constant="16" id="e2c-7Q-OEu"/>
                             <constraint firstItem="7dh-oq-QAL" firstAttribute="centerY" secondItem="YKH-TD-nhv" secondAttribute="centerY" id="gmo-6H-Leh"/>
                             <constraint firstItem="Kxl-op-w2y" firstAttribute="bottom" secondItem="Zmk-b7-6bY" secondAttribute="bottom" constant="-49" id="gwJ-RJ-YFQ"/>
                             <constraint firstItem="7fC-va-zKj" firstAttribute="top" secondItem="wKk-GQ-cmr" secondAttribute="bottom" id="iU2-5P-gMf"/>
@@ -409,7 +428,7 @@ This application was made with frequency filters from Apple's developer document
         <!--Indoor Location List-->
         <scene sceneID="E0m-dQ-GUd">
             <objects>
-                <tableViewController id="SVx-te-jkg" userLabel="Indoor Location List" customClass="IndoorLocationsListController" customModule="CS199_INS" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="SVx-te-jkg" userLabel="Indoor Location List" customClass="IndoorLocationsListController" customModule="Diskover_Indoors" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="MAf-ho-mSm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -454,7 +473,7 @@ This application was made with frequency filters from Apple's developer document
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" customClass="TabBarController" customModule="CS199_INS" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="49e-Tb-3d3" customClass="TabBarController" customModule="Diskover_Indoors" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -521,6 +540,7 @@ This application was made with frequency filters from Apple's developer document
         <image name="QR" width="12" height="12"/>
         <image name="Recalibrate" width="50" height="50"/>
         <image name="ShowDestination" width="49" height="49"/>
+        <image name="Support" width="12" height="12"/>
         <image name="UserIcon" width="12" height="12"/>
     </resources>
 </document>

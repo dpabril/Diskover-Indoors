@@ -604,6 +604,20 @@ class NavigationController: UIViewController, CLLocationManagerDelegate, AVCaptu
             self.enableGestureRecognizers()
         }
     }
+    @IBAction func onSupportPress(_ sender: UIButton) {
+        let supportPrompt = UIAlertController(title: "Diskover Indoors Support", message: "Do you have questions or concerns regarding the app? Press on one of the links below.", preferredStyle: .actionSheet)
+        let contactAction = UIAlertAction(title: "Contact Us", style: .default, handler: { (action) -> Void in
+            UIApplication.shared.open(URL(string: "https://dpabril.github.io/Diskover-Indoors#having-problems-while-using-the-application")!, options: [:], completionHandler: nil)
+        })
+        let policyAction = UIAlertAction(title: "Privacy Policy", style: .default, handler: { (action) -> Void in
+            UIApplication.shared.open(URL(string: "https://dpabril.github.io/Diskover-Indoors#privacy-policy")!, options: [:], completionHandler: nil)
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        supportPrompt.addAction(contactAction)
+        supportPrompt.addAction(policyAction)
+        supportPrompt.addAction(cancelAction)
+        self.present(supportPrompt, animated: true, completion: nil)
+    }
     
     func cameraUnlocked() {
         self.cameraMode = .unlocked
