@@ -32,4 +32,4 @@ Please contact us at [dpabril@upd.edu.ph](mailto:dpabril@upd.edu.ph) or [jraquin
 ## Privacy Policy
 What follows is our policy regarding the collection, use, and disclosure of personal data when you use Diskover Indoors (henceforth “the Application”) in its form as a mobile application for iOS.
 
-We DO NOT collect any data or information from you when you use the Application or otherwise. Any data that could be generated and/or used by the Application is self-contained and is not sent and stored remotely.
+We DO NOT collect any data or information from you when you use the Application or otherwise. Any data that could be generated and/or used by the Application is self-contained and is neither sent nor stored remotely.
